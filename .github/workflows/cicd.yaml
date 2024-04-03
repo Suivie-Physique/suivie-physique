@@ -53,10 +53,10 @@ jobs:
         run: npm install --prefix frontend
 
       - name: Running Frontend Tests
-        run: npm test:ci --prefix frontend
+        run: npm run test:ci --prefix frontend
 
       - name: Building Frontend App
-        run: npm build:ci --prefix frontend
+        run: npm run build:ci --prefix frontend
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
