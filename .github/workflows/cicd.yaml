@@ -1,11 +1,11 @@
-name: Continuous Integration Suivie Physique
+name: Continuous Integration and Continuous Deployment Suivie Physique
 
 on:
   push:
     branches: [ main ]
   pull_request:
     branches: [ main ]
-
+  workflow_dispatch:
 jobs:
   build-test-deploy:
     name: Build & Test & Deploy Suivie Physique App
@@ -22,7 +22,7 @@ jobs:
       - name: Cache Maven packages
         uses: actions/cache@v2
         with:
-          path: éé# ~/.m2
+          path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os  }}-m2
 
@@ -42,7 +42,7 @@ jobs:
       - name: Cache Node Modules
         uses: actions/cache@v2
         env:
-          cache-name: cache�-node-modules
+          cache-name: cache-node-modules
         with:
           key: ${{ runner.os  }}-build-${{ env.cache-name  }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
@@ -73,7 +73,4 @@ jobs:
           file: ./docker-compose.yml
           push: true
           tags: suivie-physique/app:latest
-    
-    
-
 
