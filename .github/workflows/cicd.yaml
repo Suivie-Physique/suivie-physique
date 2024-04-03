@@ -50,7 +50,7 @@ jobs:
             ${{ runner.os }}-build-${{ env.cache-name }}-${{ runner.os }}-build-${{ runner.os }}
 
       - name: Install Dependencies
-        run: npm install --prefix frontend
+        run: npm install && npm install -D tailwindcss postcss autoprefixer --prefix frontend
 
       - name: Running Frontend Tests
         run: npm run test:ci --prefix frontend
