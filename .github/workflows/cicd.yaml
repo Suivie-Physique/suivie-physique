@@ -58,6 +58,7 @@ jobs:
         run: npm run test:ci --prefix frontend
 
       - name: Building Frontend App
+        if: always()
         run: npm run build:ci --prefix frontend
 
       - name: Set up Docker Buildx
