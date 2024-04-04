@@ -74,4 +74,6 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
       - name: Build and Push to Dockerhub
-        run: docker-compose build
+        run: | 
+          docker-compose build
+          docker compose up -d
