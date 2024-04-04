@@ -61,6 +61,9 @@ jobs:
       - name: Building Frontend App
         run: npm run build:ci --prefix frontend
 
+      - name: Packaging App
+        run: mvn clean package
+
       - name: Setup Docker Buildx
         uses: docker/setup-buildx-action@v3
 
