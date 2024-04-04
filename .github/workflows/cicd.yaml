@@ -10,6 +10,8 @@ jobs:
   build-test-deploy:
     name: Build & Test & Deploy Suivie Physique App
     runs-on: ubuntu-latest
+    env:
+      DEEPSOURCE_DSN: ${{ secrets.DEEPSOURCE_DSN }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -29,6 +31,11 @@ jobs:
 
       - name: Unit Test Backend
         run: mvn -B test --file backend/pom.xml
+
+      - name: DeepSource Test Coverage
+        uses: DeepSourceCorp/test-coverage-action@v1.1.2
+        with:
+          dsn: DEEPSOURCE_DSN
 
       - name: Build Backend App
         run: |
