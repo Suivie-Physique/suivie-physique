@@ -43,7 +43,8 @@ jobs:
 
       - name: Generate coverage report
         run: |
-          ./bin/deepsource report --analyzer test-coverage --key java
+          touch ./coverage.out
+          ./bin/deepsource report --analyzer test-coverage --key java --value-file ./coverage.out
 
       - name: Upload coverage report as artifact
         uses: actions/upload-artifact@v2
