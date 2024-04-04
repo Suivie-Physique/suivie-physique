@@ -71,5 +71,4 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
       - name: Build and Push to Dockerhub
-        uses: actions/checkout@v3
         run: docker-compose build -d
