@@ -92,8 +92,9 @@ jobs:
       #     docker push dotcipher/sp-backend:latest
       #     docker push dotcipher/sp-frontend:latest
       
-      - name: publish to Dockerhub
-        uses: pennsignals/publish_docker-compose@v0.1.0
+      - name: Push to Dockerhub
+        uses: docker/build-push-action@v5.3.0
         with:
-          docker_compose: 'docker-compose.yml'
-          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          push: true
+          tags: "dotcipher/sp-backend:latest ,dotcipher/sp-frontend:latest"
+          github-token: ${{ secrets.GITHUB_TOKEN }}
