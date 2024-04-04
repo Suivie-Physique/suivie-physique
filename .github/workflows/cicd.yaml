@@ -89,8 +89,8 @@ jobs:
         
       - name: Push to Dockerhub
         run: |
-          docker push dotcipher/sp-backend:latest
-          docker push dotcipher/sp-frontend:latest
+          docker push dotcipher1/sp-backend:latest
+          docker push dotcipher1/sp-frontend:latest
       
       # - name: Push to Dockerhub
       #   uses: docker/build-push-action@v5.3.0
