@@ -87,7 +87,13 @@ jobs:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
         
-      - name: Push to Dockerhub
-        run: |
-          docker push dotcipher/sp-backend:latest
-          docker push dotcipher/sp-frontend:latest
+      # - name: Push to Dockerhub
+      #   run: |
+      #     docker push dotcipher/sp-backend:latest
+      #     docker push dotcipher/sp-frontend:latest
+      
+      - name: publish to Dockerhub
+        uses: pennsignals/publish_docker-compose@v0.1.0
+        with:
+          docker_compose: 'docker-compose.yml'
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
