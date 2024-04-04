@@ -72,4 +72,4 @@ jobs:
 
       - name: Build and Push to Dockerhub
         uses: actions/checkout@v3
-        run: docker-compose build -d
+        run: docker-compose build
