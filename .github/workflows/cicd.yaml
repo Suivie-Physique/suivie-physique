@@ -75,7 +75,5 @@ jobs:
 
       - name: Build and Push to Dockerhub
         if: always()
-        uses: hoverkraft-tech/compose-action@v0.0.0
-        with:
-          compose-file: "./docker-compose.yml"
-          compose-flags: "build"
+        uses: actions/checkout@v3
+        run: docker-compose -f ./docker-compose.yml build -d
