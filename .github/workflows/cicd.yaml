@@ -74,10 +74,15 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
       - name: Build to Dockerhub
-        run: docker-compose build suivie-physique
+        run: docker-compose build
 
       - name: Tag to Dockerhub
-        run: docker-compose tag suivie-physique:latest dotcipher/suivie-physique:latest
+        run: | 
+          docker tag backend:latest dotcipher/sp-backend:latest
+          docker tag frontend:latest dotcipher/sp-frontend:latest
+
         
       - name: Push to Dockerhub
-        run: docker-compose push dotcipher/suivie-physique:latest
+        run: |
+          docker push dotcipher/sp-backend:latest
+          docker push dotcipher/sp-frontend:latest
