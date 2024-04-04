@@ -75,10 +75,7 @@ jobs:
 
       - name: Build and Push to Dockerhub
         if: always()
-        uses: docker/build-push-action@v5
+        uses: hoverkraft-tech/compose-action@v0.0.0
         with:
-          context: .
-          file: ./docker-compose.yml
-          push: true
-          tags: suivie-physique/app:latest
-
+          compose-file: "./docker-compose.yml"
+          compose-flags: "build"
