@@ -19,7 +19,7 @@ export class AccountComponent implements OnInit {
         responseData => {
           this.account = <any> responseData.body;
         }, error => {
-          console.log(error);
+          console.log(error + ' Error getting account details');
         });
     }
 

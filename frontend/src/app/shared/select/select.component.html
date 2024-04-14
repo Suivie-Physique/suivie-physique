@@ -1,0 +1,6 @@
+<select
+  [formControl]="control"
+  class=" w-full py-1.5 px-1.5 rounded-lg border-gray-300 text-gray-700 ring-1 ring-inset ring-gray-300 sm:text-sm"
+>
+  <option *ngFor="let option of options" [ngValue]="option" >{{ option | uppercase}}</option>
+  </select>
