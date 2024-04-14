@@ -85,12 +85,13 @@ Here's a blank template to get started: To avoid retyping too much info. Do a se
 ### Built With
 
 * [![Angular][Angular.io]][Angular-url]
-* [![Spring Boot][Spring.io]][Spring-url]
-* [![TailwindCSS][tailwindcss.com]][TailwindCSS]
-* [![AWS][aws.amazon.com]][AWS]
-* [![Java][java.com]][Java]
-* [![JavaScript][JavaScript.io]][JavaScript]
-* [![Hibernate][Hibernate.io]][Hibernate]
+* ![Spring](https://img.shields.io/badge/spring-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white)
+* ![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white)
+* ![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)
+* ![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)
+* ![MySQL](https://img.shields.io/badge/mysql-4479A1.svg?style=for-the-badge&logo=mysql&logoColor=white)
+* ![AWS](https://img.shields.io/badge/AWS-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white)
+* ![Hibernate](https://img.shields.io/badge/Hibernate-59666C?style=for-the-badge&logo=Hibernate&logoColor=white)
 
   
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
