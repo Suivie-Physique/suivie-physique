@@ -25,8 +25,8 @@
     <img src="https://github.com/Wiran-Larbi/suivie-physique/blob/main/frontend/src/assets/image/logo_secondary.png" alt="Logo" width="80" height="80">
   </a>
 
-<h3 align="center">Suivie Physique</h3>
-
+<h1 align="center" style="font-size: 24px; color: teal; ">Suivie Physique</h1>
+ 
   <p align="center">
     a web portal to help NCRM to Control and Manage "Chéques et Effet" in total Security and Tracebality 
     <br />
@@ -86,9 +86,13 @@ Here's a blank template to get started: To avoid retyping too much info. Do a se
 
 * [![Angular][Angular.io]][Angular-url]
 * [![Spring Boot][Spring.io]][Spring-url]
-* [![TailwindCss][Bootstrap.com]][Bootstrap-url]
-* [![JQuery][JQuery.com]][JQuery-url]
+* [![TailwindCSS][tailwindcss.com]][TailwindCSS]
+* [![AWS][aws.amazon.com]][AWS]
+* [![Java][java.com]][Java]
+* [![JavaScript][JavaScript.io]][JavaScript]
+* [![Hibernate][Hibernate.io]][Hibernate]
 
+  
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
@@ -232,4 +236,12 @@ Project Link: [https://github.com/Wiran-Larbi/suivie-physique](https://github.co
 [Bootstrap-url]: https://getbootstrap.com
 [JQuery.com]: https://img.shields.io/badge/jQuery-0769AD?style=for-the-badge&logo=jquery&logoColor=white
 [JQuery-url]: https://jquery.com 
-[Spring-url]: https://spring.io/
+[JWT-url]: https://img.shields.io/badge/JWT-black?style=for-the-badge&logo=JSON%20web%20tokens
+[RxJS-url]: https://img.shields.io/badge/rxjs-%23B7178C.svg?style=for-the-badge&logo=reactivex&logoColor=white
+[Spring-url]: https://img.shields.io/badge/spring-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white
+[TailwindCSS]: https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white
+[AWS]: https://img.shields.io/badge/AWS-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white
+[Java]: https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white
+[JavaScript]: https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E
+[Hibernate]: https://img.shields.io/badge/Hibernate-59666C?style=for-the-badge&logo=Hibernate&logoColor=white
+
