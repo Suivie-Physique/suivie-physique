@@ -31,7 +31,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/github_username/repo_name">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
+    <img src="https://github.com/Wiran-Larbi/suivie-physique/blob/main/frontend/src/assets/image/logo_secondary.png" alt="Logo" width="80" height="80">
   </a>
 
 <h3 align="center">Suivie Physique</h3>
