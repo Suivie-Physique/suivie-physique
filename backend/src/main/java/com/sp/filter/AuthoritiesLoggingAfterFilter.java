@@ -1,2 +1,3 @@
-package com.sp.filter;public class AuthoritiesLoggingAfterFilter {
+package com.sp.filter;
+public class AuthoritiesLoggingAfterFilter {
 }

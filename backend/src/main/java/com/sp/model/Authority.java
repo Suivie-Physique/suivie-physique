@@ -1,2 +1,3 @@
-package com.sp.model;public class Authority {
+package com.sp.model;
+public class Authority {
 }

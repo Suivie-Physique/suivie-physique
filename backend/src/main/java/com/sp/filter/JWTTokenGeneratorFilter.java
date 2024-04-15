@@ -1,2 +1,3 @@
-package com.sp.filter;public class JWTTokenGeneratorFilter {
+package com.sp.filter;
+public class JWTTokenGeneratorFilter {
 }
