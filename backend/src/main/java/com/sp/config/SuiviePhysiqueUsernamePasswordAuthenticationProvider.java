@@ -1,6 +1,7 @@
 package com.sp.config;
 
 import com.sp.model.Agent;
+import com.sp.model.Authority;
 import com.sp.repository.AgentRepository;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Component
 public class SuiviePhysiqueUsernamePasswordAuthenticationProvider implements AuthenticationProvider {
@@ -46,6 +48,13 @@ public class SuiviePhysiqueUsernamePasswordAuthenticationProvider implements Aut
         }
     }
 
+    private List<GrantedAuthority> getGrantedAuthorities(Set<Authority> authorities) {
+        List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
+        for (Authority authority : authorities) {
+            grantedAuthorities.add(new SimpleGrantedAuthority(authority.getAuthority()));
+        }
+        return grantedAuthorities;
+    }
     @Override
     public boolean supports(Class<?> authentication) {
         return (UsernamePasswordAuthenticationToken.class.isAssignableFrom(authentication));
