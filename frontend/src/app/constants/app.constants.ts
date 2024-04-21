@@ -5,5 +5,7 @@ export const  AppConstants = {
   BALANCE_API_URL : "/myBalance",
   LOANS_API_URL : "/myLoans",
   CARDS_API_URL : "/myCards",
-  NOTICES_API_URL : "/notices"
+  NOTICES_API_URL : "/notices",
+  REGISTER_API_URL : "/register",
+  ROLES: ["admin", "user"],
 }

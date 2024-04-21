@@ -25,6 +25,11 @@ export class XhrInterceptor implements HttpInterceptor {
     this.user = JSON.parse(sessionStorage.getItem('userdetails') || '{}');
     if (this.user && this.user.password && this.user.email){
       httpHeaders = httpHeaders.append('Authorization', 'Basic ' + btoa(this.user.email + ':' + this.user.password));
+    }else {
+      let authorization = sessionStorage.getItem('Authorization');
+      if (authorization){
+        httpHeaders = httpHeaders.append('Authorization', authorization);
+      }
     }
     let xsrf = sessionStorage.getItem('XSRF-TOKEN');
     if (xsrf){
@@ -35,15 +40,16 @@ export class XhrInterceptor implements HttpInterceptor {
       headers: httpHeaders
     });
 
-    return next.handle(xhr).pipe(tap(() => {
+    // @ts-ignore
+    return next.handle(xhr).pipe(tap(()  => {
     },
       (error: any) => {
         if (error instanceof HttpErrorResponse) {
           if (error.status === 401) {
-           return;
+           return this.router.navigate(['/login']);
           }
-          this.router.navigate(['/dashboard']);
         }
+          return this.router.navigate(['/dashboard']);
       }
     ));
   }
