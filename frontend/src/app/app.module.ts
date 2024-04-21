@@ -7,7 +7,7 @@ import { AppComponent } from './app.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { HeaderComponent } from './components/header/header.component';
 
-import {HTTP_INTERCEPTORS, HttpClientModule, HttpClientXsrfModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule, HttpClientXsrfModule} from "@angular/common/http";
 import {XhrInterceptor} from "./interceptors/app.request.interceptor";
 import {AuthActivateRouteGuard} from "./routeguards/auth.routeguards";
 import {SharedModule} from "./shared/shared.module";
@@ -33,6 +33,7 @@ import {AuthUserModule} from "./auth-user/auth-user.module";
     }),
   ],
   providers: [
+    HttpClient,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: XhrInterceptor,
