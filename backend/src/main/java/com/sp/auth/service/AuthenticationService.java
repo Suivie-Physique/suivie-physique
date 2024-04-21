@@ -1,8 +1,8 @@
 package com.sp.auth.service;
 
-import com.sp.auth.model.AuthenticationRequest;
-import com.sp.auth.model.AuthenticationResponse;
-import com.sp.auth.model.RegisterRequest;
+import com.sp.auth.schema.AuthenticationRequest;
+import com.sp.auth.schema.AuthenticationResponse;
+import com.sp.auth.schema.RegisterRequest;
 import com.sp.auth.role.RoleRepository;
 import com.sp.auth.token.Token;
 import com.sp.auth.token.TokenRepository;
@@ -11,7 +11,6 @@ import com.sp.auth.user.UserRepository;
 import com.sp.mail.config.EmailTemplateName;
 import com.sp.mail.service.MailService;
 import jakarta.mail.MessagingException;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
