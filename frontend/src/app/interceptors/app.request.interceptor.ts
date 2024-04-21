@@ -40,15 +40,16 @@ export class XhrInterceptor implements HttpInterceptor {
       headers: httpHeaders
     });
 
-    return next.handle(xhr).pipe(tap(() => {
+    // @ts-ignore
+    return next.handle(xhr).pipe(tap(()  => {
     },
       (error: any) => {
         if (error instanceof HttpErrorResponse) {
           if (error.status === 401) {
-           return;
+           return this.router.navigate(['/login']);
           }
-          this.router.navigate(['/dashboard']);
         }
+          return this.router.navigate(['/dashboard']);
       }
     ));
   }

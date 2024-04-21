@@ -36,13 +36,18 @@ export class LoginComponent implements OnInit {
   }
 
   validateUser() {
+    console.log(this.model);
+    console.log("inside Validate User");
+
     this.loginService.validateLoginDetails(this.model).subscribe(
       responseData => {
         // Set Session Storage for Authorization Token
         window.sessionStorage.setItem("Authorization",responseData.headers.get("Authorization")!);
-
+        window.sessionStorage.getItem("Authorization")
         this.model = <any> responseData.body;
+        console.log("After Trying to Login : ");
         this.model.authStatus = 'AUTH';
+        console.log(this.model);
         window.sessionStorage.setItem("userdetails",JSON.stringify(this.model));
         let xsrf = this.getCookie('XSRF-TOKEN');
         window.sessionStorage.setItem("XSRF-TOKEN",xsrf);

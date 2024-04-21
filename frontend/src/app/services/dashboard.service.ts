@@ -3,7 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {User} from "../model/user.model";
 import {environment} from "../environments/environment";
 import {AppConstants} from "../constants/app.constants";
-import {Contact} from "../model/contact.model";
+
 
 @Injectable({
   providedIn: 'root'
@@ -32,7 +32,5 @@ export class DashboardService {
     return this.http.get(environment.rootUrl + AppConstants.NOTICES_API_URL ,{ observe: 'response' });
   }
 
-  saveMessage(contact : Contact){
-    return this.http.post(environment.rootUrl + AppConstants.CONTACT_API_URL,contact,{ observe: 'response'});
-  }
+
 }
