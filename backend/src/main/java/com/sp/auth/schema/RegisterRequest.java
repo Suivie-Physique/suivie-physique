@@ -1,5 +1,6 @@
-package com.sp.auth.model;
+package com.sp.auth.schema;
 
+import com.sp.auth.role.Role;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
@@ -26,4 +27,5 @@ public class RegisterRequest {
     @NotEmpty(message = "Last name is required")
     @NotBlank(message = "Last name is required")
     private String lastName;
+
 }

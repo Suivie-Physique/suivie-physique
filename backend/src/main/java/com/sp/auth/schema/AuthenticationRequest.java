@@ -1,4 +1,4 @@
-package com.sp.auth.model;
+package com.sp.auth.schema;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;

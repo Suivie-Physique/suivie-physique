@@ -16,4 +16,5 @@ export class ModalComponent {
       this.showModal = !this.showModal;
     }
 
+
 }

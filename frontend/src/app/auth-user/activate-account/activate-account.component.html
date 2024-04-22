@@ -1,0 +1,14 @@
+<app-modal [showModal]="showModal" [title]="alertTitle" [message]="alertMessage" [color]="alertColor"  ></app-modal>
+<app-card-center title="Two-Factor Authentication" description="Enter activation code sent to {{email_register}}, to pursuite to login.">
+  <code-input  [isCodeHidden]="false" [codeLength]="6" [code]="token" (codeCompleted)="onCodeCompleted($event)" >
+
+  </code-input>
+  <div class="mt-4 mb-16 text-sm text-center">
+    <p>Didn't get the code?
+      <button [disabled]="isResendDisabled" class="text-sky-500 font-bold disabled:text-gray-100 mr-1" (click)="resendCode()">Resend code</button>
+      <app-tool-tip [message]="'you can send validation code once per minute.'" [color]="'sky'"></app-tool-tip>
+    </p>
+  </div>
+
+  <app-button label="Confirm" [isDisabled]="!isCompleted" (click)="onConfirm()" ></app-button>
+</app-card-center>

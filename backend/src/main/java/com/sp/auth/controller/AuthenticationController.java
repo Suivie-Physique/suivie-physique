@@ -1,9 +1,12 @@
 package com.sp.auth.controller;
 
-import com.sp.auth.model.AuthenticationRequest;
-import com.sp.auth.model.AuthenticationResponse;
-import com.sp.auth.model.RegisterRequest;
+import com.sp.auth.schema.AuthenticationRequest;
+import com.sp.auth.schema.AuthenticationResponse;
+import com.sp.auth.schema.RegisterRequest;
 import com.sp.auth.service.AuthenticationService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
@@ -14,11 +17,26 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
-@Tag(name = "Authentication Controller", description = "Handles all authentication requests")
+//@SecurityRequirement(name = "bearerAuth") -- commented out because it's not needed here
+@Tag(name = "Authentication", description = "Handles all authentication requests")
 public class AuthenticationController {
 
     private final AuthenticationService service;
 
+    @Operation(
+            summary = "Register a new user",
+            description = "Registers a new user and sends an activation email",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "202",
+                            description = "User registered successfully and activation email sent"
+                    ),
+                    @ApiResponse(
+                            responseCode = "403",
+                            description = "User already exists"
+                    )
+            }
+    )
     @PostMapping("/register")
     public ResponseEntity<?> register(
             @RequestBody @Valid RegisterRequest request
@@ -39,6 +57,14 @@ public class AuthenticationController {
             @RequestParam String token
     ) throws MessagingException {
         service.activateAccount(token);
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/resend-activation-email")
+    public ResponseEntity<?> resendActivationEmail(
+            @RequestParam String email
+    ) throws MessagingException {
+        service.resendActivationEmail(email);
         return ResponseEntity.ok().build();
     }
 

@@ -98,7 +98,7 @@ public class SuiviePhysiqueSecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthFilter;
     private final AuthenticationProvider authenticationProvider;
-    private final String[] PermittedRequests = {"/auth/**","/v2/api-docs","/v3/api-docs", "/v3/api-docs/**" , "/configuration/ui", "/swagger-resources/**", "/configuration/security", "/swagger-ui.html", "/webjars/**", "/swagger-ui/**"};
+    private final String[] PermittedRequests = {"/api/v1/**","/auth/**","/v2/api-docs","/v3/api-docs", "/v3/api-docs/**" , "/configuration/ui", "/swagger-resources/**", "/configuration/security", "/swagger-ui.html", "/webjars/**", "/swagger-ui/**"};
 
     @Bean
     public SecurityFilterChain securityFilterChain
