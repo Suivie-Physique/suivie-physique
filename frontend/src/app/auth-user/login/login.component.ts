@@ -7,6 +7,7 @@ import {HttpClientModule} from "@angular/common/http";
 // @ts-ignore
 import {AuthenticationRequest} from "../../api/services/authentication-request";
 import {AuthenticationResponse} from "../../api/models/authentication-response";
+import {JwtTokenService} from "../../services/jwt-token.service";
 
 @Component({
   selector: 'app-login',
@@ -33,7 +34,7 @@ export class LoginComponent implements OnInit {
 
 
 
-  constructor(private authenticationService: AuthenticationService, private router: Router) {}
+  constructor(private authenticationService: AuthenticationService ,private tokenService: JwtTokenService ,private router: Router) {}
 
   ngOnInit(): void {}
 
@@ -74,8 +75,8 @@ export class LoginComponent implements OnInit {
       body: this.request
     }).subscribe({
       next: (responseData: AuthenticationResponse) => {
-          console.log(responseData);
-          // Set Session Storage for Authorization Token
+        // Set Local Storage to Authorization Jwt Token
+        this.tokenService.token =  responseData.token as string;
           this.router.navigate(['dashboard']);
       },
       error: (error) => {
