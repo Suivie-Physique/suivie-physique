@@ -25,6 +25,18 @@ public class SuiviePhysiqueBackendApplication {
             if (roleRepository.findByName("USER").isEmpty()) {
                 roleRepository.save(Role.builder().name("USER").build());
             }
+            if (roleRepository.findByName("ADMIN").isEmpty()) {
+                roleRepository.save(Role.builder().name("ADMIN").build());
+            }
+            if (roleRepository.findByName("EXPLOITANT").isEmpty()) {
+                roleRepository.save(Role.builder().name("EXPLOITANT").build());
+            }
+            if (roleRepository.findByName("TRAIT_CHEQUE").isEmpty()) {
+                roleRepository.save(Role.builder().name("TRAIT_CHEQUE").build());
+            }
+            if (roleRepository.findByName("TRAIT_EFFET").isEmpty()) {
+                roleRepository.save(Role.builder().name("TRAIT_EFFET").build());
+            }
 
         };
     }

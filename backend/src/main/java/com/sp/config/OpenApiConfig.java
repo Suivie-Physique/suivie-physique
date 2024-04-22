@@ -27,7 +27,7 @@ import static java.awt.SystemColor.info;
         servers = {
                 @Server(
                 description = "Local server",
-                url = "http://localhost:3008"
+                url = "http://localhost:3008/api/v1"
                 ),
                 @Server(
                         description = "Production server",

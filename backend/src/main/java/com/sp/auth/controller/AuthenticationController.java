@@ -60,6 +60,14 @@ public class AuthenticationController {
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping("/resend-activation-email")
+    public ResponseEntity<?> resendActivationEmail(
+            @RequestParam String email
+    ) throws MessagingException {
+        service.resendActivationEmail(email);
+        return ResponseEntity.ok().build();
+    }
+
     @RequestMapping("/forgotPassword")
     public String forgotPassword() {
         return "forgotPassword";

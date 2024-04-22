@@ -99,6 +99,14 @@ public class AuthenticationService {
         tokenRepository.save(activationToken);
     }
 
+    public void resendActivationEmail(String email) throws MessagingException {
+        // Resend activation email
+        var user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        sendValidationMail(user);
+    }
+
     private void sendValidationMail(User user) throws MessagingException {
         var newToken = generateAndSaveActivationToken(user);
         // Send validation email
