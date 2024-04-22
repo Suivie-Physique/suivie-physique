@@ -13,6 +13,7 @@ import {AuthActivateRouteGuard} from "./routeguards/auth.routeguards";
 import {SharedModule} from "./shared/shared.module";
 import {CommonModule} from "@angular/common";
 import {AuthUserModule} from "./auth-user/auth-user.module";
+import {CookieService} from "ngx-cookie-service";
 
 @NgModule({
   declarations: [
@@ -33,13 +34,14 @@ import {AuthUserModule} from "./auth-user/auth-user.module";
     }),
   ],
   providers: [
+    CookieService,
     HttpClient,
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: XhrInterceptor,
-      multi: true
-    },
-    AuthActivateRouteGuard,
+    // {
+    //   provide: HTTP_INTERCEPTORS,
+    //   useClass: XhrInterceptor,
+    //   multi: true
+    // },
+    // AuthActivateRouteGuard,
   ],
   bootstrap: [AppComponent]
 })

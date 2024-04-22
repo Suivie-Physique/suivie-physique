@@ -44,6 +44,8 @@ import { logout6 } from '../fn/authentication/logout-6';
 import { Logout6$Params } from '../fn/authentication/logout-6';
 import { register } from '../fn/authentication/register';
 import { Register$Params } from '../fn/authentication/register';
+import { resendActivationEmail } from '../fn/authentication/resend-activation-email';
+import { ResendActivationEmail$Params } from '../fn/authentication/resend-activation-email';
 import { resetPassword } from '../fn/authentication/reset-password';
 import { ResetPassword$Params } from '../fn/authentication/reset-password';
 import { resetPassword1 } from '../fn/authentication/reset-password-1';
@@ -128,6 +130,35 @@ export class AuthenticationService extends BaseService {
   authenticate(params: Authenticate$Params, context?: HttpContext): Observable<AuthenticationResponse> {
     return this.authenticate$Response(params, context).pipe(
       map((r: StrictHttpResponse<AuthenticationResponse>): AuthenticationResponse => r.body)
+    );
+  }
+
+  /** Path part for operation `resendActivationEmail()` */
+  static readonly ResendActivationEmailPath = '/auth/resend-activation-email';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `resendActivationEmail()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  resendActivationEmail$Response(params: ResendActivationEmail$Params, context?: HttpContext): Observable<StrictHttpResponse<{
+}>> {
+    return resendActivationEmail(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `resendActivationEmail$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  resendActivationEmail(params: ResendActivationEmail$Params, context?: HttpContext): Observable<{
+}> {
+    return this.resendActivationEmail$Response(params, context).pipe(
+      map((r: StrictHttpResponse<{
+}>): {
+} => r.body)
     );
   }
 

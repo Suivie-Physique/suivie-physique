@@ -5,6 +5,8 @@ import { RegisterComponent } from './register/register.component';
 import {SharedModule} from "../shared/shared.module";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {AppConstants} from "../constants/app.constants";
+import { ActivateAccountComponent } from './activate-account/activate-account.component';
+import {CodeInputModule} from "angular-code-input";
 
 
 
@@ -12,12 +14,14 @@ import {AppConstants} from "../constants/app.constants";
 @NgModule({
   declarations: [
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    ActivateAccountComponent
   ],
   imports: [
     CommonModule,
     SharedModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    CodeInputModule
   ],
   exports:[
     LoginComponent,

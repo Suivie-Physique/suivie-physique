@@ -12,7 +12,7 @@
   },
   "servers": [
     {
-      "url": "http://localhost:3008",
+      "url": "http://localhost:3008/api/v1",
       "description": "Local server"
     },
     {
@@ -92,6 +92,36 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AuthenticationResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/resend-activation-email": {
+      "get": {
+        "tags": [
+          "Authentication"
+        ],
+        "operationId": "resendActivationEmail",
+        "parameters": [
+          {
+            "name": "email",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
                 }
               }
             }

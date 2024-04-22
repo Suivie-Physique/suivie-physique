@@ -7,6 +7,9 @@ import {NgxMaskDirective, provideEnvironmentNgxMask} from "ngx-mask";
 import { LabelComponent } from './label/label.component';
 import { SelectComponent } from './select/select.component';
 import { ModalComponent } from './modal/modal.component';
+import { CardCenterComponent } from './card-center/card-center.component';
+import { ButtonComponent } from './button/button.component';
+import { ToolTipComponent } from './tool-tip/tool-tip.component';
 
 
 
@@ -16,14 +19,20 @@ import { ModalComponent } from './modal/modal.component';
         AlertComponent,
         LabelComponent,
         SelectComponent,
-        ModalComponent
+        ModalComponent,
+        CardCenterComponent,
+        ButtonComponent,
+        ToolTipComponent
     ],
   exports: [
     InputComponent,
     AlertComponent,
     LabelComponent,
     SelectComponent,
-    ModalComponent
+    ModalComponent,
+    CardCenterComponent,
+    ButtonComponent,
+    ToolTipComponent
   ],
     imports: [
         CommonModule,

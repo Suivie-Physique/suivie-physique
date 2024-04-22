@@ -7,5 +7,5 @@ export const  AppConstants = {
   CARDS_API_URL : "/myCards",
   NOTICES_API_URL : "/notices",
   REGISTER_API_URL : "/register",
-  ROLES: ["admin", "user"],
+  ROLES: ["admin", "user","trait_chèque","trait_effet","exploitant"],
 }

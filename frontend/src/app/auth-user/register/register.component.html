@@ -70,12 +70,6 @@
             <app-input [control]="confirmPassword" type="password" placeholder="Should be 8 characters or more .. "></app-input>
           </div>
 
-          <div class="col-span-3">
-            <app-label>Role</app-label>
-
-            <app-select [control]="role" [options]="['admin','user']" ></app-select>
-          </div>
-
           <div class="col-span-6">
             <p class="text-sm text-gray-500">
               By creating an account, you agree to our
@@ -86,6 +80,7 @@
           </div>
 
           <div class="col-span-6 sm:flex sm:items-center sm:gap-4">
+<!--            <app-button [isDisabled]="registerForm.invalid" [label]="'Create account'"></app-button>-->
             <button
               type="submit"
               [disabled]="registerForm.invalid"
@@ -97,7 +92,7 @@
 
             <p class="mt-4 text-sm text-gray-500 sm:mt-0">
               Already have an account?
-              <a href="/login" class="text-gray-700 underline">Log in</a>.
+              <a href="/authenticate" class="text-gray-700 underline">Log in</a>.
             </p>
           </div>
         </form>

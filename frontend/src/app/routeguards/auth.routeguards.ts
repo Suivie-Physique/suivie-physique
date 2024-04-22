@@ -14,7 +14,7 @@ export class AuthActivateRouteGuard implements CanActivate {
     // @ts-ignore
     this.user = JSON.parse(sessionStorage.getItem("userdetails"));
     if(!this.user){
-      this.router.navigate(['login']);
+      this.router.navigate(['authenticate']);
     }
     return this.user?true:false;
   }

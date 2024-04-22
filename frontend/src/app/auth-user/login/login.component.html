@@ -1,39 +1,43 @@
-<div class="flex min-h-full flex-col justify-center px-6 py-8 lg:px-8">
-  <div class="sm:mx-auto sm:w-full sm:max-w-sm">
-    <img class="mx-auto h-24 w-auto" src="./assets/image/logo_secondary.png" alt="Suivie Physique">
-    <h2 class="mt-4 text-center text-2xl font-bold leading-9 tracking-tight text-sky-600">Access to your account</h2>
-  </div>
+<div class="flex flex-row justify-center items-center w-full h-screen bg-cover bg-center" style="background-image: url('./assets/image/director_cut.svg')">
 
-  <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-sm">
+  <div class="flex flex-col justify-center items-center sm:w-7/12 md:w-6/12 lg:w-5/12 w-full px-6 py-8 lg:px-8 border rounded-lg shadow-md bg-white">
+    <app-modal [showModal]="showModal" [title]="alertTitle" [message]="alertMessage" [color]="alertColor" ></app-modal>
+    <div class="sm:mx-auto sm:w-full w-full">
+      <img class="mx-auto h-24 w-auto" src="./assets/image/logo_secondary.png" alt="Suivie Physique">
+      <h2 class="mt-4 text-center text-2xl font-bold leading-9 tracking-tight text-sky-600">Suivie Physique <span class="text-sm font-normal text-teal-300">v0.0.1</span></h2>
+    </div>
 
-    <form [formGroup]="loginForm" (ngSubmit)="loginUser()" class="space-y-6">
-      <div>
-        <app-label>Email</app-label>
-        <app-input [control]="email" type="email" placeholder="Enter your username .."  ></app-input>
-      </div>
+    <div class="mt-8 w-11/12">
 
-      <div>
-        <div class="flex items-center justify-between">
-         <app-label>Password</app-label>
-          <div class="text-sm">
-            <a href="#" class="font-semibold text-sky-600 hover:text-sky-500">Forgot password?</a>
+      <form [formGroup]="loginForm" (ngSubmit)="loginUser()" class="space-y-6">
+        <div>
+          <app-label>Email</app-label>
+          <app-input [control]="email" type="email" placeholder="Enter your username .."  ></app-input>
+        </div>
+
+        <div>
+          <div class="flex items-center justify-between">
+            <app-label>Password</app-label>
+            <div class="text-sm">
+              <a href="#" class="font-semibold text-sky-600 hover:text-sky-500">Forgot password?</a>
+            </div>
+          </div>
+          <div class="mt-2">
+            <app-input [control]="password" type="password" placeholder="Enter your password .." ></app-input>
           </div>
         </div>
-        <div class="mt-2">
-          <app-input [control]="password" type="password" placeholder="Enter your password .." ></app-input>
+
+        <div>
+          <app-button [isDisabled]="loginForm.invalid" [label]="'Sign in'"></app-button>
         </div>
-      </div>
+      </form>
 
-      <div>
-        <button [disabled]="loginForm.invalid"
-          type="submit" class="disabled:opacity-35 disabled:hover:bg-sky-600 disabled:cursor-not-allowed disabled:text-white flex w-full justify-center rounded-md bg-sky-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-sky-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600">Sign in</button>
-      </div>
-    </form>
-
-    <p class="mt-10 text-center text-sm text-gray-500">
-      Not a member?
-      <a href="/register" class="font-semibold leading-6 text-sky-600 hover:text-sky-500">Create an account</a>
-    </p>
+      <p class="mt-10 text-center text-sm text-gray-500">
+        Not a member?
+        <a href="/register" class="font-semibold leading-6 text-sky-600 hover:text-sky-500">Create an account</a>
+      </p>
+    </div>
   </div>
+
 </div>
 

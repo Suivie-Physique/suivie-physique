@@ -1,66 +1,68 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import { CookieService } from "ngx-cookie-service";
 import {FormGroup, FormControl, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
-import {RegisterService} from "../../services/register.service";
+import {AuthenticationService} from "../../api/services/authentication.service";
 import {User} from "../../model/user.model";
+import {flush} from "@angular/core/testing";
+import {AppConstants} from "../../constants/app.constants";
+import {RegisterRequest} from "../../api/models/register-request";
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html'
 })
-export class RegisterComponent {
+export class RegisterComponent implements OnInit{
+  options = AppConstants.ROLES;
   showModal: boolean = false;
   alertTitle: string = 'Register';
   alertMessage: string = 'Please wait! Registering your account.';
   alertColor: string = 'blue';
+  request: RegisterRequest = {email: '', firstName: '', lastName: '', password: ''};
 
-  constructor(private registerService: RegisterService,private router: Router) {}
+  constructor(private authenticationService: AuthenticationService,private cookieService: CookieService,private router: Router) {}
+
+  ngOnInit(): void {
+    this.cookieService.delete('email_register');
+  }
+
+  handleAlertOpen(showModal: boolean = false,alertTitle: string = '', alertMessage: string = '', alertColor: string = 'red'){
+    this.showModal = showModal;
+    this.alertTitle = alertTitle;
+    this.alertMessage = alertMessage;
+    this.alertColor = alertColor;
+  }
+
 
   firstname= new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]);
   lastname = new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]);
   email = new FormControl('', [Validators.required, Validators.email]);
   password = new FormControl('', [Validators.required, Validators.pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/gm)]);
   confirmPassword = new FormControl('', [Validators.required, Validators.pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/gm)]);
-  role = new FormControl('');
 
   registerForm: FormGroup = new FormGroup({
     firstname: this.firstname,
     lastname: this.lastname,
     email: this.email,
     password: this.password,
-    confirmPassword: this.confirmPassword,
-    role: this.role
+    confirmPassword: this.confirmPassword
   });
 
+  clearForm(): void {
+    this.registerForm.reset();
+  }
+
   register(): boolean | void {
-    // this.showModal = true;
-    // this.alertMessage = 'Please wait! Registering your account.';
-    // this.alertColor = 'blue';
     const {firstname, lastname, email, password, confirmPassword, role} = this.registerForm.value;
     if (password !== confirmPassword){
-      this.showModal = true;
-      this.alertTitle = 'Password Mismatch';
-      this.alertMessage = 'Passwords do not match! Please try again.';
-      this.alertColor = 'red';
+      this.handleAlertOpen(true,'Password Mismatch','Passwords do not match! Please try again.','red');
+
 
       setTimeout(() => {
         this.showModal = false;
       }, 5000);
-    } else if (this.registerForm.invalid){
-      this.showModal = true;
-      this.alertTitle = 'Invalid Form';
-      this.alertMessage = 'Please fill out the form correctly.';
-      this.alertColor = 'red';
-
-      setTimeout(() => {
-        this.showModal = false;
-      }, 5000);
-    }
-    else if (["admin", "user"].includes(role) === false || role === '' || role === null || role === undefined || role === 'null' || role === 'undefined' || role === ' '){
-      this.showModal = true;
-      this.alertTitle = 'Invalid Role';
-      this.alertMessage = 'Please chose a role between admin and user.';
-      this.alertColor = 'red';
+    } else if (this.registerForm.invalid) {
+      this.handleAlertOpen(true, 'Invalid Form', 'Please fill out the form correctly.', 'red');
 
       setTimeout(() => {
         this.showModal = false;
@@ -68,40 +70,34 @@ export class RegisterComponent {
     }
     else {
       console.log('Registering user...');
-      const user: User = new User(
-        undefined,
-        `${firstname} ${lastname}`,
-        '',
-        email,
-        password,
-        role,
-        '',
-        '',
-        ''
-      );
+      this.request = {
+        email: email,
+        firstName: firstname,
+        lastName: lastname,
+        password: password
+      }
 
-      this.registerService.registerUser(user).subscribe(
+      this.authenticationService
+        .register({
+          body: this.request
+        })
+        .subscribe(
         responseData => {
-          this.showModal = true;
-          this.alertTitle = 'Registration Successful';
-          this.alertMessage = 'Your account has been successfully registered.';
-          this.alertColor = 'green';
+          this.handleAlertOpen(true,'Registration Successful','Congrats ! to start using the system activate your account.','green');
+          // persist user data to cookie
+          this.cookieService.set('email_register', email);
 
           setTimeout(() => {
             this.showModal = false;
-            this.router.navigate(['login']);
+            this.router.navigate(['activate-account']);
           }, 5000);
         }, error => {
           console.log(error);
-          this.showModal = true;
-          this.alertTitle = 'Registration Failed';
-          this.alertMessage = 'Your account could not be registered. Please try again.';
-          this.alertColor = 'red';
-
-          setTimeout(() => {
-            this.showModal = false;
-          }, 5000);
+          this.handleAlertOpen(true,'Registration Failed !' + error ,'Your account could not be registered. Please try again.','red');
+          this.clearForm();
         });
+
+
     }
 
   }
