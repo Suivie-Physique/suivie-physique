@@ -36,6 +36,21 @@ jobs:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v4
+        with:
+         node-version: '16'
+
+      - name: Cache Node Modules
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: frontend/node_modules
+          key: ${{ runner.os  }}-build-${{ env.cache-name  }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-${{ runner.os }}-build-${{ runner.os }}
+
       - name: Build Docker Image & Push to DockerHub
         uses: docker/build-push-action@v5
         with:
