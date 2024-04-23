@@ -1,4 +1,71 @@
-name: ci-ui.yaml
+name: Continuous Integration for UI Suivie Physique
 on:
+  push:
+    branches:
+      - main
+      - dev
+  pull_request:
+    branches:
+      - main
+      - dev
+  workflow_dispatch:
 
 jobs:
+  build-image:
+    name: Build Docker Image for UI Suivie Physique
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Extract project version
+        id: extract_version
+        run: |
+          cd frontend
+          echo "UI_VERSION=$(jq -r '.version' package.json )" >> $GITHUB_OUTPUT
+
+      - name: Login to Dockerhub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+
+      - name: Build Docker Image & Push to DockerHub
+        uses: docker/build-push-action@v5
+        with:
+          context: frontend
+          file: docker/frontend/Dockerfile
+          push: true
+          platforms: linux/amd64,linux/arm64
+          tags: dotcipher1/sp-ui:${{ steps.extract_version.outputs.UI_VERSION }}, dotcipher1/sp-ui:latest
+
+
+#  deploy:
+#    name: Deploy Suivie Physique UI
+#    runs-on: self-hosted
+#    needs: [build-push-image]
+#    steps:
+#      - name: Checkout code
+#        uses: actions/checkout@v4
+#
+#      - name: Setup JDK 17
+#        uses: actions/setup-jdk@v4
+#        with:
+#          distribution: 'corretto'
+#          java-version: 17
+#
+#      - name: Create deployment folder
+#        run: ssh ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_IP }} "mkdir -p ci-cd"
+#
+#      - name: Copy deployment files
+#        run: scp docker-compose.yml ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_IP }}:ci-cd/docker-compose.yml
+#
+#      - name: Set ENV & Deploy UI
+#        run: |
+#          ssh ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_IP }} <<EOF
+#          cd ci-cd
+#          docker-compose -f docker-compose.yml pull -q
+#          docker-compose -f docker-compose.yml up -d
+#          EOF

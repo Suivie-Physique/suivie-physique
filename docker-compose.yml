@@ -1,31 +1,21 @@
 version: '3.8'
 services:
-  backend:
-    image: backend
-    build: ./backend
+  sp-api:
+    container_name: sp-api
+    image: sp/sp-api:0.0.1
     ports:
       - "3008:3008"
     networks:
         - sp-network
-  frontend:
-    image: frontend
-    build: ./frontend
+  sp-ui:
+    container_name: sp-ui
+    image: sp/sp-ui:0.0.1
     depends_on:
-      - backend
+      - sp-api
     ports:
       - "80:80"
     networks:
         - sp-network
-
-#  mail-dev:
-#    container_name: maildev-sp
-#    image: maildev/maildev
-#    ports:
-#      - "1080:1080"
-#      - "1025:1025"
-#    networks:
-#        - sp-network
-#    restart: unless-stopped
 
 networks:
   sp-network:

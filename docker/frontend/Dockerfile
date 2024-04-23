@@ -1,6 +1,21 @@
-FROM nginx:1.23.4-alpine
+FROM node:16 as build
 
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-COPY target/sp-frontend-0.0.1-SNAPSHOT.tar.gz ./sp-frontend-0.0.1-SNAPSHOT.tar.gz
+WORKDIR /app
 
-RUN tar -xvpzf ./sp-frontend-0.0.1-SNAPSHOT.tar.gz -C /usr/share/nginx/html
+COPY package*.json ./
+
+RUN npm install
+
+COPY . .
+
+RUN npm run build:ci
+
+
+
+FROM nginx:alpine
+
+COPY nginx.conf /etc/nginx/nginx.conf
+
+COPY --from=build /app/dist/frontend /usr/share/nginx/html
+
+EXPOSE 80
