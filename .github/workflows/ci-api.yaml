@@ -28,7 +28,7 @@ jobs:
       - name: Compile API
         run: |
           cd backend
-          ./mvnw -B clean compile
+          mvn -B clean compile
 
 
 
