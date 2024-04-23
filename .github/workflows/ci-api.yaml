@@ -50,7 +50,7 @@ jobs:
       - name: Run Unit Test API
         run: |
           cd backend
-          ./mvnw clean test
+          mvn clean test
           
 
 
@@ -108,7 +108,7 @@ jobs:
       - name: Build API
         run: |
           cd backend
-          ./mvnw -B clean package -DskipTests
+          mvn -B clean package -DskipTests
           
 
   build-push-image:
@@ -129,7 +129,7 @@ jobs:
         id: extract_version
         run: |
           cd backend
-          echo "API_VERSION=$(./mvnw -q -Dexec.executable='echo' -Dexec.args='${project.version}' --non-recursive exec:exec)" >> $GITHUB_API_VERSION
+          echo "API_VERSION=$(mvn -q -Dexec.executable='echo' -Dexec.args='${project.version}' --non-recursive exec:exec)" >> $GITHUB_API_VERSION
           
       - name: Login to Dockerhub
         uses: docker/login-action@v3
