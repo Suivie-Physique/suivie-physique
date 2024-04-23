@@ -42,6 +42,7 @@ spring:
           timeout: 3000
           writetimeout: 5000
 
+
 application:
   security:
     jwt:
@@ -51,6 +52,8 @@ application:
       prefix: Bearer
       issuer: dotcipher
       audience: dotcipher
+  cors:
+    allowed-origins: http://localhost:4400,http://localhost:4200,http://localhost:8080
 
   mailing:
     frontend:
