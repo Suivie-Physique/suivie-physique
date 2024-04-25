@@ -1,0 +1,102 @@
+<section class="bg-white">
+  <app-modal [showModal]="showModal" [title]="alertTitle" [message]="alertMessage" [color]="alertColor" ></app-modal>
+
+  <div class="lg:grid lg:min-h-screen lg:grid-cols-12">
+    <section class="relative flex h-32 items-center bg-gray-900 lg:col-span-5 lg:h-full xl:col-span-6">
+      <img
+        alt=""
+        src="../../../../assets/trademark/director_cut.svg"
+        class="absolute inset-0 h-full w-full object-cover"
+      />
+
+      <div class="hidden lg:relative lg:block lg:p-12 lg:flex lg:flex-col">
+        <span class="block text-white" >
+          <span class="sr-only">Suivie Physique</span>
+          <img src="../../../../assets/trademark/logo_primary.png" style="-webkit-user-drag: none; user-drag: none;">
+        </span>
+        <p class="mt-4 leading-relaxed text-white/80 text-sm">
+          NCRM is strongly present in the Bank, and Great distribution in Morocco, with a sustained growth of its business in the North Africa region, West and Central.
+        </p>
+      </div>
+    </section>
+
+    <main
+      class="flex items-center justify-center px-8 py-8 sm:px-12 lg:col-span-7 lg:px-16 lg:py-12 xl:col-span-6"
+    >
+      <div class="max-w-xl lg:max-w-3xl">
+        <div class="relative -mt-16 block lg:hidden">
+          <span
+            class="inline-flex size-24 items-center justify-center rounded-full bg-white text-blue-600 sm:size-20"
+            href="#"
+          >
+            <span class="sr-only">Suivie Physique</span>
+            <img src="../../../../assets/trademark/logo_secondary.png" class="w-2/3">
+
+          </span>
+
+          <h1 class="mt-2 text-2xl font-bold text-gray-900 sm:text-3xl md:text-4xl">
+            Suivie Physique
+          </h1>
+
+          <p class="mt-4 leading-relaxed text-gray-500">
+            NCRM is strongly present in the Bank, and Great distribution in Morocco, with a sustained growth of its business in the North Africa region, West and Central.
+          </p>
+        </div>
+
+        <form [formGroup]="registerForm" (ngSubmit)="register()"
+          action="#" class="mt-8 grid grid-cols-6 gap-6">
+          <div class="col-span-6 sm:col-span-3">
+            <app-label>First Name</app-label>
+            <app-input [control]="firstname" type="text" placeholder="eg: Ahmed" ></app-input>
+          </div>
+
+          <div class="col-span-6 sm:col-span-3">
+            <app-label>Last Name</app-label>
+            <app-input [control]="lastname" type="text" placeholder="eg: Sahil"></app-input>
+          </div>
+
+          <div class="col-span-6">
+            <app-label>Email</app-label>
+            <app-input [control]="email" type="email" placeholder="eg: sahil123@ncrm.com"></app-input>
+          </div>
+
+          <div class="col-span-6 sm:col-span-3">
+            <app-label>Password</app-label>
+            <app-input [control]="password" type="password" placeholder="Should be 8 characters or more .. "></app-input>
+          </div>
+
+          <div class="col-span-6 sm:col-span-3">
+            <app-label>Password Confirmation</app-label>
+            <app-input [control]="confirmPassword" type="password" placeholder="Should be 8 characters or more .. "></app-input>
+          </div>
+
+          <div class="col-span-6">
+            <p class="text-sm text-gray-500">
+              By creating an account, you agree to our
+              <a href="#" class="text-gray-700 underline"> terms and conditions </a>
+              and
+              <a href="#" class="text-gray-700 underline">privacy policy</a>.
+            </p>
+          </div>
+
+          <div class="col-span-6 sm:flex sm:items-center sm:gap-4">
+<!--            <app-button [isDisabled]="registerForm.invalid" [label]="'Create account'"></app-button>-->
+            <button
+              type="submit"
+              [disabled]="registerForm.invalid"
+              class=" disabled:opacity-35 disabled:hover:bg-sky-600 disabled:cursor-not-allowed disabled:text-white
+              inline-block shrink-0 rounded-md border border-sky-600 bg-sky-600 px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-sky-600 focus:outline-none focus:ring active:text-sky-500"
+            >
+              Create an account
+            </button>
+
+            <p class="mt-4 text-sm text-gray-500 sm:mt-0">
+              Already have an account?
+              <a routerLink="/auth/authenticate" class="text-gray-700 underline">Log in</a>.
+            </p>
+          </div>
+        </form>
+      </div>
+    </main>
+  </div>
+</section>

@@ -1,15 +1,15 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { InputComponent } from './input/input.component';
-import { AlertComponent } from './alert/alert.component';
+import { InputComponent } from './components/input/input.component';
+import { AlertComponent } from './components/alert/alert.component';
 import {ReactiveFormsModule} from "@angular/forms";
 import {NgxMaskDirective, provideEnvironmentNgxMask} from "ngx-mask";
-import { LabelComponent } from './label/label.component';
-import { SelectComponent } from './select/select.component';
-import { ModalComponent } from './modal/modal.component';
-import { CardCenterComponent } from './card-center/card-center.component';
-import { ButtonComponent } from './button/button.component';
-import { ToolTipComponent } from './tool-tip/tool-tip.component';
+import { LabelComponent } from './components/label/label.component';
+import { SelectComponent } from './components/select/select.component';
+import { ModalComponent } from './components/modal/modal.component';
+import { CardCenterComponent } from './components/card-center/card-center.component';
+import { ButtonComponent } from './components/button/button.component';
+import { ToolTipComponent } from './components/tool-tip/tool-tip.component';
 
 
 
