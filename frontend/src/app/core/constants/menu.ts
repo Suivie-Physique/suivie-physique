@@ -11,8 +11,8 @@ export class Menu {
           label: 'Dashboard',
           route: '/dashboard',
           children: [
-            { label: 'Nfts', route: '/dashboard/nfts' },
-            { label: 'Podcast', route: '/dashboard/podcast' },
+            { label: 'Traitement chèque', route: '/dashboard/cheque' },
+            { label: 'Traitement effet', route: '/dashboard/effet' },
           ],
         },
         {

@@ -6,12 +6,12 @@ import { AngularSvgIconModule } from 'angular-svg-icon';
 import { ThemeService } from '../../../../../core/services/theme.service';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import { Input } from '@angular/core';
-
+import { TooltipModule } from 'primeng/tooltip';
 @Component({
   selector: 'app-profile-menu',
   templateUrl: './profile-menu.component.html',
   standalone: true,
-  imports: [ClickOutsideDirective, NgClass,NgFor,NgIf,  RouterLink, AngularSvgIconModule],
+  imports: [ClickOutsideDirective, NgClass,NgFor,NgIf,  RouterLink,  AngularSvgIconModule, TooltipModule],
   animations: [
     trigger('openClose', [
       state(
@@ -36,6 +36,9 @@ import { Input } from '@angular/core';
   ],
 })
 export class ProfileMenuComponent implements OnInit {
+  isFullScreen: boolean = false;
+  element: any = null;
+  document: any = null;
   public isOpen = false;
   public profileMenu = [
     {
@@ -90,11 +93,54 @@ export class ProfileMenuComponent implements OnInit {
 
   constructor(public themeService: ThemeService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.document = document;
+    this.element = document.documentElement;
+  }
 
   public toggleMenu(): void {
     this.isOpen = !this.isOpen;
   }
+
+  /**
+   * Fullscreen method
+   */
+  toggleFullscreenMode(): void {
+    document.body.classList.toggle('fullscreen-enable');
+    if (!document.fullscreenElement && !this.element.mozFullScreenElement && !this.element.webkitFullscreenElement) {
+      // If the document is not in full screen
+      this.isFullScreen = true;
+      if (this.element.requestFullscreen) {
+        this.element.requestFullscreen();
+      } else if (this.element.mozRequestFullScreen) {
+        /* Firefox */
+        this.element.mozRequestFullScreen();
+      } else if (this.element.webkitRequestFullscreen) {
+        /* Chrome, Safari and Opera */
+        this.element.webkitRequestFullscreen();
+      } else if (this.element.msRequestFullscreen) {
+        /* IE/Edge */
+        this.element.msRequestFullscreen();
+      }
+      
+    } else {
+      if (this.document.exitFullscreen) {
+        // If the document is in full screen
+        this.isFullScreen = false;
+        this.document.exitFullscreen();
+      } else if (this.document.mozCancelFullScreen) {
+        /* Firefox */
+        this.document.mozCancelFullScreen();
+      } else if (this.document.webkitExitFullscreen) {
+        /* Chrome, Safari and Opera */
+        this.document.webkitExitFullscreen();
+      } else if (this.document.msExitFullscreen) {
+        /* IE/Edge */
+        this.document.msExitFullscreen();
+      }
+    }
+  }
+
 
   toggleThemeMode() {
     this.themeService.theme.update((theme) => {

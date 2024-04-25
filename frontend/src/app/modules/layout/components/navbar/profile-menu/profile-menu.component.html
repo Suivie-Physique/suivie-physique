@@ -1,14 +1,24 @@
 <div class="relative ml-3">
   <!-- Profile Button -->
-  <button (click)="toggleMenu()" class="relative flex rounded-full bg-card text-sm" type="button">
-    <span class="sr-only">Open user menu</span>
-    <img
-      clickOutside
-      (clickOutside)="isOpen = false"
-      class="h-9 w-9 rounded-md"
-      src="https://avatars.githubusercontent.com/u/12519008?v=4"
-      alt="" />
-  </button>
+  <div class="flex flex-row-reverse place-items-center gap-8">
+    <button (click)="toggleMenu()" class="relative flex rounded-full bg-card text-sm" type="button">
+      <span class="sr-only">Open user menu</span>
+      <img
+        clickOutside
+        (clickOutside)="isOpen = false"
+        class="h-9 w-9 rounded-md"
+        src="../../../../../../assets//images/users/user-dummy-img.jpg"
+        alt="" />
+    </button>
+    <i (click)="toggleFullscreenMode()" [pTooltip]="tooltipContent" [autoHide]="true" tooltipPosition="left" class="pi pi-window-maximize cursor-pointer transition text-gray-200 hover:text-gray-500" style="font-size: 1.2rem;"></i>
+    <ng-template #tooltipContent>
+      <div class="flex align-items-center">
+          <span style="font-size: 12px;" > {{ isFullScreen ? "exit fullscreen" :  "fullscreen mode" }}</span>
+      </div>
+    </ng-template>
+  
+  </div>
+  
   <!-- Dropdown -->
   <div
     [@openClose]="isOpen ? 'open' : 'closed'"
