@@ -68,6 +68,8 @@ public class AuthenticationController {
         return ResponseEntity.ok().build();
     }
 
+    // Don't forget to add the following paths to JwtAuthenticationFilter.java
+
     @RequestMapping("/forgotPassword")
     public String forgotPassword() {
         return "forgotPassword";

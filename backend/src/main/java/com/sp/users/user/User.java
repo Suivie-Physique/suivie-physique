@@ -1,7 +1,7 @@
-package com.sp.auth.user;
+package com.sp.users.user;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.sp.auth.role.Role;
+import com.sp.users.role.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

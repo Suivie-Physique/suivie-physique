@@ -26,9 +26,9 @@ package com.sp.filter;
 
 
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
-import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
@@ -41,31 +41,41 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
+
+import java.io.IOException;
+
 @Component
 public class CsrfTokenFilter extends OncePerRequestFilter {
 
-    private CsrfTokenRepository csrfTokenRepository = new HttpSessionCsrfTokenRepository();
+    @Autowired
+    private CsrfTokenRepository csrfTokenRepository;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
 
-        CsrfToken csrfToken = csrfTokenRepository.loadToken(request);
-        boolean csrfTokenValid = StringUtils.hasText(request.getHeader(csrfToken.getHeaderName())) &&
-                csrfToken.getToken().equals(request.getHeader(csrfToken.getHeaderName()));
+        try {
+            CsrfToken csrfToken = csrfTokenRepository.loadToken(request);
+            boolean csrfTokenValid = StringUtils.hasText(request.getHeader(csrfToken.getHeaderName())) &&
+                    csrfToken.getToken().equals(request.getHeader(csrfToken.getHeaderName()));
 
-        if (csrfToken == null || !csrfTokenValid) {
-            // Generate a new CSRF token
-            csrfToken = csrfTokenRepository.generateToken(request);
-            csrfTokenRepository.saveToken(csrfToken, request, response);
+            if (csrfToken == null || !csrfTokenValid) {
+                // Generate a new CSRF token
+                csrfToken = csrfTokenRepository.generateToken(request);
+                csrfTokenRepository.saveToken(csrfToken, request, response);
 
-            // Add the CSRF token to the response headers or cookies
-            response.setHeader(csrfToken.getHeaderName(), csrfToken.getToken());
-            Cookie cookie = new Cookie("XSRF-TOKEN", csrfToken.getToken());
-            cookie.setPath("/");
-            response.addCookie(cookie);
+                // Add the CSRF token to the response headers or cookies
+                response.setHeader(csrfToken.getHeaderName(), csrfToken.getToken());
+                Cookie cookie = new Cookie("XSRF-TOKEN", csrfToken.getToken());
+                cookie.setPath("/");
+                response.addCookie(cookie);
+            }
+        } catch (Exception e) {
+            System.out.println("Error occurred while handling CSRF token, " + e.getMessage());
+            // Log the exception and continue with the filter chain
+            // logger.error("Error occurred while handling CSRF token", e);
         }
-
         filterChain.doFilter(request, response);
     }
 }
+
