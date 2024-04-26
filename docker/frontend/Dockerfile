@@ -6,7 +6,7 @@ COPY package*.json ./
 
 RUN npm install -D tailwindcss postcss autoprefixer
 
-RUN npm install -g pnpm && pnpm install
+RUN npm install -g @pnpm/exe && pnpm install
 
 COPY . .
 
