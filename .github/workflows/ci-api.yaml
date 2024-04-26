@@ -155,7 +155,8 @@ jobs:
         id: extract_version
         run: |
           cd backend
-          echo "API_VERSION=$(./mvnw -q -Dexec.executable='echo' -Dexec.args='${project.version}' --non-recursive exec:exec)" >> $GITHUB_OUTPUT
+          API_VERSION=$(./mvnw -q -Dexec.executable='echo' -Dexec.args='${project.version}' --non-recursive exec:exec)
+          echo "API_VERSION=${API_VERSION}" >> $GITHUB_ENV
 
       - name: Setup Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -173,7 +174,7 @@ jobs:
           file: docker/backend/Dockerfile
           push: true
           platforms: linux/amd64,linux/arm64
-          tags: dotcipher1/sp-api:${{ steps.extract_version.outputs.API_VERSION }}, dotcipher1/sp-api:latest
+          tags: dotcipher1/sp-api:$API_VERSION, dotcipher1/sp-api:latest
 
 #  deploy:
 #    name: Deploy Suivie Physique API
