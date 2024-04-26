@@ -59,7 +59,7 @@ export class ActivateAccountComponent implements OnInit{
         this.handleAlertOpen(true, 'Account Activation', 'Account activated successfully', 'sky');
 
         setTimeout(() => {
-          this.router.navigate(['/authenticate']);
+          this.router.navigate(['/auth/authenticate']);
         }, 5000);
 
       },

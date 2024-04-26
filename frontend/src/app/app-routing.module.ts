@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AuthActivateRouteGuard } from './core/routeguards/auth.routeguards';
 
 // import { LoginComponent } from './auth-user/pages/login/login.component';
 // import { RegisterComponent } from './auth-user/pages/register/register.component';
@@ -13,6 +14,7 @@ import { RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
+    canActivate: [AuthActivateRouteGuard],
     loadChildren: () => import('../app/modules/layout/layout.module').then(m => m.LayoutModule)
   },
   {

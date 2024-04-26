@@ -25,7 +25,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BeansConfig {
 
-    @Value("${app.cors.allowed-origins:*}")
+    @Value("${application.cors.allowed-origins}")
     private List<String> allowedOrigins;
 
     private final UserDetailsService userDetailsService;
@@ -55,7 +55,7 @@ public class BeansConfig {
 
 
         Long maxAge = 3600L;
-        boolean allowCredentials = true;
+        boolean allowCredentials = false;
         List<String> allowedHeaders = Arrays.asList(HttpHeaders.ORIGIN, HttpHeaders.CONTENT_TYPE, HttpHeaders.ACCEPT, HttpHeaders.AUTHORIZATION);
         List<String> allowedMethods = Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH");
 

@@ -96,7 +96,7 @@ export class RegisterComponent implements OnInit{
 
           setTimeout(() => {
             this.showModal = false;
-            this.router.navigate(['activate-account']);
+            this.router.navigate(['/auth/activate-account']);
           }, 5000);
         }, error => {
           console.log(error);

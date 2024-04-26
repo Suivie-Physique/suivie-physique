@@ -69,8 +69,6 @@ export class LoginComponent implements OnInit {
   }
 
   validateUser() {
-    console.log(this.model);
-    console.log("inside Validate User");
     this.request = {
       email: this.model.email,
       password: this.model.password
