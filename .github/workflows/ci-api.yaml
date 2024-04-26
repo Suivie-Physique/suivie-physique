@@ -38,9 +38,6 @@ jobs:
           mvn -B clean compile
 
 
-
-
-
   test:
     name: Unit Test Suivie Physique API
     runs-on: ubuntu-latest
@@ -50,6 +47,7 @@ jobs:
 
       - name: Setup JDK 17
         uses: actions/setup-java@v4.2.1
+
         with:
           distribution: 'corretto'
           java-version: 17
@@ -157,11 +155,11 @@ jobs:
         id: extract_version
         run: |
           cd backend
-          echo "API_VERSION=$(mvn -q -Dexec.executable='echo' -Dexec.args='${project.version}' --non-recursive exec:exec)" >> $GITHUB_OUTPUT
+          echo "API_VERSION=$(./mvnw -q -Dexec.executable='echo' -Dexec.args='${project.version}' --non-recursive exec:exec)" >> $GITHUB_API_VERSION
 
       - name: Setup Docker Buildx
         uses: docker/setup-buildx-action@v3
-        
+
       - name: Login to Dockerhub
         uses: docker/login-action@v3
         with:
