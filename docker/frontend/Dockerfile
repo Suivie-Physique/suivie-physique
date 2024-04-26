@@ -4,11 +4,13 @@ WORKDIR /app
 
 COPY package*.json ./
 
-RUN npm install
+RUN npm install -D tailwindcss postcss autoprefixer
+
+RUN npm install -g pnpm && pnpm install
 
 COPY . .
 
-RUN npm run build:ci
+RUN pnpm run build
 
 
 
