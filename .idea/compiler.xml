@@ -17,6 +17,8 @@
       <module name="easybank-backend" target="17" />
       <module name="easybank-frontend" target="1.5" />
       <module name="frontend" target="1.5" />
+      <module name="sp-frontend" target="1.5" />
+      <module name="suivie-physique" target="1.5" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">

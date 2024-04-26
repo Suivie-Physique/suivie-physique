@@ -1,0 +1,27 @@
+<div class="relative flex justify-center">
+  <div
+    class="fixed inset-0 z-2 overflow-y-auto"
+    aria-labelledby="modal-title" role="dialog" aria-modal="true"
+  >
+    <div class="flex items-end justify-center min-h-screen px-4 pt-8 pb-20 text-center sm:block sm:p-0">
+      <span class="hidden sm:inline-block sm:h-screen sm:align-middle" aria-hidden="true">&#8203;</span>
+
+      <div class="relative inline-block px-4 pt-5 pb-4 overflow-hidden text-left align-bottom border transition-all transform bg-white rounded-lg shadow-xl dark:bg-gray-900 sm:my-8 sm:w-full sm:max-w-sm sm:p-6 sm:align-middle">
+        <h3 class="text-xl font-medium leading-6 text-gray-800 capitalize dark:text-white" id="modal-title">
+
+
+            <i class="pi pi-verified text-{{titleColor}}-500 text-xl"></i>
+          <span class="text-{{titleColor}}-500 ml-2">{{ title }}</span>
+
+        </h3>
+        <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
+          {{ description }}
+        </p>
+        <br>
+
+        <ng-content></ng-content>
+
+      </div>
+    </div>
+  </div>
+</div>
