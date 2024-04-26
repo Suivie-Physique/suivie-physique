@@ -1,4 +1,4 @@
-package com.sp.auth.role;
+package com.sp.users.role;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

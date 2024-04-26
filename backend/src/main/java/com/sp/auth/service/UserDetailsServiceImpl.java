@@ -1,6 +1,6 @@
 package com.sp.auth.service;
 
-import com.sp.auth.user.UserRepository;
+import com.sp.users.user.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;

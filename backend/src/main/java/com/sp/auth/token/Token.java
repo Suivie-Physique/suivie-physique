@@ -1,6 +1,6 @@
 package com.sp.auth.token;
 
-import com.sp.auth.user.User;
+import com.sp.users.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
