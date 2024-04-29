@@ -1,9 +1,41 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import "../node_modules/angular-calendar/css/angular-calendar.css";
 
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
+
+@layer components {
+  .color-picker {
+    @apply appearance-none w-8 h-8 bg-transparent border-none cursor-pointer rounded-xl;
+  }
+  .color-picker::-webkit-color-swatch,
+  .color-picker::-moz-color-swatch {
+    border-radius: 8px;
+    border: none;
+  }
+}
+
+@layer utilities {
+
+  .button-wrapper {
+    @apply relative overflow-hidden rounded-2xl bg-gradient-to-b
+    from-sky-500 to-sky-800
+  }
+
+  .button-wrapper::before {
+    background: conic-gradient(
+     rgba(244, 114, 183, 0.4) 0deg,
+      rgba(192, 132, 252, 0.4) 0deg,
+      transparent 80deg
+    );
+
+    @apply animate-border-spin; 
+  }
+
+
+}
 
 
 

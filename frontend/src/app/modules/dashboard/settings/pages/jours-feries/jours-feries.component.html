@@ -1,0 +1,218 @@
+<p-scrollPanel [style]="{width: '100%', height: '568px'}">
+    
+<div class="py-2 rounded-sm sm:bg-gray-50 sm:px-8 sm:shadow z-0 select-none">
+   
+    <div class="pt-4">
+      <h1 class="py-2 text-3xl font-bold text-gray-700">Jour Fériés</h1>
+    </div>
+    <hr class="mt-4 mb-8" />
+
+<div class="grid grid-cols-7 grid-rows-1 grid-template-col-7 text-center pb-8">
+    
+
+    <div class="flex items-baseline col-start-1
+    col-end-4 col-span-3">
+    <!-- Previous Button -->
+    <div  
+       class="flex items-center justify-center gap-1 px-2 h-8 me-3 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white cursor-pointer"
+
+       mwlCalendarPreviousView
+       [view]="view"
+       [(viewDate)]="viewDate"
+       (viewDateChange)="closeOpenMonthViewDay()"
+    >
+    <i class="pi pi-arrow-left" style="font-size: 0.8rem;"></i>
+      Previous
+    </div>
+
+    <div 
+    class="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-500 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 group-hover:from-cyan-500 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-1 focus:outline-none focus:ring-cyan-200 dark:focus:ring-cyan-800 cursor-pointer"
+    mwlCalendarToday
+    [(viewDate)]="viewDate"
+    >
+        <span class="relative px-2 py-1 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+        Today
+        </span>
+    </div>
+
+    <div  
+       class="flex items-center justify-center gap-2 px-2 h-8 me-3 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white cursor-pointer"
+       mwlCalendarNextView
+       [view]="view"
+       [(viewDate)]="viewDate"
+       (viewDateChange)="closeOpenMonthViewDay()"
+    >
+    Next
+    <i class="pi pi-arrow-right" style="font-size: 0.8rem;"></i>
+    </div>
+    </div>
+    
+    <div class="text-3xl text-gray-600 font-bold tracking-tight sm:text-4xl col-span-3 place-self-start">
+      <h3
+        class="whitespace-nowrap"
+      >{{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</h3>
+    </div>
+
+
+    
+    <!-- Dropdown menu -->
+    <div class="place-self-end col-span-1">
+        <select 
+        (change)="onSelectView($event.target)"
+        class="select select-bordered p-2 w-32  text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg cursor-pointer"
+    >
+        <option 
+        value="Month"
+        [class.active]="view === CalendarView.Month"
+             selected>
+             Month
+        </option>
+        <option 
+        value="Week"
+        [class.active]="view === CalendarView.Week">
+            Week 
+        </option>
+        <option 
+        value="Day" 
+        [class.active]="view === CalendarView.Day">
+            Day
+        </option>
+
+    </select>
+    </div>
+    
+    
+</div>
+  <br />
+  <div [ngSwitch]="view">
+    <mwl-calendar-month-view
+      *ngSwitchCase="CalendarView.Month"
+      [viewDate]="viewDate"
+      [events]="events"
+      [refresh]="refresh"
+      [activeDayIsOpen]="activeDayIsOpen"
+      (dayClicked)="dayClicked($event.day)"
+      (eventTimesChanged)="eventTimesChanged($event)"
+      >
+    </mwl-calendar-month-view>
+    <mwl-calendar-week-view
+      *ngSwitchCase="CalendarView.Week"
+      [viewDate]="viewDate"
+      [events]="events"
+      [refresh]="refresh"
+      (eventTimesChanged)="eventTimesChanged($event)"
+      >
+    </mwl-calendar-week-view>
+    <mwl-calendar-day-view
+      *ngSwitchCase="CalendarView.Day"
+      [viewDate]="viewDate"
+      [events]="events"
+      [refresh]="refresh"
+      (eventTimesChanged)="eventTimesChanged($event)"
+      >
+    </mwl-calendar-day-view>
+  </div>
+  
+  
+  <br /><br /><br />
+  
+    <div class="w-full flex justify-end ">
+    
+    <div  
+        class="flex items-center justify-center gap-2 px-2 h-8 mb-2 me-3 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white cursor-pointer"
+         (click)="addEvent()"
+     >
+     Jour Féries
+     <i class="pi pi-plus" style="font-size: 0.8rem;"></i>
+     </div>
+     <div  
+     class="flex items-center justify-center gap-2 px-2 h-8 mb-2 me-3 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white cursor-pointer"
+      (click)="notifyParties()"
+     >
+        Envoyer
+    <i class="pi pi-send" style="font-size: 0.8rem;"></i>
+    </div>
+    </div>
+  
+  <div class="pb-8">
+    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+      <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+                
+                <th scope="col" class="px-6 py-3">
+                    Jour Fériés
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Date début
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Date fin
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Tag
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Action
+                </th>
+            </tr>
+        </thead>
+  
+      <tbody>
+        <tr 
+        class="border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+        *ngFor="let event of events; let i = index;"
+        [ngClass]="{'bg-gray': i % 2 === 0,'bg-white': i % 2 !== 0}"
+        >
+          <td>
+            <input
+              type="text"
+              class="form-control bg-transparent outline-none px-2"
+              [(ngModel)]="event.title"
+              (keyup)="refresh.next()"
+            />
+          </td>
+          
+          <td>
+            <input
+              class="form-control bg-transparent outline-none"
+              type="text"
+              mwlFlatpickr
+              [(ngModel)]="event.start"
+              (ngModelChange)="refresh.next()"
+              dateFormat="Y-m-dTH:i"
+              altFormat="F j, Y H:i"
+              placeholder="Not set"
+            />
+          </td>
+          <td>
+            <input
+              class="form-control bg-transparent outline-none"
+              type="text"
+              mwlFlatpickr
+              [(ngModel)]="event.end"
+              (ngModelChange)="refresh.next()"
+              dateFormat="Y-m-dTH:i"
+              altFormat="F j, Y H:i"
+              placeholder="Not set"
+            />
+          </td>
+          <td>
+            <input
+              type="color"
+              class="color-picker"
+              [(ngModel)]="event.color.primary"
+              (change)="refresh.next()"
+            />
+          </td>
+          <td>
+            <button class="btn btn-danger" (click)="deleteEvent(event)">
+                Supprimer
+                <i class="pi pi-eraser" style="font-size: 1.2rem"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+</p-scrollPanel>

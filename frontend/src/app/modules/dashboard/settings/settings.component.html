@@ -1,0 +1,15 @@
+<div class="px-4 z-0">
+    <div class="pr-4 mx-4 max-h-screen overflow-contain sm:mx-8 xl:mx-auto">
+        <app-top-bar></app-top-bar>
+        <div class="grid grid-cols-6  pt-3">
+            <div class="overflow-hidden overscroll-none">
+                <app-left-bar></app-left-bar>
+            </div>
+            <div class="w-full col-span-5">
+                    <router-outlet></router-outlet>
+            </div>
+            
+        </div>
+    
+    </div>
+</div>

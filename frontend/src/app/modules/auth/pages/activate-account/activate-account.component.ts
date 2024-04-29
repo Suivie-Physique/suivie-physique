@@ -4,7 +4,7 @@ import {Router} from "@angular/router";
 import {CookieService} from "ngx-cookie-service";
 import { FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import {HttpClientModule} from "@angular/common/http";
-import { SharedModule } from 'src/app/shared/shared.module';
+import { SharedModule } from '../../../../shared/shared.module';
 import {CodeInputModule} from "angular-code-input";
 
 

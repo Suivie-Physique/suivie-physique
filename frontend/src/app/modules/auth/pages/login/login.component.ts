@@ -9,7 +9,7 @@ import {HttpClientModule} from "@angular/common/http";
 import {AuthenticationRequest} from "../../api/services/authentication-request";
 import {AuthenticationResponse} from "../../../../api/models/authentication-response";
 import {JwtTokenService} from "../../../../core/services/jwt-token.service";
-import { SharedModule } from 'src/app/shared/shared.module';
+import { SharedModule } from '../../../../shared/shared.module';
 
 @Component({
   selector: 'app-login',

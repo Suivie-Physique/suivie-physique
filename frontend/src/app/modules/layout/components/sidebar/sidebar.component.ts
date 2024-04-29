@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ThemeService } from 'src/app/core/services/theme.service';
+import { ThemeService } from '../../../../core/services/theme.service';
 import { MenuService } from '../../services/menu.service';
 import { RouterLink } from '@angular/router';
 import { SidebarMenuComponent } from './sidebar-menu/sidebar-menu.component';
