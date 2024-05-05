@@ -1,7 +1,9 @@
-package com.sp.auth.user;
+package com.sp.users.user;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.sp.auth.role.Role;
+import com.sp.auth.token.Token;
+import com.sp.gestion.leave.model.JourFerierDemande;
+import com.sp.users.role.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,6 +17,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.io.Serializable;
 import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.Collection;
@@ -46,7 +49,7 @@ import java.util.stream.Collectors;
 @Entity
 @Table(name = "_user")
 @EntityListeners(AuditingEntityListener.class)
-public class User implements UserDetails, Principal {
+public class User implements UserDetails, Principal, Serializable {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO,generator="native")
@@ -68,8 +71,17 @@ public class User implements UserDetails, Principal {
     private boolean enabled;
 
     // Many-to-Many relationship with Role
-    @ManyToMany(fetch = FetchType.EAGER)
-    private List<Role> roles;
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
+    // Many-to-One relationship with Token
+    @OneToMany(mappedBy = "user")
+    private List<Token> tokens;
+
+
+    // One-to-Many relationship with JourFeierDemande
+    @OneToMany(mappedBy = "user")
+    private List<JourFerierDemande> jourFerierDemandes;
 
     // Auditing
 
@@ -95,10 +107,7 @@ public class User implements UserDetails, Principal {
     // This method returns the roles of the user as a list of GrantedAuthority
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return this.roles
-                .stream()
-                .map(role -> new SimpleGrantedAuthority(role.getName()))
-                .collect(Collectors.toList());
+        return role.getAuthorities();
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.sp.auth.user;
+package com.sp.users.user;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

@@ -59,6 +59,35 @@ create table token
         foreign key (user_id) references _user (id)
 );
 
+-- partie paramétrage : jours fériés
+
+create table _jour_ferier_demande
+(
+    id                  bigint auto_increment
+        primary key,
+    created_date        datetime(6)  not null,
+    end_date            datetime(6)  null,
+    last_modified_date  datetime(6)  null,
+    start_date          datetime(6)  null,
+    status              varchar(255) null,
+    jour_ferier_type_id bigint       not null,
+    user_id             bigint       not null,
+    constraint FKjbs106ffk9poc7ybj9t5fsm0s
+        foreign key (user_id) references _user (id),
+    constraint FKk1dq9lkyh0muaqqsql3clxx5m
+        foreign key (jour_ferier_type_id) references _jour_ferier_type (id)
+);
+
+create table _jour_ferier_type
+(
+    id                 bigint auto_increment
+        primary key,
+    created_date       datetime(6)  not null,
+    description        varchar(255) null,
+    last_modified_date datetime(6)  null,
+    type               varchar(255) null
+);
+
 
 insert into _role (created_date, name) values (now(), 'USER');
 insert into _role (created_date, name) values (now(), 'ADMIN');

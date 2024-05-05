@@ -1,55 +1,73 @@
-package com.sp.auth.role;
+package com.sp.users.role;
 
-import com.sp.auth.user.User;
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.hibernate.annotations.GenericGenerator;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.time.LocalDateTime;
+import com.sp.users.permission.Permission;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
-/**
- * This class represents the Role entity.
- * This class has auditing fields.
- * This class has a Many to Many relationship with User.
- * This class has a unique name field.
- * This class has a unique id field.
- * This class has a unique createdDate field.
- * This class has a unique lastModifiedDate field.
- * This class has a unique users field.
- */
-@Data
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
-@Entity
-@Table(name = "_role")
-@EntityListeners(AuditingEntityListener.class)
-public class Role {
+import static com.sp.users.permission.Permission.*;
 
-    @Id
-    @GeneratedValue(strategy= GenerationType.AUTO,generator="native")
-    @GenericGenerator(name = "native",strategy = "native")
-    private Long id;
+@RequiredArgsConstructor
+public enum Role {
 
-    @Column(unique = true)
-    private String name;
+    USER(Set.of(
+            USER_READ,
+            EXPLOITANT_READ
+    )),
+    ADMIN(Set.of(
+            ADMIN_READ,
+            ADMIN_WRITE,
+            ADMIN_DELETE,
+            ADMIN_UPDATE,
+            EXPLOITANT_READ,
+            EXPLOITANT_WRITE,
+            EXPLOITANT_DELETE,
+            EXPLOITANT_UPDATE,
+            TRAIT_CHEQUE_READ,
+            TRAIT_CHEQUE_WRITE,
+            TRAIT_CHEQUE_DELETE,
+            TRAIT_CHEQUE_UPDATE,
+            TRAIT_EFFET_READ,
+            TRAIT_EFFET_WRITE,
+            TRAIT_EFFET_DELETE,
+            TRAIT_EFFET_UPDATE
+    )),
+    EXPLOITANT(Set.of(
+            EXPLOITANT_READ,
+            EXPLOITANT_WRITE,
+            EXPLOITANT_DELETE,
+            EXPLOITANT_UPDATE
+    )),
+    TRAIT_CHEQUE(Set.of(
+            TRAIT_CHEQUE_READ,
+            TRAIT_CHEQUE_WRITE,
+            TRAIT_CHEQUE_DELETE,
+            TRAIT_CHEQUE_UPDATE
+    )),
+    TRAIT_EFFET(Set.of(
+            TRAIT_EFFET_READ,
+            TRAIT_EFFET_WRITE,
+            TRAIT_EFFET_DELETE,
+            TRAIT_EFFET_UPDATE
+    ));
 
-    @ManyToMany(mappedBy = "roles")
-    private List<User> users;
+    @Getter
+    private final Set<Permission> permissions;
 
-    // Auditing
-    @CreatedDate
-    @Column(nullable = false, updatable = false)
-    private LocalDateTime createdDate;
+    public List<SimpleGrantedAuthority> getAuthorities() {
+        var authorities = permissions
+                .stream()
+                .map(permission -> new SimpleGrantedAuthority(permission.getPermission()))
+                .collect(Collectors.toList());
+        authorities.add(new SimpleGrantedAuthority("ROLE_" + this.name()));
+        return authorities;
+    }
 
-    @LastModifiedDate
-    @Column(insertable = false)
-    private LocalDateTime lastModifiedDate;
 }
