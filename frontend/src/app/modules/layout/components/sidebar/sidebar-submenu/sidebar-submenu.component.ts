@@ -8,7 +8,6 @@ import { NgClass, NgFor, NgTemplateOutlet } from '@angular/common';
 @Component({
     selector: 'app-sidebar-submenu',
     templateUrl: './sidebar-submenu.component.html',
-    styleUrls: ['./sidebar-submenu.component.scss'],
     standalone: true,
     imports: [
         NgClass,

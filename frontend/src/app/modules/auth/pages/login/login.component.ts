@@ -60,8 +60,6 @@ export class LoginComponent implements OnInit {
     const {email, password} = this.loginForm.value;
     this.model.email = email;
     this.model.password = password;
-
-    console.log(this.model);
     this.validateUser();
   }
   clearForm(): void {
@@ -80,7 +78,7 @@ export class LoginComponent implements OnInit {
       next: (responseData: AuthenticationResponse) => {
         // Set Local Storage to Authorization Jwt Token
         this.tokenService.token =  responseData.token as string;
-          this.router.navigate(['dashboard']);
+        this.router.navigate(['dashboard']);
       },
       error: (error) => {
         this.handleAlertOpen(true,'Invalid Credentials','Invalid email or password! Please try again.','red');

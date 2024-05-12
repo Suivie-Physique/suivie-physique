@@ -26,8 +26,15 @@ export class Setting{
         },
         {
             icon: null,
-            label: 'Archive',
-            route: 'archive',
+            label: 'Archivache',
+            route: 'archivache',
+            expanded: false,
+            active: false
+        },
+        {
+            icon: null,
+            label: 'Point de Capture',
+            route: 'point-capture',
             expanded: false,
             active: false
         },

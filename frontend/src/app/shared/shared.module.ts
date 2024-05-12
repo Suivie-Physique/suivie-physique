@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { InputComponent } from './components/input/input.component';
 import { AlertComponent } from './components/alert/alert.component';
-import {ReactiveFormsModule} from "@angular/forms";
+import {ReactiveFormsModule, FormsModule} from "@angular/forms";
 import {NgxMaskDirective, provideEnvironmentNgxMask} from "ngx-mask";
 import { LabelComponent } from './components/label/label.component';
 import { SelectComponent } from './components/select/select.component';
@@ -10,7 +10,7 @@ import { ModalComponent } from './components/modal/modal.component';
 import { CardCenterComponent } from './components/card-center/card-center.component';
 import { ButtonComponent } from './components/button/button.component';
 import { ToolTipComponent } from './components/tool-tip/tool-tip.component';
-
+import { CalendarModule } from 'primeng/calendar';
 
 
 @NgModule({
@@ -23,6 +23,7 @@ import { ToolTipComponent } from './components/tool-tip/tool-tip.component';
         CardCenterComponent,
         ButtonComponent,
         ToolTipComponent
+        
     ],
   exports: [
     InputComponent,
@@ -36,8 +37,10 @@ import { ToolTipComponent } from './components/tool-tip/tool-tip.component';
   ],
     imports: [
         CommonModule,
+        FormsModule,
         ReactiveFormsModule,
-        NgxMaskDirective
+        NgxMaskDirective,
+        CalendarModule
     ],
     providers: [
       provideEnvironmentNgxMask()

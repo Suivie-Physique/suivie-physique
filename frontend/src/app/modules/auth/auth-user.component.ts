@@ -1,7 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { RouterOutlet } from "@angular/router";
 
-
 @Component({
     selector: "app-auth-user",
     templateUrl: "./auth-user.component.html",
@@ -11,5 +10,7 @@ import { RouterOutlet } from "@angular/router";
 export class AuthUserComponent implements OnInit {
   constructor() {}
 
-  ngOnInit(): void {}
+ ngOnInit(): void {
+   
+ }
 }

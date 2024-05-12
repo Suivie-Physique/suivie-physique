@@ -114,7 +114,9 @@ module.exports = {
     extend: {},
     scrollbar: ['rounded', 'dark'],
   },
-    plugins: []
+    plugins: [
+      
+    ]
 }
 
 

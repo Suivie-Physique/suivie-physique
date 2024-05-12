@@ -8,11 +8,14 @@ import { RequestBuilder } from '../../request-builder';
 
 
 export interface ForgotPassword$Params {
+  email: string;
 }
 
-export function forgotPassword(http: HttpClient, rootUrl: string, params?: ForgotPassword$Params, context?: HttpContext): Observable<StrictHttpResponse<string>> {
+export function forgotPassword(http: HttpClient, rootUrl: string, params: ForgotPassword$Params, context?: HttpContext): Observable<StrictHttpResponse<{
+}>> {
   const rb = new RequestBuilder(rootUrl, forgotPassword.PATH, 'get');
   if (params) {
+    rb.query('email', params.email, {});
   }
 
   return http.request(
@@ -20,7 +23,8 @@ export function forgotPassword(http: HttpClient, rootUrl: string, params?: Forgo
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<string>;
+      return r as StrictHttpResponse<{
+      }>;
     })
   );
 }
