@@ -27,7 +27,7 @@ export class Setting{
         {
             icon: null,
             label: 'Archivache',
-            route: 'archivache',
+            route: 'archive',
             expanded: false,
             active: false
         },

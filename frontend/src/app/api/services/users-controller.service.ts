@@ -21,7 +21,10 @@ import { changeStatus } from '../fn/users-controller/change-status';
 import { ChangeStatus$Params } from '../fn/users-controller/change-status';
 import { getMembers } from '../fn/users-controller/get-members';
 import { GetMembers$Params } from '../fn/users-controller/get-members';
+import { getMembersStats } from '../fn/users-controller/get-members-stats';
+import { GetMembersStats$Params } from '../fn/users-controller/get-members-stats';
 import { MemberResponse } from '../models/member-response';
+import { MembersStatsResponse } from '../models/members-stats-response';
 
 @Injectable({ providedIn: 'root' })
 export class UsersControllerService extends BaseService {
@@ -196,6 +199,31 @@ export class UsersControllerService extends BaseService {
   getMembers(params?: GetMembers$Params, context?: HttpContext): Observable<Array<MemberResponse>> {
     return this.getMembers$Response(params, context).pipe(
       map((r: StrictHttpResponse<Array<MemberResponse>>): Array<MemberResponse> => r.body)
+    );
+  }
+
+  /** Path part for operation `getMembersStats()` */
+  static readonly GetMembersStatsPath = '/users/members-stats';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `getMembersStats()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getMembersStats$Response(params?: GetMembersStats$Params, context?: HttpContext): Observable<StrictHttpResponse<MembersStatsResponse>> {
+    return getMembersStats(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `getMembersStats$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getMembersStats(params?: GetMembersStats$Params, context?: HttpContext): Observable<MembersStatsResponse> {
+    return this.getMembersStats$Response(params, context).pipe(
+      map((r: StrictHttpResponse<MembersStatsResponse>): MembersStatsResponse => r.body)
     );
   }
 

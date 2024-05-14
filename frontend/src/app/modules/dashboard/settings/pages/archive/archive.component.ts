@@ -5,8 +5,8 @@ import { CommonModule } from '@angular/common';
   selector: 'app-archive',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './archivache.component.html'
+  templateUrl: './archive.component.html'
 })
-export class ArchivacheComponent {
+export class ArchiveComponent {
 
 }

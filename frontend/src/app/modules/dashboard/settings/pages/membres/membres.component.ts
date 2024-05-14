@@ -2,13 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgFor, NgIf } from '@angular/common';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
-import { User } from '../../../../../core/model/user.model';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
 import { SharedModule } from '../../../../../shared/shared.module';
 import { UsersControllerService } from '../../../../../api/services';
 import { Modal } from '../../../../../core/constants/modal';
 import { DashboardService } from 'app/core/services/dashboard.service';
+
 import { AgGridAngular } from 'ag-grid-angular';
 import { ColDef, ColGroupDef, ValueGetterParams, RowClassParams } from 'ag-grid-community';
 import { ShowMemberButtonComponent } from './show.membre.component';
@@ -16,7 +16,7 @@ import { ShowModalService } from '../../services/show.modal.service';
 import { Subscription } from 'rxjs';
 import { Member } from '../../../../dashboard/models/membre.model';
 import { MemberResponse } from '../../../../../api/models/member-response';
-
+import { MembersStatsResponse } from 'app/api/models';
 import { Role } from '../../../../../core/constants/roles';
 import { ChangeMemberRequest, ChangeRoleRequest } from 'app/api/models';
 
@@ -32,9 +32,7 @@ export class MembresComponent implements OnInit {
   membres!: Member[];
   roles: string[] = Role.roles;
 
-  statuses!: any[];
   loading: boolean = false;
-  activityValues: number[] = [0, 100];
   isChange: boolean = false;
   isLoading: boolean = false;
   containerMesures: {[klass: string]: string | any} = {};
@@ -59,6 +57,12 @@ export class MembresComponent implements OnInit {
   
   modifyMemberForm: FormGroup = new FormGroup({});
   changeMemberRequest : ChangeMemberRequest = {email: '', newRole: '', newStatus: false};
+  membersStats: MembersStatsResponse = {
+    totalActiveMembers: 0,
+    totalMembers: 0,
+    totalMembersConnected: 0,
+    totalRoles: 0
+  }
   
   // Column Definitions: Defines the columns to be displayed.
   columnDefs: (ColDef<any, any> | ColGroupDef<any>)[] = [
@@ -128,8 +132,11 @@ export class MembresComponent implements OnInit {
 
   ngOnInit(): void {
     this.containerMesures = this.dashboardService.getSettingsPageContainerMesures();
+    this.loadMembresStats();
     this.refreshGrid();
   }
+
+
 
   refreshGrid() {
     this.usersControllerService
@@ -186,6 +193,19 @@ export class MembresComponent implements OnInit {
       }
     });
 
+  }
+
+  loadMembresStats(){
+    this.usersControllerService
+    .getMembersStats()
+    .subscribe({
+      next: (response: MembersStatsResponse) => {
+        this.membersStats = response;
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    });
   }
 
   

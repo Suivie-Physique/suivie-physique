@@ -6,6 +6,7 @@ import { ApiConfiguration, ApiConfigurationParams } from './api-configuration';
 
 import { TestControllerService } from './services/test-controller.service';
 import { AdminControllerService } from './services/admin-controller.service';
+import { PointCaptureControllerService } from './services/point-capture-controller.service';
 import { JourFerierControllerService } from './services/jour-ferier-controller.service';
 import { AuthenticationService } from './services/authentication.service';
 import { UsersControllerService } from './services/users-controller.service';
@@ -20,6 +21,7 @@ import { UsersControllerService } from './services/users-controller.service';
   providers: [
     TestControllerService,
     AdminControllerService,
+    PointCaptureControllerService,
     JourFerierControllerService,
     AuthenticationService,
     UsersControllerService,
