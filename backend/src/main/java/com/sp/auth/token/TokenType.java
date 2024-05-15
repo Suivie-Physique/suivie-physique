@@ -5,8 +5,9 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public enum TokenType {
-    BEARER("Bearer"),
-    TWO_FACTOR("TwoFactor");
+    BEARER("BEARER"),
+    TWO_FACTOR("TWO_FACTOR"),
+    FORGOT_PASSWORD("FORGOT_PASSWORD");
 
     @Getter
     private final String tokenType;

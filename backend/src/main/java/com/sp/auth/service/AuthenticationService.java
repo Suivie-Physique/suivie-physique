@@ -3,6 +3,7 @@ package com.sp.auth.service;
 import com.sp.auth.schema.AuthenticationRequest;
 import com.sp.auth.schema.AuthenticationResponse;
 import com.sp.auth.schema.RegisterRequest;
+import com.sp.auth.schema.ResetPasswordRequest;
 import com.sp.auth.token.*;
 import com.sp.users.role.Role;
 import com.sp.users.user.UserRepository;
@@ -108,6 +109,30 @@ public class AuthenticationService {
         tokenRepository.save(activationTwoFactorToken);
     }
 
+
+
+    public void resetPassword(ResetPasswordRequest request) throws MessagingException {
+      // Reset Password
+      Token forgotPasswordToken = tokenRepository
+              .findByToken(request.getToken())
+              .orElseThrow(() -> new RuntimeException("ForgotPasswordToken not found or Invalid"));
+
+      if (LocalDateTime.now().isAfter(forgotPasswordToken.getExpiresAt())) {
+          sendForgotPasswordMail(request.getEmail());
+          throw new RuntimeException("Forgot password token has expired. new token has been sent to " + request.getEmail());
+      }
+
+        var user = userRepository.findByEmail(request.getEmail())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        forgotPasswordToken.setValidatedAt(LocalDateTime.now());
+        tokenRepository.save(forgotPasswordToken);
+
+        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+        user.setResetPassword(true);
+        userRepository.save(user);
+    }
+
     private void revokeAllUserTokens(User user){
         var validUserTokens = tokenRepository.findAllValidTokensByUserId(user.getId());
         if (validUserTokens.isEmpty()) {
@@ -120,12 +145,28 @@ public class AuthenticationService {
         tokenRepository.saveAll(validUserTokens);
     }
 
-    public void resendActivationEmail(String email) throws MessagingException {
+    public void resendActivationMail(String email) throws MessagingException {
         // Resend activation email
         var user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         sendValidationMail(user);
+    }
+
+    public void sendForgotPasswordMail(String email) throws MessagingException {
+        var user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        var newToken = generateAndSaveForgotPasswordToken(user.getEmail());
+        // Send forgot password email
+        emailService.sendEmail(
+                EmailTemplateName.FORGOT_PASSWORD,
+                user.getEmail(),
+                user.fullName(),
+                EmailTemplateName.FORGOT_PASSWORD.name(),
+                activationUrl,
+                newToken
+        );
     }
 
     private void sendValidationMail(User user) throws MessagingException {
@@ -156,7 +197,25 @@ public class AuthenticationService {
 
         tokenRepository.save(token);
         return generatedToken;
+    }
 
+    public String generateAndSaveForgotPasswordToken(String email){
+        // Send forgot password token
+        var user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        String generatedToken = generateActivationToken(6);
+        var token = Token
+                .builder()
+                .token(generatedToken)
+                .tokenType(TokenType.FORGOT_PASSWORD)
+                .user(user)
+                .createdAt(LocalDateTime.now())
+                .expiresAt(LocalDateTime.now().plusMinutes(15))
+                .build();
+
+        tokenRepository.save(token);
+        return generatedToken;
     }
 
     private String generateActivationToken(int length){

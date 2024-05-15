@@ -40,6 +40,7 @@ public class Token {
     @JoinColumn(name = "userId", nullable = false)
     private User user;
 
+    @Column(nullable = false)
     private LocalDateTime createdAt;
 
     @Column(nullable = true)

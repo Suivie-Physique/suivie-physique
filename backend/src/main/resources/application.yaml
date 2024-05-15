@@ -63,5 +63,15 @@ server:
   port: 3008
   servlet:
     context-path: /api/v1/
+  error:
+    include-stacktrace: always
+    include-message: always
+    include-binding-errors: always
 springdoc:
   default-produces-media-type: application/json
+logging:
+  level:
+    org:
+      springframework:
+        web: DEBUG
+        security: DEBUG

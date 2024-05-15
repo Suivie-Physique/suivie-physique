@@ -70,6 +70,8 @@ public class User implements UserDetails, Principal, Serializable {
 
     private boolean enabled;
 
+    private boolean resetPassword;
+
     // Many-to-Many relationship with Role
     @Enumerated(EnumType.STRING)
     private Role role;
@@ -80,7 +82,7 @@ public class User implements UserDetails, Principal, Serializable {
 
 
     // One-to-Many relationship with JourFeierDemande
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<JourFerierDemande> jourFerierDemandes;
 
     // Auditing

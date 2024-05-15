@@ -1,7 +1,8 @@
 package com.sp.users.service;
 
-import com.sp.users.schema.ChangeEmailRequest;
-import com.sp.users.schema.ChangePasswordRequest;
+import com.sp.auth.token.TokenType;
+import com.sp.users.role.Role;
+import com.sp.users.schema.*;
 import com.sp.users.user.User;
 import com.sp.users.user.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -10,7 +11,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.stereotype.Service;
 
+import java.security.Permission;
 import java.security.Principal;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static com.sp.auth.token.TokenType.BEARER;
+
 
 @Service
 @RequiredArgsConstructor
@@ -18,6 +25,80 @@ public class UsersService {
 
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
+
+
+
+
+    public List<MemberResponse> getMembers(Principal connectedUser) {
+        var activeUser = (User) ((UsernamePasswordAuthenticationToken) connectedUser).getPrincipal();
+
+        return userRepository
+                .findUsersNotWithId(activeUser.getId())
+                .stream()
+                .map(user -> {
+                            var lastConnected = user.getTokens()
+                                    .stream()
+                                    .filter(token -> !token.isRevoked() && !token.isExpired() && token.getTokenType().equals(BEARER))
+                                    .findFirst();
+                            if (lastConnected.isPresent()) {
+                                return MemberResponse.builder()
+                                        .fullName(user.fullName())
+                                        .email(user.getEmail())
+                                        .role(user.getRole().name())
+                                        .enabled(user.isEnabled())
+                                        .accountLocked(user.isAccountLocked())
+                                        .last_connected(lastConnected.get().getCreatedAt().toString())
+                                        .build();
+                            }
+                            return MemberResponse.builder()
+                                    .fullName(user.fullName())
+                                    .email(user.getEmail())
+                                    .role(user.getRole().name())
+                                    .enabled(user.isEnabled())
+                                    .accountLocked(user.isAccountLocked())
+                                    .last_connected("Never connected").build();
+
+                        }
+                ).collect(Collectors.toList());
+    }
+
+
+    public void changeMember(ChangeMemberRequest request, Principal connectedUser) {
+
+        var user = (User) ((UsernamePasswordAuthenticationToken) connectedUser).getPrincipal();
+
+        var targetUser = userRepository.findByEmail(request.getEmail())
+                .orElseThrow(() -> new IllegalStateException("User not found"));
+        Role newRole = Role.valueOf(request.getNewRole());
+        targetUser.setRole(newRole);
+        targetUser.setAccountLocked(request.isNewStatus());
+        userRepository.save(targetUser);
+    }
+
+
+    public void changeStatus(ChangeStatusRequest request, Principal connectedUser) {
+
+        var user = (User) ((UsernamePasswordAuthenticationToken) connectedUser).getPrincipal();
+
+        var targetUser = userRepository.findByEmail(request.getEmail())
+                .orElseThrow(() -> new IllegalStateException("User not found"));
+
+        targetUser.setAccountLocked(request.isNewStatus());
+        userRepository.save(targetUser);
+    }
+
+    public void changeRole(ChangeRoleRequest request, Principal connectedUser) {
+
+        var user = (User) ((UsernamePasswordAuthenticationToken) connectedUser).getPrincipal();
+
+        var targetUser = userRepository.findByEmail(request.getEmail())
+                .orElseThrow(() -> new IllegalStateException("User not found"));
+
+        Role newRole = Role.valueOf(request.getNewRole());
+        targetUser.setRole(newRole);
+        userRepository.save(targetUser);
+    }
+
 
     public void changePassword(ChangePasswordRequest request, Principal connectedUser) {
 
@@ -52,5 +133,18 @@ public class UsersService {
         user.setEmail(request.getNewEmail());
         userRepository.save(user);
     }
+
+    public MembersStatsResponse getMembersStats() {
+
+
+        return MembersStatsResponse.builder()
+                .totalMembers(userRepository.findUsersCount())
+                .totalActiveMembers(userRepository.findUsersNotLockedCount())
+                .totalRoles(userRepository.findUniqueRolesCount())
+                .totalMembersConnected(userRepository.findUsersWithBearerTokenCount())
+                .build();
+    }
+
+
 
 }

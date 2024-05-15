@@ -8,6 +8,6 @@ import java.util.List;
 
 @Data
 @Builder
-public class PointsCaptureAllResponse {
-    private List<PointCaptureResponse> pointsCapture;
+public class CircuitAllResponse {
+    private List<CircuitResponse> circuits;
 }

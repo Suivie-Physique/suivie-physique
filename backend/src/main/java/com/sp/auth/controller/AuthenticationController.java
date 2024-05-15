@@ -3,6 +3,7 @@ package com.sp.auth.controller;
 import com.sp.auth.schema.AuthenticationRequest;
 import com.sp.auth.schema.AuthenticationResponse;
 import com.sp.auth.schema.RegisterRequest;
+import com.sp.auth.schema.ResetPasswordRequest;
 import com.sp.auth.service.AuthenticationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -65,23 +66,31 @@ public class AuthenticationController {
         return ResponseEntity.ok().build();
     }
 
+    @PostMapping("/resetPassword")
+    public ResponseEntity<?> resetPassword(
+            @RequestBody @Valid ResetPasswordRequest request
+    ) throws MessagingException {
+        service.resetPassword(request);
+        return ResponseEntity.ok().build();
+    }
+
     @GetMapping("/resend-activation-email")
     public ResponseEntity<?> resendActivationEmail(
             @RequestParam String email
     ) throws MessagingException {
-        service.resendActivationEmail(email);
+        service.resendActivationMail(email);
         return ResponseEntity.ok().build();
     }
 
-    @RequestMapping("/forgotPassword")
-    public String forgotPassword() {
-        return "forgotPassword";
+    @GetMapping("/forgotPassword")
+    public ResponseEntity<?> forgotPassword(
+            @RequestParam String email
+    ) throws MessagingException {
+        service.sendForgotPasswordMail(email);
+        return ResponseEntity.ok().build();
     }
 
-    @RequestMapping("/resetPassword")
-    public String resetPassword() {
-        return "resetPassword";
-    }
+
 
     @RequestMapping("/logout")
     public String logout(

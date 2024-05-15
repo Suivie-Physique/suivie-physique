@@ -72,6 +72,7 @@ create table _jour_ferier_demande
     status              varchar(255) null,
     jour_ferier_type_id bigint       not null,
     user_id             bigint       not null,
+    title               varchar(255) null,
     constraint FKjbs106ffk9poc7ybj9t5fsm0s
         foreign key (user_id) references _user (id),
     constraint FKk1dq9lkyh0muaqqsql3clxx5m
@@ -87,6 +88,32 @@ create table _jour_ferier_type
     last_modified_date datetime(6)  null,
     type               varchar(255) null
 );
+
+
+CREATE TABLE Lecteur
+(
+    id       INT PRIMARY KEY,
+    Lecteur  VARCHAR(5) NULL
+);
+
+CREATE TABLE Circuit
+(
+    id       INT PRIMARY KEY,
+    Circuit  TEXT NULL
+);
+
+CREATE TABLE points_de_capture
+(
+    id_Lecteur     INT,
+    Libellet       TEXT,
+    Type           CHAR(2) DEFAULT 'AG',
+    id_Circuit     INT,
+    Secteur        TEXT,
+    Client_banque  CHAR(3),
+    FOREIGN KEY (id_Lecteur) REFERENCES Lecteur(id),
+    FOREIGN KEY (id_Circuit) REFERENCES Circuit(id)
+);
+
 
 
 insert into _role (created_date, name) values (now(), 'USER');

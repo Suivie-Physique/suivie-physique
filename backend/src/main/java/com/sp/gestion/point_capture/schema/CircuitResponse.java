@@ -1,11 +1,12 @@
 package com.sp.gestion.point_capture.schema;
 
+
 import lombok.Builder;
 import lombok.Data;
 
-@Builder
 @Data
-public class CircuitRequest {
+@Builder
+public class CircuitResponse {
     private String libelle;
     private String code;
     private String description;
