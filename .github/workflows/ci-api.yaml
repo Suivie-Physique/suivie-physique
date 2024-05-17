@@ -93,7 +93,8 @@ jobs:
       - name: Upload result to GitHub Code Scanning
         uses: github/codeql-action/upload-sarif@v3
         with:
-          sarif_file: ./snyk.sarif
+          file: .
+          sarif: true
 
   coverage:
     name: Code Coverage Suivie Physique API
