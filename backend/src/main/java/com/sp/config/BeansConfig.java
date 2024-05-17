@@ -13,6 +13,8 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.csrf.CsrfTokenRepository;
+import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
@@ -72,11 +74,17 @@ public class BeansConfig {
         config.setAllowCredentials(allowCredentials);
         config.setAllowedOrigins(Arrays.asList("*"));
         config.setAllowedHeaders(Arrays.asList("*"));
+        config.setExposedHeaders(Collections.singletonList("Authorization"));
         config.setAllowedMethods(Arrays.asList("*"));
         config.setMaxAge(maxAge);
 
         source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);
 
+    }
+
+    @Bean
+    public CsrfTokenRepository csrfTokenRepository(){
+        return new HttpSessionCsrfTokenRepository();
     }
 }
