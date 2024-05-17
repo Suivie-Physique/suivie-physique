@@ -3,15 +3,20 @@ package com.sp.auth.controller;
 import com.sp.auth.schema.AuthenticationRequest;
 import com.sp.auth.schema.AuthenticationResponse;
 import com.sp.auth.schema.RegisterRequest;
+import com.sp.auth.schema.ResetPasswordRequest;
 import com.sp.auth.service.AuthenticationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.mail.MessagingException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -22,6 +27,7 @@ import org.springframework.web.bind.annotation.*;
 public class AuthenticationController {
 
     private final AuthenticationService service;
+    private final LogoutHandler logoutHandler;
 
     @Operation(
             summary = "Register a new user",
@@ -60,29 +66,40 @@ public class AuthenticationController {
         return ResponseEntity.ok().build();
     }
 
+    @PostMapping("/resetPassword")
+    public ResponseEntity<?> resetPassword(
+            @RequestBody @Valid ResetPasswordRequest request
+    ) throws MessagingException {
+        service.resetPassword(request);
+        return ResponseEntity.ok().build();
+    }
+
     @GetMapping("/resend-activation-email")
     public ResponseEntity<?> resendActivationEmail(
             @RequestParam String email
     ) throws MessagingException {
-        service.resendActivationEmail(email);
+        service.resendActivationMail(email);
         return ResponseEntity.ok().build();
     }
 
-    // Don't forget to add the following paths to JwtAuthenticationFilter.java
-
-    @RequestMapping("/forgotPassword")
-    public String forgotPassword() {
-        return "forgotPassword";
+    @GetMapping("/forgotPassword")
+    public ResponseEntity<?> forgotPassword(
+            @RequestParam String email
+    ) throws MessagingException {
+        service.sendForgotPasswordMail(email);
+        return ResponseEntity.ok().build();
     }
 
-    @RequestMapping("/resetPassword")
-    public String resetPassword() {
-        return "resetPassword";
-    }
+
 
     @RequestMapping("/logout")
-    public String logout() {
-        return "logout";
+    public String logout(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            Authentication authentication
+    ) {
+        this.logoutHandler.logout(request, response, authentication);
+        return "logout successful ..";
     }
 
 }

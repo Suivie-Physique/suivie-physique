@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { MenuService } from 'src/app/modules/layout/services/menu.service';
+import { MenuService } from '../../../../services/menu.service';
 import { SubMenuItem } from '../../../../../../core/model/menu.model';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 import { RouterLinkActive, RouterLink } from '@angular/router';

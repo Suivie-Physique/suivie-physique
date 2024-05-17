@@ -7,35 +7,45 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDateTime;
 
-/**
- * This Token Doesn't represent JWT Token, it represents the token that is sent to the user's email for verification.
- * This token is stored in the database.
- * Keep in mind that this token has an expiration time.
- * This token is associated with a user.
- * example of a token: 123456
- */
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Table(name = "_token")
 public class Token {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO,generator="native")
     @GenericGenerator(name = "native",strategy = "native")
     private Long id;
 
+    @Column(columnDefinition = "LONGTEXT", nullable = false)
     private String token;
 
-    private LocalDateTime createdAt;
-    private LocalDateTime expiresAt;
-    private LocalDateTime validatedAt;
+    @Enumerated(EnumType.STRING)
+    private TokenType tokenType;
 
-    // This token is associated with a user
+    @Column(nullable = true)
+    private boolean expired;
+
+    @Column(nullable = true)
+    private boolean revoked;
+
     @ManyToOne
     @JoinColumn(name = "userId", nullable = false)
     private User user;
+
+    @Column(nullable = false)
+    private LocalDateTime createdAt;
+
+    @Column(nullable = true)
+    private LocalDateTime expiresAt;
+
+    @Column(nullable = true)
+    private LocalDateTime validatedAt;
 }

@@ -3,13 +3,13 @@ package com.sp.auth.service;
 import com.sp.auth.schema.AuthenticationRequest;
 import com.sp.auth.schema.AuthenticationResponse;
 import com.sp.auth.schema.RegisterRequest;
-import com.sp.users.role.RoleRepository;
-import com.sp.auth.token.Token;
-import com.sp.auth.token.TokenRepository;
-import com.sp.users.user.User;
+import com.sp.auth.schema.ResetPasswordRequest;
+import com.sp.auth.token.*;
+import com.sp.users.role.Role;
 import com.sp.users.user.UserRepository;
 import com.sp.mail.config.EmailTemplateName;
 import com.sp.mail.service.MailService;
+import com.sp.users.user.User;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,13 +21,12 @@ import org.springframework.stereotype.Service;
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
 import java.util.HashMap;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
     // Repositories
-    private final RoleRepository roleRepository;
+//    private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final TokenRepository tokenRepository;
@@ -41,10 +40,6 @@ public class AuthenticationService {
     private String activationUrl;
 
     public void register(RegisterRequest request) throws MessagingException {
-        // Register the user
-        var userRole = roleRepository
-                .findByName("USER")
-                .orElseThrow(() -> new IllegalStateException("Role not found"));
 
         var user = User
                 .builder()
@@ -52,7 +47,7 @@ public class AuthenticationService {
                 .password(passwordEncoder.encode(request.getPassword()))
                 .firstName(request.getFirstName())
                 .lastName(request.getLastName())
-                .roles(List.of(userRole))
+                .role(Role.ADMIN)
                 .accountLocked(false)
                 .enabled(false)
                 .build();
@@ -70,9 +65,24 @@ public class AuthenticationService {
         var claims = new HashMap<String, Object>();
         var user = (User) authentication.getPrincipal();
         claims.put("fullName", user.fullName());
+        // Revoke all user tokens
+        revokeAllUserTokens(user);
 
+        // Generate a new valid token
         var jwtToken = jwtService.generateToken(claims, user);
+        var token = Token.builder()
+                .token(jwtToken)
+                .tokenType(TokenType.BEARER)
+                .revoked(false)
+                .expired(false)
+                .createdAt(LocalDateTime.now())
+                .validatedAt(LocalDateTime.now())
+                .user(user)
+                .build();
 
+        tokenRepository.save(token);
+
+        // Return the token
         return AuthenticationResponse
                 .builder()
                 .token(jwtToken)
@@ -81,30 +91,82 @@ public class AuthenticationService {
 
     public void activateAccount(String token) throws MessagingException {
         // Activate the user account
-        Token activationToken = tokenRepository
+        Token activationTwoFactorToken = tokenRepository
                 .findByToken(token)
-                .orElseThrow(() -> new RuntimeException("Token not found or Invalid"));
+                .orElseThrow(() -> new RuntimeException("TwoFactorToken not found or Invalid"));
 
-        if (LocalDateTime.now().isAfter(activationToken.getExpiresAt())) {
-            sendValidationMail(activationToken.getUser());
-            throw new RuntimeException("Activation token has expired. new token has been sent to " + activationToken.getUser().getEmail());
+        if (LocalDateTime.now().isAfter(activationTwoFactorToken.getExpiresAt())) {
+            sendValidationMail(activationTwoFactorToken.getUser());
+            throw new RuntimeException("Activation token has expired. new token has been sent to " + activationTwoFactorToken.getUser().getEmail());
         }
 
-        var user = userRepository.findById(activationToken.getUser().getId())
+        var user = userRepository.findById(activationTwoFactorToken.getUser().getId())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         user.setEnabled(true);
         userRepository.save(user);
-        activationToken.setValidatedAt(LocalDateTime.now());
-        tokenRepository.save(activationToken);
+        activationTwoFactorToken.setValidatedAt(LocalDateTime.now());
+        tokenRepository.save(activationTwoFactorToken);
     }
 
-    public void resendActivationEmail(String email) throws MessagingException {
+
+
+    public void resetPassword(ResetPasswordRequest request) throws MessagingException {
+      // Reset Password
+      Token forgotPasswordToken = tokenRepository
+              .findByToken(request.getToken())
+              .orElseThrow(() -> new RuntimeException("ForgotPasswordToken not found or Invalid"));
+
+      if (LocalDateTime.now().isAfter(forgotPasswordToken.getExpiresAt())) {
+          sendForgotPasswordMail(request.getEmail());
+          throw new RuntimeException("Forgot password token has expired. new token has been sent to " + request.getEmail());
+      }
+
+        var user = userRepository.findByEmail(request.getEmail())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        forgotPasswordToken.setValidatedAt(LocalDateTime.now());
+        tokenRepository.save(forgotPasswordToken);
+
+        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+        user.setResetPassword(true);
+        userRepository.save(user);
+    }
+
+    private void revokeAllUserTokens(User user){
+        var validUserTokens = tokenRepository.findAllValidTokensByUserId(user.getId());
+        if (validUserTokens.isEmpty()) {
+            return;
+        }
+        validUserTokens.forEach(token -> {
+            token.setRevoked(true);
+            token.setExpired(true);
+        });
+        tokenRepository.saveAll(validUserTokens);
+    }
+
+    public void resendActivationMail(String email) throws MessagingException {
         // Resend activation email
         var user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         sendValidationMail(user);
+    }
+
+    public void sendForgotPasswordMail(String email) throws MessagingException {
+        var user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        var newToken = generateAndSaveForgotPasswordToken(user.getEmail());
+        // Send forgot password email
+        emailService.sendEmail(
+                EmailTemplateName.FORGOT_PASSWORD,
+                user.getEmail(),
+                user.fullName(),
+                EmailTemplateName.FORGOT_PASSWORD.name(),
+                activationUrl,
+                newToken
+        );
     }
 
     private void sendValidationMail(User user) throws MessagingException {
@@ -127,6 +189,7 @@ public class AuthenticationService {
         var token = Token
                 .builder()
                 .token(generatedToken)
+                .tokenType(TokenType.TWO_FACTOR)
                 .user(user)
                 .createdAt(LocalDateTime.now())
                 .expiresAt(LocalDateTime.now().plusMinutes(15))
@@ -134,7 +197,25 @@ public class AuthenticationService {
 
         tokenRepository.save(token);
         return generatedToken;
+    }
 
+    public String generateAndSaveForgotPasswordToken(String email){
+        // Send forgot password token
+        var user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        String generatedToken = generateActivationToken(6);
+        var token = Token
+                .builder()
+                .token(generatedToken)
+                .tokenType(TokenType.FORGOT_PASSWORD)
+                .user(user)
+                .createdAt(LocalDateTime.now())
+                .expiresAt(LocalDateTime.now().plusMinutes(15))
+                .build();
+
+        tokenRepository.save(token);
+        return generatedToken;
     }
 
     private String generateActivationToken(int length){

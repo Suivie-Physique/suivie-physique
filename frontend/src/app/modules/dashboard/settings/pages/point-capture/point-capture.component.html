@@ -1,0 +1,188 @@
+<app-modal [title]="this.modal.alertTitle" [message]="this.modal.alertMessage" [color]="this.modal.alertColor" [showModal]="this.modal.showModal" ></app-modal>
+<div *ngIf="showAddPointCaptureModal"
+  class="absolute z-10 " aria-labelledby="modal-title" role="dialog" aria-modal="true">    
+  <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+  <div class="relative p-4 w-full max-w-md max-h-full">
+        <!-- Modal content -->
+        <div class="relative top-1/2 left-1/2 bg-white rounded-lg shadow dark:bg-gray-700">
+            <!-- Modal header -->
+            <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600 ">
+                <h3 class="text-lg font-semibold text-gray-700 dark:text-white">
+                    Point de Capture
+                </h3>
+                <button type="button" (click)="toggleAddPointCaptureModal()" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="crud-modal">
+                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                    </svg>
+                    <span class="sr-only">Close modal</span>
+                </button>
+            </div>
+            <!-- Modal body -->
+            <form  class="p-4 md:p-5" [formGroup]="addPointCaptureForm" (ngSubmit)="addPointCapture()">
+                <div class="grid gap-4 mb-4 grid-cols-2">
+                    <div class="col-span-1">
+                        <label for="libelle" class="block mb-2 text-sm font-medium text-gray-700 dark:text-white">Libelle</label>
+                        <input [formControl]="controlsAddPointCapture['libelle']" type="text" name="libelle" id="libelle"  placeholder="Libelle point de capture" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                    </div>
+                    <div class="col-span-1">
+                        <label for="secteur" class="block mb-2 text-sm font-medium text-gray-700 dark:text-white">Secteur</label>
+                        <input [formControl]="controlsAddPointCapture['secteur']" type="text" name="secteur" id="secteur"  placeholder="Adresse point de capture" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                    </div>
+                    <div class="col-span-1">
+                        <label for="client" class="block mb-2 text-sm font-medium text-gray-700 dark:text-white">Client Banque</label>
+                        <input [formControl]="controlsAddPointCapture['clientBanque']" type="text" name="client" id="client"  placeholder="Client banque" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                    </div>
+                    <div class="col-span-1">
+                        <label for="type" class="block mb-2 text-sm font-medium text-gray-700 dark:text-white">Type</label>
+                        <select [formControl]="controlsAddPointCapture['type']" name="type" id="type"  placeholder="Type point de capture" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                            <option *ngFor="let type of types; let i = index; " [value]="type">{{type}}</option>
+                            
+                        </select>
+                        <!-- <input [formControl]="controlsAddPointCapture['type']" type="text" name="type" id="type"  placeholder="Type point de capture" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"> -->
+                    </div>
+                    <div class="col-span-1">
+                        <label for="lecteur" class="block mb-2 text-sm font-medium text-gray-700 dark:text-white">Lecteur</label>
+                        <input [formControl]="controlsAddPointCapture['lecteur']" type="text" name="lecteur" id="lecteur"  placeholder="Lecteur point de capture" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                    </div>
+                    <div class="col-span-1">
+                        <label for="circuit" class="block mb-2 text-sm font-medium text-gray-700 dark:text-white">Circuit</label>
+                        <select [formControl]="controlsAddPointCapture['circuit']" name="circuit" id="circuit"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                            <option *ngFor="let circuit of circuits; let i = index; " [value]="circuit">{{circuit}}</option>
+                            
+                        </select>
+                    
+                    </div>
+                    <div class="col-span-1">
+                        <label for="status" class="block mb-2 text-sm font-medium text-gray-700 dark:text-white">Status</label>
+                        <input [formControl]="controlsAddPointCapture['status']" type="checkbox" name="status" id="status"  placeholder="Status point de capture" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                    </div>
+                    <button
+                    type="submit"
+                    [disabled]="addPointCaptureForm.invalid"
+                    class=" col-span-2 flex items-center justify-center gap-2 px-2 h-8 mt-2 me-3 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white cursor-pointer disabled:opacity-35 disabled:cursor-not-allowed disabled:hover:bg-gray-100 disabled:text-gray-500 disabled:border-gray-300 disabled:hover:text-gray-500 disabled:hover:border-gray-300"
+                    >
+                    Sauvgarder
+                    <i class="pi pi-check" style="font-size: 0.8rem;"></i>
+                </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div> 
+
+<div *ngIf="showAddCircuitModal"
+  class="absolute z-10 " aria-labelledby="modal-title" role="dialog" aria-modal="true">    
+  <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+  <div class="relative p-4 w-full max-w-md max-h-full">
+        <!-- Modal content -->
+        <div class="relative top-1/2 left-1/2 bg-white rounded-lg shadow dark:bg-gray-700">
+            <!-- Modal header -->
+            <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600 ">
+                <h3 class="text-lg font-semibold text-gray-700 dark:text-white">
+                    Circuit d'agences
+                </h3>
+                <button type="button" (click)="toggleAddCircuitModal()" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="crud-modal">
+                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                    </svg>
+                    <span class="sr-only">Close modal</span>
+                </button>
+            </div>
+            <!-- Modal body -->
+            <form  class="p-4 md:p-5" [formGroup]="addCircuitForm" (ngSubmit)="addCircuit()">
+                <div class="grid gap-4 mb-4 grid-cols-2">
+                    <div class="col-span-1">
+                        <label for="code" class="block mb-2 text-sm font-medium text-gray-700 dark:text-white">Code Circuit</label>
+                        <input [formControl]="controlsAddCircuit['code']" type="text" name="code" id="code"  placeholder="C101" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                    </div>
+                    <div class="col-span-1">
+                        <label for="libelle" class="block mb-2 text-sm font-medium text-gray-700 dark:text-white">Libelle</label>
+                        <input [formControl]="controlsAddCircuit['libelle']" type="text" name="libelle" id="libelle"  placeholder="Circuit 101" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                    </div>
+                    <div class="col-span-1">
+                        <label for="description" class="block mb-2 text-sm font-medium text-gray-700 dark:text-white">Description</label>
+                        <input [formControl]="controlsAddCircuit['description']" type="text" name="description" id="description"  placeholder="Description circuit" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                    </div>
+                    <div class="col-span-1">
+                        <label for="point-depart" class="block mb-2 text-sm font-medium text-gray-700 dark:text-white">Point Départ</label>
+                        <input [formControl]="controlsAddCircuit['depart']" type="text" name="point-depart" id="point-depart"  placeholder="Agence de départ" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                    </div>
+                    <div class="col-span-1">
+                        <label for="point-arrivee" class="block mb-2 text-sm font-medium text-gray-700 dark:text-white">Point Arrivée</label>
+                        <input [formControl]="controlsAddCircuit['arrivee']" type="text" name="point-arrivee" id="point-arrivee"  placeholder="Agence d'arrivée" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                    </div>
+                    <div class="col-span-1">
+                        <label for="distance" class="block mb-2 text-sm font-medium text-gray-700 dark:text-white">Distance Circuit</label>
+                        <input [formControl]="controlsAddCircuit['distance']" type="text" name="distance" id="distance"  placeholder="Distance" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                    </div>
+                    <div class="col-span-1">
+                        <label for="duree" class="block mb-2 text-sm font-medium text-gray-700 dark:text-white">Durée Circuit</label>
+                        <input [formControl]="controlsAddCircuit['duree']" type="text" name="duree" id="duree"  placeholder="Duree Circuit" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                    </div>
+                    <div class="col-span-1">
+                        <label for="status" class="block mb-2 text-sm font-medium text-gray-700 dark:text-white">Status</label>
+                        <input [formControl]="controlsAddCircuit['status']" type="checkbox" name="status" id="status"  placeholder="Status circuit" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                    </div>
+                    <button
+                    type="submit"
+                    [disabled]="addCircuitForm.invalid"
+                    class=" col-span-2 flex items-center justify-center gap-2 px-2 h-8 mt-2 me-3 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white cursor-pointer disabled:opacity-35 disabled:cursor-not-allowed disabled:hover:bg-gray-100 disabled:text-gray-500 disabled:border-gray-300 disabled:hover:text-gray-500 disabled:hover:border-gray-300"
+                    >
+                    Sauvgarder
+                    <i class="pi pi-check" style="font-size: 0.8rem;"></i>
+                </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div> 
+
+<p-scrollPanel [style]="this.containerMesures">
+    <div class="py-2 pb-8 rounded-sm sm:bg-gray-50 sm:px-8 sm:shadow">
+        <div class="pt-4">
+            <h1 class="py-2 text-2xl font-bold text-gray-700">Points de Captures</h1>
+        </div>
+        <hr class="mt-4 mb-8" />
+        <p class="py-2 text-md font-semibold">Point de capture</p>
+        <p class="mt-1 mb-4 text-gray-600">
+            un point de capture est souvent utilisé pour désigner un lieu où les transactions sont initiées. Cela peut être une agence bancaire, un guichet automatique, un terminal de point de vente.
+        </p>
+            
+        <p-button 
+        class="self-start px-2 py-2 mb-4 outline-none focus:outline-none selection:outline-none text-sm font-light text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white cursor-pointer"
+        label="Ajouter Point de Capture"
+        icon="pi pi-plus"
+        [loading]="loading"
+        (click)="toggleAddPointCaptureModal()"
+        ></p-button>
+
+        <p class="py-2 mt-4 text-md font-semibold">Circuit d'agences</p>
+        <p class="mt-1 mb-4 text-gray-600">
+            Un circuit fait généralement référence à un groupement d’agences qui sont desservies par un seul trajet d'un agent convoyeur.
+        </p>
+        <p-button 
+        class="self-start px-2 py-2 mb-4 outline-none focus:outline-none selection:outline-none text-sm font-light text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white cursor-pointer"
+        label="Ajouter Circuit"
+        icon="pi pi-plus"
+        [loading]="loading"
+        (click)="toggleAddCircuitModal()"
+        >
+        </p-button>
+        
+        <hr class="mt-8 mb-8" />
+
+        <ag-grid-angular
+        class="ag-theme-quartz"
+        style="height: 720px;"
+        [enableCharts]=true
+        [enableRangeSelection]=true
+        [rowGroupPanelShow]="rowGroupPanelShow"
+        [rowData]="rowData"
+        [columnDefs]="columnDefs"
+        [pagination]="pagination"
+        [paginationPageSize]="paginationPageSize"
+        [paginationPageSizeSelector]="paginationPageSizeSelector"   
+        >
+        </ag-grid-angular>
+    </div>
+</p-scrollPanel>

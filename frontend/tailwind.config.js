@@ -11,6 +11,11 @@ module.exports = {
   theme: {
     extend: {
       keyframes: {
+        'border-spin': {
+          '100%': {
+            transform: 'rotate(360deg)',
+          }
+        },
         wiggle: {
           '0%, 100%': { transform: 'rotate(-3deg)' },
           '50%': { transform: 'rotate(3deg)' },
@@ -62,6 +67,7 @@ module.exports = {
         'fade-out-down': 'fade-out-down 0.3s ease-out',
         'fade-in-up': 'fade-in-up 0.3s ease-out',
         'fade-out-up': 'fade-out-up 0.3s ease-out',
+        'border-spin': 'border-spin 7s linear infinite',
       },
       boxShadow: {
         custom: '0px 0px 50px 0px rgb(82 63 105 / 15%)',
@@ -108,7 +114,9 @@ module.exports = {
     extend: {},
     scrollbar: ['rounded', 'dark'],
   },
-    plugins: []
+    plugins: [
+      
+    ]
 }
 
 

@@ -1,18 +1,19 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { SettingsModule } from './settings/settings.module';
 import { DashboardComponent } from './dashboard.component';
-import { SettingsComponent } from './pages/settings/settings.component';
+// import { SettingsComponent } from './pages/settings/settings.component';
 
 
 const routes: Routes = [
     {
       path: '',
-      component: DashboardComponent,
-      children: [
-        { path: 'settings', component: SettingsComponent },
-        { path: '**', redirectTo: 'error/404' },
-      ],
+      component: DashboardComponent
     },
+    {
+      path: 'settings',
+      loadChildren: () => import('./settings/settings.module').then((m) => m.SettingsModule)
+    }
   ];
 
 @NgModule({

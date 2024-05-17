@@ -27,6 +27,274 @@
     }
   ],
   "paths": {
+    "/test": {
+      "get": {
+        "tags": [
+          "test-controller"
+        ],
+        "operationId": "get",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "test-controller"
+        ],
+        "operationId": "put",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "test-controller"
+        ],
+        "operationId": "post",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "test-controller"
+        ],
+        "operationId": "delete",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin": {
+      "get": {
+        "tags": [
+          "admin-controller"
+        ],
+        "operationId": "get_1",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "admin-controller"
+        ],
+        "operationId": "put_1",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "admin-controller"
+        ],
+        "operationId": "post_1",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "admin-controller"
+        ],
+        "operationId": "delete_1",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/point-capture/add": {
+      "post": {
+        "tags": [
+          "point-capture-controller"
+        ],
+        "operationId": "addPointCapture",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PointCaptureRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/point-capture/add-circuit": {
+      "post": {
+        "tags": [
+          "point-capture-controller"
+        ],
+        "operationId": "addCircuit",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CircuitRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/jour-ferier/add": {
+      "post": {
+        "tags": [
+          "jour-ferier-controller"
+        ],
+        "operationId": "addJourFerier",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/JourFerierDemandeRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/resetPassword": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "operationId": "resetPassword",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ResetPasswordRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/auth/register": {
       "post": {
         "tags": [
@@ -99,12 +367,331 @@
         }
       }
     },
+    "/users/change-status": {
+      "patch": {
+        "tags": [
+          "users-controller"
+        ],
+        "operationId": "changeStatus",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChangeStatusRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/change-role": {
+      "patch": {
+        "tags": [
+          "users-controller"
+        ],
+        "operationId": "changeRole",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChangeRoleRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/change-password": {
+      "patch": {
+        "tags": [
+          "users-controller"
+        ],
+        "operationId": "changePassword",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChangePasswordRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/change-member": {
+      "patch": {
+        "tags": [
+          "users-controller"
+        ],
+        "operationId": "changeMember",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChangeMemberRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/change-email": {
+      "patch": {
+        "tags": [
+          "users-controller"
+        ],
+        "operationId": "changeEmail",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChangeEmailRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/jour-ferier/sync": {
+      "patch": {
+        "tags": [
+          "jour-ferier-controller"
+        ],
+        "operationId": "syncJourFerier",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/JourFerierDemandeRequest"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/members": {
+      "get": {
+        "tags": [
+          "users-controller"
+        ],
+        "operationId": "getMembers",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MemberResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/members-stats": {
+      "get": {
+        "tags": [
+          "users-controller"
+        ],
+        "operationId": "getMembersStats",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MembersStatsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/point-capture/all": {
+      "get": {
+        "tags": [
+          "point-capture-controller"
+        ],
+        "operationId": "getAllPointsCapture",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PointsCaptureAllResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/point-capture/all-circuits": {
+      "get": {
+        "tags": [
+          "point-capture-controller"
+        ],
+        "operationId": "getAllCircuits",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CircuitAllResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/jour-ferier/all": {
+      "get": {
+        "tags": [
+          "jour-ferier-controller"
+        ],
+        "operationId": "getAllJourFerier",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/JourFerierData"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/auth/resend-activation-email": {
       "get": {
         "tags": [
           "Authentication"
         ],
         "operationId": "resendActivationEmail",
+        "parameters": [
+          {
+            "name": "email",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/forgotPassword": {
+      "get": {
+        "tags": [
+          "Authentication"
+        ],
+        "operationId": "forgotPassword",
         "parameters": [
           {
             "name": "email",
@@ -152,134 +739,6 @@
               "application/json": {
                 "schema": {
                   "type": "object"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/auth/resetPassword": {
-      "get": {
-        "tags": [
-          "Authentication"
-        ],
-        "operationId": "resetPassword",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        }
-      },
-      "put": {
-        "tags": [
-          "Authentication"
-        ],
-        "operationId": "resetPassword_3",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "Authentication"
-        ],
-        "operationId": "resetPassword_2",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "Authentication"
-        ],
-        "operationId": "resetPassword_5",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        }
-      },
-      "options": {
-        "tags": [
-          "Authentication"
-        ],
-        "operationId": "resetPassword_6",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        }
-      },
-      "head": {
-        "tags": [
-          "Authentication"
-        ],
-        "operationId": "resetPassword_1",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        }
-      },
-      "patch": {
-        "tags": [
-          "Authentication"
-        ],
-        "operationId": "resetPassword_4",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "string"
                 }
               }
             }
@@ -414,138 +873,102 @@
           }
         }
       }
-    },
-    "/auth/forgotPassword": {
-      "get": {
-        "tags": [
-          "Authentication"
-        ],
-        "operationId": "forgotPassword",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        }
-      },
-      "put": {
-        "tags": [
-          "Authentication"
-        ],
-        "operationId": "forgotPassword_3",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "Authentication"
-        ],
-        "operationId": "forgotPassword_2",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "Authentication"
-        ],
-        "operationId": "forgotPassword_5",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        }
-      },
-      "options": {
-        "tags": [
-          "Authentication"
-        ],
-        "operationId": "forgotPassword_6",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        }
-      },
-      "head": {
-        "tags": [
-          "Authentication"
-        ],
-        "operationId": "forgotPassword_1",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        }
-      },
-      "patch": {
-        "tags": [
-          "Authentication"
-        ],
-        "operationId": "forgotPassword_4",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        }
-      }
     }
   },
   "components": {
     "schemas": {
+      "PointCaptureRequest": {
+        "type": "object",
+        "properties": {
+          "libelle": {
+            "type": "string"
+          },
+          "secteur": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "clientBanque": {
+            "type": "string"
+          },
+          "lecteur": {
+            "type": "string"
+          },
+          "circuit": {
+            "type": "string"
+          },
+          "status": {
+            "type": "boolean"
+          }
+        }
+      },
+      "CircuitRequest": {
+        "type": "object",
+        "properties": {
+          "libelle": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "depart": {
+            "type": "string"
+          },
+          "arrivee": {
+            "type": "string"
+          },
+          "distance": {
+            "type": "string"
+          },
+          "duree": {
+            "type": "string"
+          },
+          "status": {
+            "type": "boolean"
+          }
+        }
+      },
+      "JourFerierDemandeRequest": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "jourFerierTypeId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "status": {
+            "type": "string"
+          }
+        }
+      },
+      "ResetPasswordRequest": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "newPassword": {
+            "type": "string"
+          }
+        }
+      },
       "RegisterRequest": {
         "required": [
           "email",
@@ -588,6 +1011,208 @@
         "type": "object",
         "properties": {
           "token": {
+            "type": "string"
+          }
+        }
+      },
+      "ChangeStatusRequest": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "newStatus": {
+            "type": "boolean"
+          }
+        }
+      },
+      "ChangeRoleRequest": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "newRole": {
+            "type": "string"
+          }
+        }
+      },
+      "ChangePasswordRequest": {
+        "type": "object",
+        "properties": {
+          "oldPassword": {
+            "type": "string"
+          },
+          "newPassword": {
+            "type": "string"
+          },
+          "confirmPassword": {
+            "type": "string"
+          }
+        }
+      },
+      "ChangeMemberRequest": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "newRole": {
+            "type": "string"
+          },
+          "newStatus": {
+            "type": "boolean"
+          }
+        }
+      },
+      "ChangeEmailRequest": {
+        "type": "object",
+        "properties": {
+          "newEmail": {
+            "type": "string"
+          }
+        }
+      },
+      "MemberResponse": {
+        "type": "object",
+        "properties": {
+          "fullName": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string"
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "accountLocked": {
+            "type": "boolean"
+          },
+          "last_connected": {
+            "type": "string"
+          }
+        }
+      },
+      "MembersStatsResponse": {
+        "type": "object",
+        "properties": {
+          "totalMembers": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "totalActiveMembers": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "totalRoles": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "totalMembersConnected": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "PointCaptureResponse": {
+        "type": "object",
+        "properties": {
+          "libelle": {
+            "type": "string"
+          },
+          "secteur": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "clientBanque": {
+            "type": "string"
+          },
+          "lecteur": {
+            "type": "string"
+          },
+          "circuit": {
+            "type": "string"
+          },
+          "status": {
+            "type": "boolean"
+          }
+        }
+      },
+      "PointsCaptureAllResponse": {
+        "type": "object",
+        "properties": {
+          "pointsCapture": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PointCaptureResponse"
+            }
+          }
+        }
+      },
+      "CircuitAllResponse": {
+        "type": "object",
+        "properties": {
+          "circuits": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CircuitResponse"
+            }
+          }
+        }
+      },
+      "CircuitResponse": {
+        "type": "object",
+        "properties": {
+          "libelle": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "depart": {
+            "type": "string"
+          },
+          "arrivee": {
+            "type": "string"
+          },
+          "distance": {
+            "type": "string"
+          },
+          "duree": {
+            "type": "string"
+          },
+          "status": {
+            "type": "boolean"
+          }
+        }
+      },
+      "JourFerierData": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "jourFerierTypeId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "status": {
             "type": "string"
           }
         }

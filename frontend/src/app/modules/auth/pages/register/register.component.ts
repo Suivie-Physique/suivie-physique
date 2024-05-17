@@ -10,7 +10,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 import {HttpClientModule} from "@angular/common/http";
 import {RouterLink} from "@angular/router";
-import { SharedModule } from 'src/app/shared/shared.module';
+import { SharedModule } from '../../../../shared/shared.module';
 
 @Component({
   selector: 'app-register',

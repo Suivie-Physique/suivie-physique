@@ -4,7 +4,12 @@ import { NgModule, ModuleWithProviders, SkipSelf, Optional } from '@angular/core
 import { HttpClient } from '@angular/common/http';
 import { ApiConfiguration, ApiConfigurationParams } from './api-configuration';
 
+import { TestControllerService } from './services/test-controller.service';
+import { AdminControllerService } from './services/admin-controller.service';
+import { PointCaptureControllerService } from './services/point-capture-controller.service';
+import { JourFerierControllerService } from './services/jour-ferier-controller.service';
 import { AuthenticationService } from './services/authentication.service';
+import { UsersControllerService } from './services/users-controller.service';
 
 /**
  * Module that provides all services and configuration.
@@ -14,7 +19,12 @@ import { AuthenticationService } from './services/authentication.service';
   exports: [],
   declarations: [],
   providers: [
+    TestControllerService,
+    AdminControllerService,
+    PointCaptureControllerService,
+    JourFerierControllerService,
     AuthenticationService,
+    UsersControllerService,
     ApiConfiguration
   ],
 })

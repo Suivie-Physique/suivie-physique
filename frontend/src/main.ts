@@ -5,6 +5,8 @@ import { AppComponent } from "./app/app.component";
 import { importProvidersFrom } from "@angular/core";
 import { AppRoutingModule } from "./app/app-routing.module";
 import { provideAnimations } from "@angular/platform-browser/animations";
+import { Calendar } from "angular-feather/icons";
+import { CalendarModule } from "angular-calendar";
 
 bootstrapApplication(
   AppComponent,
