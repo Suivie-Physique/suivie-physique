@@ -11,10 +11,11 @@ import { StrictHttpResponse } from '../strict-http-response';
 
 import { addCircuit } from '../fn/point-capture-controller/add-circuit';
 import { AddCircuit$Params } from '../fn/point-capture-controller/add-circuit';
-import { addLecteur } from '../fn/point-capture-controller/add-lecteur';
-import { AddLecteur$Params } from '../fn/point-capture-controller/add-lecteur';
 import { addPointCapture } from '../fn/point-capture-controller/add-point-capture';
 import { AddPointCapture$Params } from '../fn/point-capture-controller/add-point-capture';
+import { CircuitAllResponse } from '../models/circuit-all-response';
+import { getAllCircuits } from '../fn/point-capture-controller/get-all-circuits';
+import { GetAllCircuits$Params } from '../fn/point-capture-controller/get-all-circuits';
 import { getAllPointsCapture } from '../fn/point-capture-controller/get-all-points-capture';
 import { GetAllPointsCapture$Params } from '../fn/point-capture-controller/get-all-points-capture';
 import { PointsCaptureAllResponse } from '../models/points-capture-all-response';
@@ -54,37 +55,8 @@ export class PointCaptureControllerService extends BaseService {
     );
   }
 
-  /** Path part for operation `addLecteur()` */
-  static readonly AddLecteurPath = '/point-capture/add/lecteur';
-
-  /**
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `addLecteur()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  addLecteur$Response(params: AddLecteur$Params, context?: HttpContext): Observable<StrictHttpResponse<{
-}>> {
-    return addLecteur(this.http, this.rootUrl, params, context);
-  }
-
-  /**
-   * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `addLecteur$Response()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  addLecteur(params: AddLecteur$Params, context?: HttpContext): Observable<{
-}> {
-    return this.addLecteur$Response(params, context).pipe(
-      map((r: StrictHttpResponse<{
-}>): {
-} => r.body)
-    );
-  }
-
   /** Path part for operation `addCircuit()` */
-  static readonly AddCircuitPath = '/point-capture/add/circuit';
+  static readonly AddCircuitPath = '/point-capture/add-circuit';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
@@ -134,6 +106,31 @@ export class PointCaptureControllerService extends BaseService {
   getAllPointsCapture(params?: GetAllPointsCapture$Params, context?: HttpContext): Observable<PointsCaptureAllResponse> {
     return this.getAllPointsCapture$Response(params, context).pipe(
       map((r: StrictHttpResponse<PointsCaptureAllResponse>): PointsCaptureAllResponse => r.body)
+    );
+  }
+
+  /** Path part for operation `getAllCircuits()` */
+  static readonly GetAllCircuitsPath = '/point-capture/all-circuits';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `getAllCircuits()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getAllCircuits$Response(params?: GetAllCircuits$Params, context?: HttpContext): Observable<StrictHttpResponse<CircuitAllResponse>> {
+    return getAllCircuits(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `getAllCircuits$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getAllCircuits(params?: GetAllCircuits$Params, context?: HttpContext): Observable<CircuitAllResponse> {
+    return this.getAllCircuits$Response(params, context).pipe(
+      map((r: StrictHttpResponse<CircuitAllResponse>): CircuitAllResponse => r.body)
     );
   }
 

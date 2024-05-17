@@ -205,37 +205,7 @@
         }
       }
     },
-    "/point-capture/add/lecteur": {
-      "post": {
-        "tags": [
-          "point-capture-controller"
-        ],
-        "operationId": "addLecteur",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/LecteurRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/point-capture/add/circuit": {
+    "/point-capture/add-circuit": {
       "post": {
         "tags": [
           "point-capture-controller"
@@ -643,6 +613,26 @@
         }
       }
     },
+    "/point-capture/all-circuits": {
+      "get": {
+        "tags": [
+          "point-capture-controller"
+        ],
+        "operationId": "getAllCircuits",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CircuitAllResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/jour-ferier/all": {
       "get": {
         "tags": [
@@ -893,7 +883,7 @@
           "libelle": {
             "type": "string"
           },
-          "adresse": {
+          "secteur": {
             "type": "string"
           },
           "type": {
@@ -913,19 +903,32 @@
           }
         }
       },
-      "LecteurRequest": {
-        "type": "object",
-        "properties": {
-          "libelle": {
-            "type": "string"
-          }
-        }
-      },
       "CircuitRequest": {
         "type": "object",
         "properties": {
           "libelle": {
             "type": "string"
+          },
+          "code": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "depart": {
+            "type": "string"
+          },
+          "arrivee": {
+            "type": "string"
+          },
+          "distance": {
+            "type": "string"
+          },
+          "duree": {
+            "type": "string"
+          },
+          "status": {
+            "type": "boolean"
           }
         }
       },
@@ -1120,7 +1123,7 @@
           "libelle": {
             "type": "string"
           },
-          "adresse": {
+          "secteur": {
             "type": "string"
           },
           "type": {
@@ -1148,6 +1151,46 @@
             "items": {
               "$ref": "#/components/schemas/PointCaptureResponse"
             }
+          }
+        }
+      },
+      "CircuitAllResponse": {
+        "type": "object",
+        "properties": {
+          "circuits": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CircuitResponse"
+            }
+          }
+        }
+      },
+      "CircuitResponse": {
+        "type": "object",
+        "properties": {
+          "libelle": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "depart": {
+            "type": "string"
+          },
+          "arrivee": {
+            "type": "string"
+          },
+          "distance": {
+            "type": "string"
+          },
+          "duree": {
+            "type": "string"
+          },
+          "status": {
+            "type": "boolean"
           }
         }
       },

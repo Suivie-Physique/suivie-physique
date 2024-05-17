@@ -304,7 +304,7 @@ export class JoursFeriesComponent implements OnInit{
         console.log('Event saved successfully');
       },
       error: (error) => {
-        console.log('Error saving event' + error.error.error);
+        console.log('Error saving event' + error);
       }
     });
     

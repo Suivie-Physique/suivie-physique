@@ -1,6 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
-export interface CircuitRequest {
+export interface CircuitResponse {
   arrivee?: string;
   code?: string;
   depart?: string;

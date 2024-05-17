@@ -9,7 +9,8 @@ import { IntegrationComponent } from './pages/integration/integration.component'
 import { FluxComponent } from './pages/flux/flux.component';
 import { OrganisationComponent } from './pages/organisation/organisation.component';
 import { PointCaptureComponent } from './pages/point-capture/point-capture.component';
-
+import { ClientComponent } from './pages/client/client.component';
+import { SecuriteComponent } from './pages/securite/securite.component';
 
 const routes: Routes = [
     {
@@ -24,6 +25,8 @@ const routes: Routes = [
         { path: 'integration', component: IntegrationComponent },
         { path: 'flux', component: FluxComponent},
         { path: 'organisation', component: OrganisationComponent },
+        {path: 'client', component: ClientComponent},
+        {path: 'securite', component: SecuriteComponent},
         { path: '**', redirectTo: 'error/404' },
       ]
     

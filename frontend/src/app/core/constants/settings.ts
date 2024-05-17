@@ -5,15 +5,30 @@ export class Setting{
     public static pages: Setting[] = [
         {
             icon: null,
-            label: 'Membres',
-            route: 'membres',
+            label: 'Compte',
+            route: 'compte',
             expanded: false,
             active: false
         },
         {
             icon: null,
-            label: 'Compte',
-            route: 'compte',
+            label: 'Membres',
+            route: 'membres',
+            expanded: false,
+            active: false
+        },
+       
+        {
+            icon: null,
+            label: 'Client',
+            route: 'client',
+            expanded: false,
+            active: false
+        },
+        {
+            icon: null,
+            label: 'Point de Capture',
+            route: 'point-capture',
             expanded: false,
             active: false
         },
@@ -28,13 +43,6 @@ export class Setting{
             icon: null,
             label: 'Archivache',
             route: 'archive',
-            expanded: false,
-            active: false
-        },
-        {
-            icon: null,
-            label: 'Point de Capture',
-            route: 'point-capture',
             expanded: false,
             active: false
         },
@@ -58,7 +66,14 @@ export class Setting{
             route: 'organisation',
             expanded: false,
             active: false
-        }
+        },
+        {
+            icon: null,
+            label: 'Sécurité',
+            route: 'securite',
+            expanded: false,
+            active: false
+        },
 
     ];
 }

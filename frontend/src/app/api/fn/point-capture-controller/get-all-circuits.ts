@@ -6,17 +6,14 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { LecteurRequest } from '../../models/lecteur-request';
+import { CircuitAllResponse } from '../../models/circuit-all-response';
 
-export interface AddLecteur$Params {
-      body: LecteurRequest
+export interface GetAllCircuits$Params {
 }
 
-export function addLecteur(http: HttpClient, rootUrl: string, params: AddLecteur$Params, context?: HttpContext): Observable<StrictHttpResponse<{
-}>> {
-  const rb = new RequestBuilder(rootUrl, addLecteur.PATH, 'post');
+export function getAllCircuits(http: HttpClient, rootUrl: string, params?: GetAllCircuits$Params, context?: HttpContext): Observable<StrictHttpResponse<CircuitAllResponse>> {
+  const rb = new RequestBuilder(rootUrl, getAllCircuits.PATH, 'get');
   if (params) {
-    rb.body(params.body, 'application/json');
   }
 
   return http.request(
@@ -24,10 +21,9 @@ export function addLecteur(http: HttpClient, rootUrl: string, params: AddLecteur
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<{
-      }>;
+      return r as StrictHttpResponse<CircuitAllResponse>;
     })
   );
 }
 
-addLecteur.PATH = '/point-capture/add/lecteur';
+getAllCircuits.PATH = '/point-capture/all-circuits';

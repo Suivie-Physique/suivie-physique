@@ -17,9 +17,11 @@ import { ModuleRegistry } from "@ag-grid-community/core";
 import { ClientSideRowModelModule } from "@ag-grid-community/client-side-row-model";
 import { GridChartsModule } from "@ag-grid-enterprise/charts-enterprise";
 import { PointCaptureControllerService } from '../../../../../api/services';
+import { TypePointCapture } from 'app/core/constants/type.point.capture';
 
 import "ag-grid-charts-enterprise";
-import { CircuitRequest, LecteurRequest, PointCaptureRequest } from 'app/api/models';
+import { CircuitAllResponse, CircuitRequest, PointCaptureRequest, PointCaptureResponse, PointsCaptureAllResponse,  } from 'app/api/models';
+
 
 ModuleRegistry.registerModules([ClientSideRowModelModule, GridChartsModule]);
 
@@ -43,21 +45,55 @@ export class PointCaptureComponent implements OnInit {
   paginationPageSizeSelector = [200, 500, 1000];
   rowGroupPanelShow: "always" | "onlyWhenGrouping" | "never" | undefined = "always";
 
-  showAddScannerModal: boolean = false;
+  showAddPointCaptureModal: boolean = false;
   showAddCircuitModal: boolean = false;
 
-  controlsAddScanner: {[klass: string]: FormControl} = {
+  types: string[] = TypePointCapture.types
+
+  controlsAddPointCapture: {[klass: string]: FormControl} = {
     libelle: new FormControl("", [Validators.required]),
+    type: new FormControl("", [Validators.required]),
+    clientBanque: new FormControl("", [Validators.required]),
+    secteur: new FormControl("", [Validators.required]),
+    lecteur: new FormControl("", [Validators.required]),
+    circuit: new FormControl("", [Validators.required]),
+    adresse: new FormControl("", [Validators.required]),
+    status: new FormControl(true, [Validators.required])
   };
+
   controlsAddCircuit: {[klass: string]: FormControl} = {
+    code: new FormControl("", [Validators.required]),
     libelle: new FormControl("", [Validators.required]),
+    status: new FormControl(true, [Validators.required]),
+    depart: new FormControl("", [Validators.required]),
+    arrivee: new FormControl("", [Validators.required]),
+    distance: new FormControl("", [Validators.required]),
+    duree: new FormControl("", [Validators.required]),
+    description: new FormControl("", [Validators.required])
   };
-  addScannerForm: FormGroup = new FormGroup({
-    libelle: this.controlsAddScanner['libelle'],
+  addPointCaptureForm: FormGroup = new FormGroup({
+    libelle: this.controlsAddPointCapture['libelle'],
+    type: this.controlsAddPointCapture['type'],
+    clientBanque: this.controlsAddPointCapture['clientBanque'],
+    secteur: this.controlsAddPointCapture['secteur'],
+    lecteur: this.controlsAddPointCapture['lecteur'],
+    circuit: this.controlsAddPointCapture['circuit'],
+    status: this.controlsAddPointCapture['status']
   });
   addCircuitForm: FormGroup = new FormGroup({
+    code: this.controlsAddCircuit['code'],
     libelle: this.controlsAddCircuit['libelle'],
+    description: this.controlsAddCircuit['description'],
+    depart: this.controlsAddCircuit['depart'],
+    arrivee: this.controlsAddCircuit['arrivee'],
+    distance: this.controlsAddCircuit['distance'],
+    duree: this.controlsAddCircuit['duree'],
+    status: this.controlsAddCircuit['status']
   });
+
+  addPointCaptureRequest: PointCaptureRequest = { libelle: "", type: "", clientBanque: "", secteur: "", lecteur: "", circuit: "", status: true};
+  addCircuitRequest: CircuitRequest = { code: "", libelle: "", depart: "", arrivee: "", description: "", distance: "", duree: "", status: true};
+
 
   columnDefs: (ColDef<any, any> | ColGroupDef<any>)[] = [
     {
@@ -80,7 +116,7 @@ export class PointCaptureComponent implements OnInit {
     },
     {
       headerName: "Client Banque", 
-      field: "client",
+      field: "clientBanque",
       cellClass: ['text-gray-600'],
       filter: true, 
       floatingFilter: true, 
@@ -115,11 +151,11 @@ export class PointCaptureComponent implements OnInit {
       enableRowGroup: true,
     },
   ];
-  rowData = [
+  rowData: PointCaptureResponse[] = [
     {
       libelle: "Addouha", 
       type: "Agence",
-      client: "BP",
+      clientBanque: "BP",
       secteur: "Sidi Maarouf",
       lecteur: "10023",
       circuit: "Circuit 1"
@@ -127,7 +163,7 @@ export class PointCaptureComponent implements OnInit {
     {
       libelle: "Addouha", 
       type: "Agence",
-      client: "BP",
+      clientBanque: "BP",
       secteur: "Sidi Maarouf",
       lecteur: "10023",
       circuit: "Circuit 1"
@@ -135,7 +171,7 @@ export class PointCaptureComponent implements OnInit {
     {
       libelle: "Addouha", 
       type: "Agence",
-      client: "BP",
+      clientBanque: "BP",
       secteur: "Sidi Maarouf",
       lecteur: "10023",
       circuit: "Circuit 1"
@@ -143,25 +179,32 @@ export class PointCaptureComponent implements OnInit {
     {
       libelle: "Addouha", 
       type: "Agence",
-      client: "BP",
-      secteur: "Sidi Maarouf",
-      lecteur: "10023",
-      circuit: "Circuit 1"
-    },
-    {
-      libelle: "Addouha", 
-      type: "Agence",
-      client: "BP",
+      clientBanque: "BP",
       secteur: "Sidi Maarouf",
       lecteur: "10023",
       circuit: "Circuit 1"
     }
   ];
+
+  circuits: string[] = []; 
   
   constructor(private usersControllerService: UsersControllerService, private dashboardService: DashboardService, private showModalService: ShowModalService, private pointCaptureControllerService: PointCaptureControllerService) {
+    
+    // La population de la table des points de captures
     this.pointCaptureControllerService.getAllPointsCapture().subscribe({
-      next: (data) => {
-        console.log(data);
+      next: (data: PointsCaptureAllResponse) => {
+        this.rowData = data.pointsCapture as PointCaptureResponse[];
+        console.log(this.rowData);
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    });
+
+    // La population de la table des circuits
+    this.pointCaptureControllerService.getAllCircuits().subscribe({
+      next: (data: CircuitAllResponse) => {
+        this.circuits = data.circuits?.map(circuit => circuit.code) as string[];
       },
       error: (error) => {
         console.log(error);
@@ -173,47 +216,68 @@ export class PointCaptureComponent implements OnInit {
     this.containerMesures = this.dashboardService.getSettingsPageContainerMesures();
   }
 
-  addScanner(){
-    let request: LecteurRequest = {
-      libelle: this.controlsAddScanner['libelle'].value as string
-    }
+  addPointCapture(){
+    this.addPointCaptureRequest = {
+      libelle: this.controlsAddPointCapture['libelle'].value as string,
+      type: this.controlsAddPointCapture['type'].value as string,
+      clientBanque: this.controlsAddPointCapture['clientBanque'].value as string,
+      secteur: this.controlsAddPointCapture['secteur'].value as string,
+      lecteur: this.controlsAddPointCapture['lecteur'].value as string,
+      circuit: this.controlsAddPointCapture['circuit'].value as string,
+      status: this.controlsAddPointCapture['status'].value as boolean
+    }  
 
     this.pointCaptureControllerService
-    .addLecteur({
-      body: request
+    .addPointCapture({
+      body: this.addPointCaptureRequest
     })
     .subscribe({
       next: (response) => {
-        console.log(response);
-      },
-      error: (error) => {
-        console.log(error);
-      }
-    });   
-  }
-  toggleAddScannerModal(){
-    this.showAddScannerModal = !this.showAddScannerModal;
-  }
-  addCircuit(){
-    let request: CircuitRequest = {
-      libelle: this.controlsAddCircuit['libelle'].value as string
-    }
-
-    this.pointCaptureControllerService
-    .addCircuit({
-      body: request
-    })
-    .subscribe({
-      next: (response) => {
+        this.toggleAddPointCaptureModal();
         console.log(response);
       },
       error: (error) => {
         console.log(error);
       }
     });
-
   }
+
+
+  addCircuit(){
+    this.addCircuitRequest = {
+      code: this.controlsAddCircuit['code'].value as string,
+      libelle: this.controlsAddCircuit['libelle'].value as string,
+      depart: this.controlsAddCircuit['depart'].value as string,
+      arrivee: this.controlsAddCircuit['arrivee'].value as string,
+      distance: this.controlsAddCircuit['distance'].value as string,
+      duree: this.controlsAddCircuit['duree'].value as string,
+      description: this.controlsAddCircuit['description'].value as string,
+      status: this.controlsAddCircuit['status'].value as boolean
+    }
+
+    this.pointCaptureControllerService
+    .addCircuit({
+      body: this.addCircuitRequest
+    })
+    .subscribe({
+      next: (response) => {
+        this.toggleAddCircuitModal();
+        console.log(response);
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    });
+  }
+
+
+  toggleAddPointCaptureModal(){
+    this.showAddPointCaptureModal = !this.showAddPointCaptureModal;
+    this.addPointCaptureForm.reset();
+  }
+
   toggleAddCircuitModal(){
     this.showAddCircuitModal = !this.showAddCircuitModal;
+    this.addCircuitForm.reset();
   }
 }

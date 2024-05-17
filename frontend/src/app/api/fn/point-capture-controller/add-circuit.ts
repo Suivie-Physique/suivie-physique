@@ -30,4 +30,4 @@ export function addCircuit(http: HttpClient, rootUrl: string, params: AddCircuit
   );
 }
 
-addCircuit.PATH = '/point-capture/add/circuit';
+addCircuit.PATH = '/point-capture/add-circuit';
