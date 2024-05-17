@@ -64,7 +64,8 @@ jobs:
           cd backend
           mvn clean test
           
-  secret-scan:
+  secrets:
+    name: Secret Scanning for API
     runs-on: ubuntu-latest
     steps:
     - name: Checkout code
@@ -78,6 +79,7 @@ jobs:
 
 
   sca:
+    name: Software composition analysis
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
@@ -131,7 +133,7 @@ jobs:
   build:
     name: Build Suivie Physique API
     runs-on: ubuntu-latest
-    needs: [compile, test, coverage]
+    needs: [compile, test, secrets, sca,  coverage]
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
