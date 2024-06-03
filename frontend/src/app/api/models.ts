@@ -17,5 +17,6 @@ export { MembersStatsResponse } from './models/members-stats-response';
 export { PointCaptureRequest } from './models/point-capture-request';
 export { PointCaptureResponse } from './models/point-capture-response';
 export { PointsCaptureAllResponse } from './models/points-capture-all-response';
+export { RefreshTokenRequest } from './models/refresh-token-request';
 export { RegisterRequest } from './models/register-request';
 export { ResetPasswordRequest } from './models/reset-password-request';
