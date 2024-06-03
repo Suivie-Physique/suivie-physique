@@ -1,4 +1,4 @@
-package com.sp.auth.token;
+package com.sp.token;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

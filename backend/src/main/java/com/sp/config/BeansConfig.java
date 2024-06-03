@@ -1,6 +1,6 @@
 package com.sp.config;
 
-import com.sp.auth.audit.ApplicationAuditAware;
+import com.sp.audit.ApplicationAuditAware;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -20,7 +20,6 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 import org.springframework.http.HttpHeaders;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;

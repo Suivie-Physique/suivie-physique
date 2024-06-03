@@ -1,9 +1,6 @@
 package com.sp.auth.controller;
 
-import com.sp.auth.schema.AuthenticationRequest;
-import com.sp.auth.schema.AuthenticationResponse;
-import com.sp.auth.schema.RegisterRequest;
-import com.sp.auth.schema.ResetPasswordRequest;
+import com.sp.auth.schema.*;
 import com.sp.auth.service.AuthenticationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -18,6 +15,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/auth")
@@ -56,6 +55,12 @@ public class AuthenticationController {
             @RequestBody @Valid AuthenticationRequest request
     ) {
         return ResponseEntity.ok(service.authenticate(request));
+    }
+    @PostMapping("/refresh-token")
+    public ResponseEntity<AuthenticationResponse> refreshToken(
+            @RequestBody @Valid RefreshTokenRequest request
+    ) throws IOException {
+        return ResponseEntity.ok(service.refreshToken(request));
     }
 
     @GetMapping("/activate-account")

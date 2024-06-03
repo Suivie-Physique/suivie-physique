@@ -1,18 +1,15 @@
-package com.sp.users.role;
+package com.sp.users.model;
 
 
-import com.sp.users.permission.Permission;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static com.sp.users.permission.Permission.*;
+import static com.sp.users.model.Permission.*;
 
 @RequiredArgsConstructor
 public enum Role {

@@ -1,19 +1,16 @@
 package com.sp.gestion.point_capture.service;
 
 
-import com.sp.gestion.core.model.ClientBanque;
 import com.sp.gestion.core.model.ClientBanqueRepository;
 import com.sp.gestion.point_capture.model.*;
 import com.sp.gestion.point_capture.schema.*;
-import com.sp.users.user.User;
+import com.sp.users.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -38,7 +35,7 @@ public class PointCaptureService {
                     .status(pointCapture.isStatus())
                     .type(pointCapture.getType().getLibelle())
                     .clientBanque(pointCapture.getClientBanque().getCode() + "-" + pointCapture.getClientBanque().getLibelle())
-                    .lecteur(pointCapture.getLecteur())
+                    .lecteur(pointCapture.getLecteur().getLibelle())
                     .circuit(pointCapture.getCircuit().getLibelle())
                     .secteur(pointCapture.getSecteur())
                     .build();
@@ -87,6 +84,9 @@ public class PointCaptureService {
                 .libelle(request.getType())
                 .build();
 
+        Lecteur lecteur = Lecteur.builder()
+                .libelle(request.getLecteur())
+                .build();
 
         PointCapture pointCapture = PointCapture.builder()
                 .id(null)
@@ -94,7 +94,7 @@ public class PointCaptureService {
                 .type(typePointCapture)
                 .secteur(request.getSecteur())
                 .status(request.isStatus())
-                .lecteur(request.getLecteur())
+                .lecteur(lecteur)
                 .circuit(circuitRepository.findByLibelle(request.getCircuit()))
                 .clientBanque(clientBanqueRepository.findByLibelle(request.getClientBanque()))
                 .createdAt(LocalDateTime.now())

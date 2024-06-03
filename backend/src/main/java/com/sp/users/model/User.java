@@ -1,9 +1,9 @@
-package com.sp.users.user;
+package com.sp.users.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.sp.auth.token.Token;
+import com.sp.token.Token;
 import com.sp.gestion.leave.model.JourFerierDemande;
-import com.sp.users.role.Role;
+import com.sp.gestion.suivie_physique.model.Reception;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,15 +14,16 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import com.sp.gestion.notification.model.Notification;
+import com.sp.gestion.productivity.model.Productivity;
 
 import java.io.Serializable;
 import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Set;
 
 
 /**
@@ -72,6 +73,10 @@ public class User implements UserDetails, Principal, Serializable {
 
     private boolean resetPassword;
 
+    // OneToOne relationship with Reception
+    @OneToOne(mappedBy = "recepteur")
+    private Reception reception;
+
     // Many-to-Many relationship with Role
     @Enumerated(EnumType.STRING)
     private Role role;
@@ -84,6 +89,18 @@ public class User implements UserDetails, Principal, Serializable {
     // One-to-Many relationship with JourFeierDemande
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<JourFerierDemande> jourFerierDemandes;
+
+    // Notification
+    @OneToMany(mappedBy = "recipient")
+    private Set<Notification> receivedNotifications;
+
+    @OneToMany(mappedBy = "sender")
+    private Set<Notification> sentNotifications;
+
+
+    // Productivity
+    @OneToMany(mappedBy = "productivity")
+    private Set<Productivity> productivities;
 
     // Auditing
 

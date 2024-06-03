@@ -1,74 +1,61 @@
-package com.sp.gestion.point_capture.model;
+package com.sp.gestion.suivie_physique.model;
 
+import com.sp.gestion.point_capture.model.PointCapture;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.sp.gestion.core.model.ClientBanque;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.NotFound;
-import org.hibernate.annotations.NotFoundAction;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "_point_capture")
+@Table(name = "_remise")
 @EntityListeners(AuditingEntityListener.class)
-public class PointCapture{
+public class Remise {
+
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO,generator="native")
     @GenericGenerator(name = "native",strategy = "native")
     private Long id;
 
-    private String libelle;
+    private String numeroRemise;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
-    private TypePointCapture type;
+    private String montant;
 
-    private String secteur;
+    private String nombreEffet;
 
-    private String adresse;
+    private String nombreEffetRejete;
 
-    private String ville;
+    private String nombreEffetAccepte;
 
-    private String codePostal;
+    // une remise ayant un ou plusieur Cheque ou Effet
+    @ManyToOne
+    @JoinColumn(name = "compte_tiret_id", nullable = false)
+    private CompteTiret compteTiret;
 
-    private String contact;
+    @ManyToOne
+    @JoinColumn(name = "point_capture_id", nullable = false)
+    private PointCapture pointCapture;
 
-    private String fonctionContact;
+    @OneToMany(mappedBy = "remise_cheque", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Cheque> cheques;
 
-    private String remarque;
+    @OneToMany(mappedBy = "remise_effet", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Effet> effets;
 
-    private boolean status;
-
-
-    // a point de capture belongs to a circuit
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "circuit_id")
-    private Circuit circuit;
-
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "client_banque_id")
-    private ClientBanque clientBanque;
-
-    @OneToOne
-    @JoinColumn(name = "lecteur_id")
-    private Lecteur lecteur;
 
     // audit
     @CreatedDate
@@ -86,5 +73,6 @@ public class PointCapture{
     @LastModifiedBy
     @Column(name = "updated_by")
     private String updatedBy;
+
 
 }

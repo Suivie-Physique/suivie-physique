@@ -1,4 +1,4 @@
-package com.sp.users.user;
+package com.sp.users.model;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

@@ -4,6 +4,7 @@ package com.sp.gestion.core.model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.sp.gestion.point_capture.model.PointCapture;
+import com.sp.gestion.suivie_physique.model.CompteTiret;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -53,6 +54,9 @@ public class ClientBanque {
     @OneToMany(mappedBy = "clientBanque", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<PointCapture> pointsDeCapture;
 
+    @ManyToOne
+    @JoinColumn(name = "compte_tiret_id", nullable = false)
+    private CompteTiret compteTiret;
 
     // audit
     @CreatedDate
@@ -70,4 +74,8 @@ public class ClientBanque {
     @LastModifiedBy
     @Column(name = "last_modified_by", insertable = false)
     private String lastModifiedBy;
+
+    public String getClientBanque(){
+        return this.getCode() + " - " + this.getLibelle();
+    }
 }
