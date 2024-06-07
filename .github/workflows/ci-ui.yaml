@@ -58,4 +58,4 @@ jobs:
           file: docker/frontend/Dockerfile
           push: true
           platforms: linux/amd64,linux/arm64
-          tags: dotcipher1/sp-ui:${{ steps.extract_version.outputs.UI_VERSION }}, dotcipher1/sp-ui:latest
+          tags: suiviephysique/sp-ui:${{ steps.extract_version.outputs.UI_VERSION }}, suiviephysique/sp-ui:latest

@@ -10,15 +10,15 @@ export class JwtTokenService {
   constructor() { }
 
   set token(token: string) {
-    localStorage.setItem('token', token);
+    localStorage.setItem('access_token', token);
   }
 
   get token() {
-    return localStorage.getItem('token') as string;
+    return localStorage.getItem('access_token') as string;
   }
 
   removeToken(): void {
-    localStorage.removeItem('token');
+    localStorage.removeItem('access_token');
   }
 
   isTokenExist(): boolean {
@@ -32,7 +32,6 @@ export class JwtTokenService {
   getActiveUser(): User {
     const data = Object.entries(this.getPayload()).map(([key, value]) => value);
     let [fullName, email, iat, exp, authorities]: Array<string|Array<string>|undefined> = [...data] as Array<string|undefined>;
-    // let activeRole = authorities.find((role: string) => role.startsWith('ROLE_')).split('_')[1];
     if (authorities?.length! >= 1) {
       authorities = (authorities as any).filter((role: string) => role.startsWith('ROLE_'));
     }

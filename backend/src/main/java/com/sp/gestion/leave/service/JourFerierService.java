@@ -5,7 +5,7 @@ import com.sp.gestion.leave.model.JourFerierDemandeRepository;
 import com.sp.gestion.leave.model.JourFerierType;
 import com.sp.gestion.leave.model.JourFerierTypeRepository;
 import com.sp.gestion.leave.schema.JourFerierDemandeRequest;
-import com.sp.users.user.User;
+import com.sp.users.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
@@ -14,7 +14,6 @@ import com.sp.gestion.leave.schema.JourFerierData;
 
 import java.security.Principal;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service

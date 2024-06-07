@@ -1,7 +1,7 @@
-package com.sp.auth.audit;
+package com.sp.audit;
 
 
-import com.sp.users.user.User;
+import com.sp.users.model.User;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;

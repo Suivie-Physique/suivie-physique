@@ -14,7 +14,7 @@ export class AuthActivateRouteGuard implements CanActivate {
   canActivate(route:ActivatedRouteSnapshot, state:RouterStateSnapshot)
   : boolean | Promise<boolean> {
     // @ts-ignore
-    this.token = localStorage.getItem("token");
+    this.token = localStorage.getItem("access_token");
     if(!this.token){
       console.log("User not authenticated");
       this.router.navigate(['/auth/authenticate']);

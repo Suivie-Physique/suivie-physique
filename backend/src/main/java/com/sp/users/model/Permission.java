@@ -1,4 +1,4 @@
-package com.sp.users.permission;
+package com.sp.users.model;
 
 
 import lombok.Getter;

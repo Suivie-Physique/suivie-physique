@@ -1,4 +1,4 @@
-package com.sp.auth.token;
+package com.sp.token;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

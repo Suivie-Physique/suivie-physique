@@ -1,15 +1,14 @@
 package com.sp.auth.service;
 
-import com.sp.auth.schema.AuthenticationRequest;
-import com.sp.auth.schema.AuthenticationResponse;
-import com.sp.auth.schema.RegisterRequest;
-import com.sp.auth.schema.ResetPasswordRequest;
-import com.sp.auth.token.*;
-import com.sp.users.role.Role;
-import com.sp.users.user.UserRepository;
-import com.sp.mail.config.EmailTemplateName;
+import com.sp.auth.schema.*;
+import com.sp.token.Token;
+import com.sp.token.TokenRepository;
+import com.sp.token.TokenType;
+import com.sp.users.model.Role;
+import com.sp.users.model.UserRepository;
+import com.sp.mail.config.*;
 import com.sp.mail.service.MailService;
-import com.sp.users.user.User;
+import com.sp.users.model.User;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,6 +17,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -70,6 +70,9 @@ public class AuthenticationService {
 
         // Generate a new valid token
         var jwtToken = jwtService.generateToken(claims, user);
+        // Generate a new refresh token
+        var refreshToken = jwtService.generateRefreshToken(user);
+
         var token = Token.builder()
                 .token(jwtToken)
                 .tokenType(TokenType.BEARER)
@@ -85,7 +88,8 @@ public class AuthenticationService {
         // Return the token
         return AuthenticationResponse
                 .builder()
-                .token(jwtToken)
+                .accessToken(jwtToken)
+                .refreshToken(refreshToken)
                 .build();
     }
 
@@ -109,7 +113,39 @@ public class AuthenticationService {
         tokenRepository.save(activationTwoFactorToken);
     }
 
+    public AuthenticationResponse refreshToken(
+            RefreshTokenRequest request
+    ) throws IOException {
 
+        final String username;
+
+        username = jwtService.extractUsername(request.getRefreshToken());
+
+        if (username != null){
+            var user = this.userRepository.findByEmail(username)
+                    .orElseThrow(() -> new RuntimeException("User not found"));
+            if (jwtService.isTokenValid(request.getRefreshToken(), user)) {
+                var accessToken = jwtService.generateToken(user);
+                revokeAllUserTokens(user);
+                var token = Token.builder()
+                        .token(accessToken)
+                        .tokenType(TokenType.BEARER)
+                        .revoked(false)
+                        .expired(false)
+                        .createdAt(LocalDateTime.now())
+                        .validatedAt(LocalDateTime.now())
+                        .user(user)
+                        .build();
+                tokenRepository.save(token);
+                return AuthenticationResponse
+                        .builder()
+                        .accessToken(accessToken)
+                        .refreshToken(request.getRefreshToken())
+                        .build();
+            }
+        }
+        throw new RuntimeException("Refresh token is invalid");
+    }
 
     public void resetPassword(ResetPasswordRequest request) throws MessagingException {
       // Reset Password
