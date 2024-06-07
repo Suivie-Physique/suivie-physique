@@ -1,138 +1,138 @@
-#name: Continuous Integration and Continuous Deployment Suivie Physique
-#
-#on:
-#  push:
-#    branches: [ main ]
-#  pull_request:
-#    branches: [ main ]
-#  workflow_dispatch:
-#
-#jobs:
-#  build-test-deploy:
-#    name: Build & Test & Deploy Suivie Physique App
-#    runs-on: ubuntu-latest
-#    env:
-#      DEEPSOURCE_DSN: ${{ secrets.DEEPSOURCE_DSN }}
-#    steps:
-#      - name: Checkout code
-#        uses: actions/checkout@v3
-#
-#      - name: Setup JDK 17
-#        uses: actions/setup-java@v3
-#        with:
-#          distribution: 'corretto'
-#          java-version: 17
-#
-#      - name: Cache Maven packages
-#        uses: actions/cache@v2
-#        with:
-#          path: ~/.m2
-#          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-#          restore-keys: ${{ runner.os  }}-m2
-#
-#      - name: Unit Test Backend
-#        run: mvn -B test --file backend/pom.xml
-#
-#      - name: DeepSource Test Coverage
-#        uses: DeepSourceCorp/test-coverage-action@v1.1.2
-#        with:
-#          dsn: DEEPSOURCE_DSN
-#
-#      - name: Install DeepSource CLI
-#        run: |
-#          curl https://deepsource.io/cli | sh
-#
-#      - name: Generate coverage report
-#        run: |
-#          touch ./coverage.out
-#          ./bin/deepsource report --analyzer test-coverage --key java --value-file ./coverage.out
-#
-#      - name: Upload coverage report as artifact
-#        uses: actions/upload-artifact@v2
-#        with:
-#          name: coverage-report
-#          path: coverage.out
-#
-#      - name: Download coverage report
-#        uses: actions/download-artifact@v2
-#        with:
-#          name: coverage-report
-#          path: .
-#
-#      - name: Build Backend App
-#        run: |
-#              mvn clean
-#              mvn -B package --file backend/pom.xml
-#
-#      - name: Setup Node.js environment
-#        uses: actions/setup-node@v4
-#        with:
-#          node-version: '16'
-#
-#      - name: Cache Node Modules
-#        uses: actions/cache@v2
-#        env:
-#          cache-name: cache-node-modules
-#        with:
-#          path: frontend/node_modules
-#          key: ${{ runner.os  }}-build-${{ env.cache-name  }}-${{ hashFiles('**/package-lock.json') }}
-#          restore-keys: |
-#            ${{ runner.os }}-build-${{ env.cache-name }}-${{ runner.os }}-build-${{ runner.os }}
-#
-#      - name: Install Dependencies
-#        run: |
-#          npm install --prefix frontend
-#          npm install --prefix frontend tailwindcss postcss autoprefixer
-#
-##      - name: Running Frontend Tests
-##        run: npm run test:ci --prefix frontend
-#
-#      - name: Building Frontend App
-#        run: npm run build:ci --prefix frontend
-#
-#      - name: Packaging App
-#        run: mvn clean package
-#
-#      - name: Setup Docker Buildx
-#        uses: docker/setup-buildx-action@v3
-#
-#
-#      - name: Build to Dockerhub
-#        run: docker-compose build
-#
-#      - name: Show Built images
-#        run: |
-#          docker images backend
-#          docker images frontend
-#
-#      - name: Tag to Dockerhub
-#        run: |
-#          docker tag backend dotcipher1/sp-backend:latest
-#          docker tag frontend dotcipher1/sp-frontend:latest
-#
-#      - name: Login to Dockerhub
-#        uses: docker/login-action@v3
-#        with:
-#          username: ${{ secrets.DOCKER_HUB_USERNAME }}
-#          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-#
-#      - name: Docker Scout
-#        uses: docker/scout-action@v1
-#        with:
-#          command: cves,recommendations,quickview
-#          to-latest: true
-#          ignore-base: true
-#          ignore-unchanged: true
-#          only-fixed: true
-#
-#      - name: Push to Dockerhub
-#        run: |
-#          docker push dotcipher1/sp-backend:latest
-#          docker push dotcipher1/sp-frontend:latest
-#
-#      # - name: Push to Dockerhub
-#      #   uses: docker/build-push-action@v5.3.0
-#      #   with:
-#      #     push: true
-#      #     tags: "dotcipher/sp-backend:latest ,dotcipher/sp-frontend:latest"
-#      #     github-token: ${{ secrets.GITHUB_TOKEN }}
+name: Continuous Integration and Continuous Deployment Suivie Physique
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build-test-deploy:
+    name: Build & Test & Deploy Suivie Physique App
+    runs-on: ubuntu-latest
+    env:
+      DEEPSOURCE_DSN: ${{ secrets.DEEPSOURCE_DSN }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup JDK 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'corretto'
+          java-version: 17
+
+      - name: Cache Maven packages
+        uses: actions/cache@v2
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os  }}-m2
+
+      - name: Unit Test Backend
+        run: mvn -B test --file backend/pom.xml
+
+      - name: DeepSource Test Coverage
+        uses: DeepSourceCorp/test-coverage-action@v1.1.2
+        with:
+          dsn: DEEPSOURCE_DSN
+
+      - name: Install DeepSource CLI
+        run: |
+          curl https://deepsource.io/cli | sh
+
+      - name: Generate coverage report
+        run: |
+          touch ./coverage.out
+          ./bin/deepsource report --analyzer test-coverage --key java --value-file ./coverage.out
+
+      - name: Upload coverage report as artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: coverage-report
+          path: coverage.out
+
+      - name: Download coverage report
+        uses: actions/download-artifact@v2
+        with:
+          name: coverage-report
+          path: .
+
+      - name: Build Backend App
+        run: |
+              mvn clean
+              mvn -B package --file backend/pom.xml
+
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: '16'
+
+      - name: Cache Node Modules
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: frontend/node_modules
+          key: ${{ runner.os  }}-build-${{ env.cache-name  }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-${{ runner.os }}-build-${{ runner.os }}
+
+      - name: Install Dependencies
+        run: |
+          npm install --prefix frontend
+          npm install --prefix frontend tailwindcss postcss autoprefixer
+
+#      - name: Running Frontend Tests
+#        run: npm run test:ci --prefix frontend
+
+      - name: Building Frontend App
+        run: npm run build:ci --prefix frontend
+
+      - name: Packaging App
+        run: mvn clean package
+
+      - name: Setup Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+
+      - name: Build to Dockerhub
+        run: docker-compose build
+
+      - name: Show Built images
+        run: |
+          docker images backend
+          docker images frontend
+
+      - name: Tag to Dockerhub
+        run: |
+          docker tag backend suiviephysique/sp-api:latest
+          docker tag frontend suiviephysique/sp-ui:latest
+
+      - name: Login to Dockerhub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+
+      - name: Docker Scout
+        uses: docker/scout-action@v1
+        with:
+          command: cves,recommendations,quickview
+          to-latest: true
+          ignore-base: true
+          ignore-unchanged: true
+          only-fixed: true
+
+      - name: Push to Dockerhub
+        run: |
+          docker push suiviephysique/sp-api:latest
+          docker push suiviephysique/sp-ui:latest
+
+      - name: Push to Dockerhub
+        uses: docker/build-push-action@v5.3.0
+        with:
+           push: true
+           tags: "suiviephysique/sp-api:latest ,suiviephysique/sp-ui:latest"
+           github-token: ${{ secrets.GITHUB_TOKEN }}
