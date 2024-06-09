@@ -4,3 +4,4 @@ export { PointCaptureControllerService } from './services/point-capture-controll
 export { JourFerierControllerService } from './services/jour-ferier-controller.service';
 export { AuthenticationService } from './services/authentication.service';
 export { UsersControllerService } from './services/users-controller.service';
+export { ArchiveControllerService } from './services/archive-controller.service';

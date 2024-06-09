@@ -1,6 +1,5 @@
 package com.sp.gestion.suivie_physique.model;
 
-import com.sp.gestion.point_capture.model.PointCapture;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -10,7 +9,6 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -22,54 +20,37 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "_remise")
+@Table(name = "_valeur_type")
 @EntityListeners(AuditingEntityListener.class)
-public class Remise {
+public class ValeurType {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO,generator="native")
     @GenericGenerator(name = "native",strategy = "native")
     private Long id;
 
-    private String numeroRemise;
+    private String libelle;
 
-    private String montant;
-
-    private String nombreEffet;
-
-    private String nombreEffetRejete;
-
-    private String nombreEffetAccepte;
-
-    // une remise ayant un ou plusieur Cheque ou Effet
-    @ManyToOne
-    @JoinColumn(name = "compte_tiret_id", nullable = false)
-    private CompteTiret compteTiret;
-
-    @ManyToOne
-    @JoinColumn(name = "point_capture_id", nullable = false)
-    private PointCapture pointCapture;
-
-    @OneToMany(mappedBy = "remise", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    // a type can have many values
+    @OneToMany(mappedBy = "type", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Valeur> valeurs;
 
 
     // audit
+
     @CreatedDate
-    @Column(name = "created_at", updatable = false)
+    @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
     @CreatedBy
-    @Column(name = "created_by", updatable = false)
+    @Column(name = "created_by", nullable = false, updatable = false)
     private String createdBy;
 
     @LastModifiedDate
-    @Column(name = "updated_at")
+    @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
 
-    @LastModifiedBy
-    @Column(name = "updated_by")
+    @Column(name = "updated_by", nullable = false)
     private String updatedBy;
-
 
 }

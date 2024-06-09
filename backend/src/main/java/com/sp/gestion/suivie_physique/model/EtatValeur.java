@@ -5,11 +5,12 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public enum EtatEffet {
-
+public enum EtatValeur {
+    Recue("Recue"),
+    Archive("Archive"),
+    Valide("Valide"),
     Conserver("à Conserver"),
-    Echue("Echue"),
-    Valider("Valide");
+    Echue("Echue");
 
     @Getter
     private final String etat;

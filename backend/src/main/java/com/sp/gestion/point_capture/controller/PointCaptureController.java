@@ -1,11 +1,9 @@
 package com.sp.gestion.point_capture.controller;
 
 
-import com.sp.gestion.point_capture.schema.CircuitAllResponse;
-import com.sp.gestion.point_capture.schema.CircuitRequest;
-import com.sp.gestion.point_capture.schema.PointCaptureRequest;
-import com.sp.gestion.point_capture.schema.PointsCaptureAllResponse;
+import com.sp.gestion.point_capture.schema.*;
 import com.sp.gestion.point_capture.service.PointCaptureService;
+import com.sp.users.schema.MembersStatsResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,6 +25,10 @@ public class PointCaptureController {
     @GetMapping("/all-circuits")
     public ResponseEntity<CircuitAllResponse> getAllCircuits() {
         return ResponseEntity.ok(pointCaptureService.getAllCircuits());
+    }
+    @GetMapping("/pdc-stats")
+    public ResponseEntity<PointCaptureStatsResponse> getPointsCaptureStats(Principal connectedUser) {
+        return ResponseEntity.ok(pointCaptureService.getPointCaptureStats(connectedUser));
     }
 
     @PostMapping("/add")

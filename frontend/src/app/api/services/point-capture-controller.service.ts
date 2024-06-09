@@ -18,6 +18,9 @@ import { getAllCircuits } from '../fn/point-capture-controller/get-all-circuits'
 import { GetAllCircuits$Params } from '../fn/point-capture-controller/get-all-circuits';
 import { getAllPointsCapture } from '../fn/point-capture-controller/get-all-points-capture';
 import { GetAllPointsCapture$Params } from '../fn/point-capture-controller/get-all-points-capture';
+import { getPointsCaptureStats } from '../fn/point-capture-controller/get-points-capture-stats';
+import { GetPointsCaptureStats$Params } from '../fn/point-capture-controller/get-points-capture-stats';
+import { PointCaptureStatsResponse } from '../models/point-capture-stats-response';
 import { PointsCaptureAllResponse } from '../models/points-capture-all-response';
 
 @Injectable({ providedIn: 'root' })
@@ -81,6 +84,31 @@ export class PointCaptureControllerService extends BaseService {
       map((r: StrictHttpResponse<{
 }>): {
 } => r.body)
+    );
+  }
+
+  /** Path part for operation `getPointsCaptureStats()` */
+  static readonly GetPointsCaptureStatsPath = '/point-capture/pdc-stats';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `getPointsCaptureStats()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getPointsCaptureStats$Response(params?: GetPointsCaptureStats$Params, context?: HttpContext): Observable<StrictHttpResponse<PointCaptureStatsResponse>> {
+    return getPointsCaptureStats(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `getPointsCaptureStats$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getPointsCaptureStats(params?: GetPointsCaptureStats$Params, context?: HttpContext): Observable<PointCaptureStatsResponse> {
+    return this.getPointsCaptureStats$Response(params, context).pipe(
+      map((r: StrictHttpResponse<PointCaptureStatsResponse>): PointCaptureStatsResponse => r.body)
     );
   }
 

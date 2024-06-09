@@ -10,6 +10,7 @@ import { PointCaptureControllerService } from './services/point-capture-controll
 import { JourFerierControllerService } from './services/jour-ferier-controller.service';
 import { AuthenticationService } from './services/authentication.service';
 import { UsersControllerService } from './services/users-controller.service';
+import { ArchiveControllerService } from './services/archive-controller.service';
 
 /**
  * Module that provides all services and configuration.
@@ -25,6 +26,7 @@ import { UsersControllerService } from './services/users-controller.service';
     JourFerierControllerService,
     AuthenticationService,
     UsersControllerService,
+    ArchiveControllerService,
     ApiConfiguration
   ],
 })

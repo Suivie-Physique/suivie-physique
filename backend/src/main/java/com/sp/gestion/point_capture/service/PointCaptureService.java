@@ -20,6 +20,7 @@ public class PointCaptureService {
     private final ClientBanqueRepository clientBanqueRepository;
     private final TypePointCaptureRepository typePointCaptureRepository;
     private final CircuitRepository circuitRepository;
+    private final LecteurRepository lecteurRepository;
 
 
     public PointsCaptureAllResponse getAllPointsCapture(){
@@ -126,5 +127,15 @@ public class PointCaptureService {
                 .build();
 
         circuitRepository.save(circuit);
+    }
+
+    public PointCaptureStatsResponse getPointCaptureStats(Principal connectedUser){
+        var user = (User) ((UsernamePasswordAuthenticationToken) connectedUser).getPrincipal();
+        return PointCaptureStatsResponse.builder()
+                .totalPointsCapture(pointCaptureRepository.findAll().size())
+                .totalCircuit(circuitRepository.findAll().size())
+                .totalTypePointCapture(typePointCaptureRepository.findAll().size())
+                .totalLecteur(lecteurRepository.findAll().size())
+                .build();
     }
 }

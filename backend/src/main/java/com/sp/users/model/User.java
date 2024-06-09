@@ -1,6 +1,7 @@
 package com.sp.users.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.sp.gestion.archivage.model.Archive;
 import com.sp.token.Token;
 import com.sp.gestion.leave.model.JourFerierDemande;
 import com.sp.gestion.suivie_physique.model.Reception;
@@ -101,6 +102,10 @@ public class User implements UserDetails, Principal, Serializable {
     // Productivity
     @OneToMany(mappedBy = "productivity")
     private Set<Productivity> productivities;
+
+    // Archivage
+    @OneToMany(mappedBy = "archivist")
+    private Set<Archive> archives;
 
     // Auditing
 

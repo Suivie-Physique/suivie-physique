@@ -1,6 +1,7 @@
 package com.sp.gestion.suivie_physique.model;
 
 
+import com.sp.gestion.archivage.model.Archive;
 import com.sp.gestion.point_capture.model.Lecteur;
 import com.sp.gestion.point_capture.model.PointCapture;
 import jakarta.persistence.*;
@@ -10,6 +11,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.util.Date;
 
@@ -18,14 +20,16 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "_effet")
-public class Effet {
+@Table(name = "_valeur")
+@EntityListeners(AuditingEntityListener.class)
+public class Valeur {
+
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO,generator="native")
     @GenericGenerator(name = "native",strategy = "native")
     private Long id;
 
-    private String numeroEffet;
+    private String numeroValeur;
 
     private Date dateTraitement;
 
@@ -35,14 +39,14 @@ public class Effet {
 
     private String montant;
 
+    // un cheque peut etre un cheque ou un effet
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private ValeurType type;
+
     // Un Compte tirer peut avoir un ou plusieur cheque
     @ManyToOne
     @JoinColumn(name = "compte_tiret_id", nullable = false)
     private CompteTiret compteTiret;
-
-    @ManyToOne
-    @JoinColumn(name = "remise_id", nullable = false)
-    private Remise remise_effet;
 
     // un cheque correspond a un seul lecteur, mais un lecteur peut avoir plusieurs cheque
     @ManyToOne
@@ -54,7 +58,16 @@ public class Effet {
     @JoinColumn(name = "point_capture_id", nullable = false)
     private PointCapture pointCapture;
 
-    private EtatEffet etatEffet;
+    private EtatValeur etat;
+
+
+    @ManyToOne
+    @JoinColumn(name = "remise_id", nullable = false)
+    private Remise remise;
+
+    @ManyToOne
+    @JoinColumn(name = "archive_id", nullable = false)
+    private Archive archive;
 
     @CreatedBy
     @Column(name = "created_by", nullable = false, updatable = false)
@@ -68,4 +81,5 @@ public class Effet {
 
     @Column(name = "updated_by")
     private String updatedBy;
+
 }

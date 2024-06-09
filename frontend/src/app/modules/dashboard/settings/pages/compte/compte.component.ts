@@ -127,10 +127,6 @@ export class CompteComponent implements OnInit {
         }, 5000);
       }
     })
-
-    
-   
-
   }
 
 }
