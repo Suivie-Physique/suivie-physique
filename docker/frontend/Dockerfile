@@ -7,6 +7,7 @@ COPY package*.json ./
 
 RUN npm install -g @pnpm/exe && pnpm install
 RUN pnpm install -D tailwindcss postcss autoprefixer
+RUN pnpm install ag-grid-community
 
 COPY . .
 
