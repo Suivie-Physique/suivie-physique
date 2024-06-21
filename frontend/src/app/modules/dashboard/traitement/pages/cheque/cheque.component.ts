@@ -51,3 +51,4 @@ export class ChequeComponent {
       .pipe(map(({matches}) => (matches ? 'horizontal' : 'vertical')));
   }
 }
+
