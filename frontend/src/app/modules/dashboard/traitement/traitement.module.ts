@@ -9,7 +9,6 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
         HttpClientModule,
         CommonModule,
         TraitementRoutingModule
-    ],
-    declarations: []
+    ]
 })
 export class TraitementModule { }
