@@ -57,10 +57,6 @@ public class SuiviePhysiqueBackendApplication {
                 typePointCaptureRepository.save(TypePointCapture.builder().libelle("Guichet Automatique Bancaire Zonal").code("GABZ").build());
                 typePointCaptureRepository.save(TypePointCapture.builder().libelle("Guichet Automatique Bancaire Fonctionnaire").code("GABF").build());
             }
-
-
-
-
     };
     }
 }
