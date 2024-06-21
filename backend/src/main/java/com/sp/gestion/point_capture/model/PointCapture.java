@@ -56,8 +56,6 @@ public class PointCapture{
     private boolean status;
 
 
-    private String lecteur;
-
     // a point de capture belongs to a circuit
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "circuit_id")
@@ -67,6 +65,10 @@ public class PointCapture{
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "client_banque_id")
     private ClientBanque clientBanque;
+
+    @OneToOne
+    @JoinColumn(name = "lecteur_id")
+    private Lecteur lecteur;
 
     // audit
     @CreatedDate

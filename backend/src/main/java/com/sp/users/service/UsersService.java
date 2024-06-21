@@ -1,22 +1,19 @@
 package com.sp.users.service;
 
-import com.sp.auth.token.TokenType;
-import com.sp.users.role.Role;
+import com.sp.users.model.Role;
 import com.sp.users.schema.*;
-import com.sp.users.user.User;
-import com.sp.users.user.UserRepository;
+import com.sp.users.model.User;
+import com.sp.users.model.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.stereotype.Service;
 
-import java.security.Permission;
 import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.sp.auth.token.TokenType.BEARER;
+import static com.sp.token.TokenType.BEARER;
 
 
 @Service

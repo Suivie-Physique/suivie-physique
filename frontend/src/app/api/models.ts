@@ -1,5 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
+export { ArchiveResponse } from './models/archive-response';
 export { AuthenticationRequest } from './models/authentication-request';
 export { AuthenticationResponse } from './models/authentication-response';
 export { ChangeEmailRequest } from './models/change-email-request';
@@ -16,6 +17,8 @@ export { MemberResponse } from './models/member-response';
 export { MembersStatsResponse } from './models/members-stats-response';
 export { PointCaptureRequest } from './models/point-capture-request';
 export { PointCaptureResponse } from './models/point-capture-response';
+export { PointCaptureStatsResponse } from './models/point-capture-stats-response';
 export { PointsCaptureAllResponse } from './models/points-capture-all-response';
+export { RefreshTokenRequest } from './models/refresh-token-request';
 export { RegisterRequest } from './models/register-request';
 export { ResetPasswordRequest } from './models/reset-password-request';

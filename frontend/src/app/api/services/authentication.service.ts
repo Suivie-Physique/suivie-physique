@@ -30,6 +30,8 @@ import { logout5 } from '../fn/authentication/logout-5';
 import { Logout5$Params } from '../fn/authentication/logout-5';
 import { logout6 } from '../fn/authentication/logout-6';
 import { Logout6$Params } from '../fn/authentication/logout-6';
+import { refreshToken } from '../fn/authentication/refresh-token';
+import { RefreshToken$Params } from '../fn/authentication/refresh-token';
 import { register } from '../fn/authentication/register';
 import { Register$Params } from '../fn/authentication/register';
 import { resendActivationEmail } from '../fn/authentication/resend-activation-email';
@@ -110,6 +112,31 @@ export class AuthenticationService extends BaseService {
       map((r: StrictHttpResponse<{
 }>): {
 } => r.body)
+    );
+  }
+
+  /** Path part for operation `refreshToken()` */
+  static readonly RefreshTokenPath = '/auth/refresh-token';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `refreshToken()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  refreshToken$Response(params: RefreshToken$Params, context?: HttpContext): Observable<StrictHttpResponse<AuthenticationResponse>> {
+    return refreshToken(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `refreshToken$Response()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  refreshToken(params: RefreshToken$Params, context?: HttpContext): Observable<AuthenticationResponse> {
+    return this.refreshToken$Response(params, context).pipe(
+      map((r: StrictHttpResponse<AuthenticationResponse>): AuthenticationResponse => r.body)
     );
   }
 

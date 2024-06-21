@@ -2,13 +2,12 @@ package com.sp.users.controller;
 
 import com.sp.users.schema.*;
 import com.sp.users.service.UsersService;
-import jakarta.validation.Valid;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import com.sp.users.role.Role;
+
 import java.security.Principal;
 import java.util.List;
 

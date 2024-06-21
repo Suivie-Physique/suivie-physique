@@ -11,8 +11,8 @@ export class Menu {
           label: 'Dashboard',
           route: '/dashboard',
           children: [
-            { label: 'Traitement chèque', route: '/dashboard/cheque' },
-            { label: 'Traitement effet', route: '/dashboard/effet' },
+            { label: 'Traitement chèque', route: '/dashboard/traitement/cheque' },
+            { label: 'Traitement effet', route: '/dashboard/traitement/effet' },
           ],
         },
         {

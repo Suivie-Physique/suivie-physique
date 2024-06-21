@@ -1,0 +1,63 @@
+<mat-stepper
+    class="full-screen"
+    [orientation]="(stepperOrientation | async)!">
+    <mat-step [stepControl]="dateTraitementFormGroup" label="Choisir date de traitement" state="dateTraitement">
+        <h2 class="mb-4 border-b-2 border-gray-200 py-2 text-2xl font-bold dark:border-gray-700 lg:mb-8">
+            Choisir date de traitement
+        </h2>
+        <span class="block text-lg font-medium text-gray-600 dark:text-gray-400 sm:inline-block">
+            la date de traitement correspond au jour de traitement des valeurs financière or il nous apporte l'abilité a traiter les données du jour.
+        </span>
+        
+
+        <div class="flex items-center justify-center rounded-xl border-2 border-dashed border-gray-200 bg-gray-50 py-32 text-gray-400 dark:border-gray-700 dark:bg-gray-800">
+            <form [formGroup]="dateTraitementFormGroup" class="w-full h-full flex flex-col border items-center">
+                <mat-form-field>
+                  <mat-label>Date de traitement</mat-label>
+                  <input matInput type="date" placeholder="Entrer date de traitement" formControlName="firstCtrl" required>
+                </mat-form-field>
+                <div>
+                  <button mat-button matStepperNext>Next</button>
+                </div>
+              </form>
+        </div>
+        
+    </mat-step>
+    <mat-step [stepControl]="secondFormGroup" label="Fill out your address">
+      <form [formGroup]="secondFormGroup">
+        <mat-form-field>
+          <mat-label>Address</mat-label>
+          <input matInput formControlName="secondCtrl" placeholder="Ex. 1 Main St, New York, NY"
+                 required>
+        </mat-form-field>
+        <div>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext>Next</button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step [stepControl]="thirdFormGroup" label="Fill out your phone number">
+      <form [formGroup]="thirdFormGroup">
+        <mat-form-field>
+          <mat-label>Phone number</mat-label>
+          <input matInput formControlName="thirdCtrl" placeholder="Ex. 12345678" required>
+        </mat-form-field>
+        <div>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext>Next</button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>Done</ng-template>
+      <p>You are now done.</p>
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+      </div>
+    </mat-step>
+
+    
+    <ng-template matStepperIcon="chat">
+        <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="home"></mat-icon>
+    </ng-template>
+  </mat-stepper>

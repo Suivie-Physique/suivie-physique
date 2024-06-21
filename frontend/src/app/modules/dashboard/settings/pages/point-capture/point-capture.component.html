@@ -140,8 +140,75 @@
 <p-scrollPanel [style]="this.containerMesures">
     <div class="py-2 pb-8 rounded-sm sm:bg-gray-50 sm:px-8 sm:shadow">
         <div class="pt-4">
-            <h1 class="py-2 text-2xl font-bold text-gray-700">Points de Captures</h1>
-        </div>
+            <h1 class="py-2 text-2xl font-bold text-gray-700">Gérer les points de captures</h1>
+          </div>
+          <hr class="mt-4 mb-8" />
+          <!---->
+          <p class="py-2 text-md font-semibold">Statistiques des points de captures</p>
+          <p class="mt-1 mb-16 text-gray-600">
+            Cela pourrait inclure des statistiques sur le nombre de points de capture, le nombre de circuits actifs et le nombre de lecteurs scannant des valeurs.          </p>
+    
+          <div class="mb-12 grid gap-y-10 gap-x-6 md:grid-cols-2 xl:grid-cols-4">
+            <div class="relative flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 shadow-md">
+              <div class="bg-clip-border mx-4 rounded-xl overflow-hidden bg-gradient-to-tr from-teal-600 to-teal-400 text-white shadow-teal-500/40 shadow-lg absolute -mt-4 grid h-14 w-14 place-items-center">
+                <i class="pi pi-map-marker" style="font-size: 1.5rem"></i>
+              </div>
+              <div class="p-4 text-right">
+                <p class="block antialiased font-sans text-sm leading-normal font-normal text-blue-gray-600">PDC Total</p>
+                <h4 class="block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900">{{this.pdcStats.totalPointsCapture}}</h4>
+              </div>
+              <div class="border-t border-blue-gray-50 p-4">
+                <p class="block antialiased font-sans text-sm leading-relaxed font-normal text-blue-gray-500">
+                  <strong class="text-green-600">+0%</strong>&nbsp;que le mois dernier
+                </p>
+              </div>
+            </div>
+            <div class="relative flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 shadow-md">
+              <div class="bg-clip-border mx-4 rounded-xl overflow-hidden bg-gradient-to-tr from-cyan-600 to-cyan-400 text-white shadow-cyan-500/40 shadow-lg absolute -mt-4 grid h-14 w-14 place-items-center">
+                <i class="pi pi-map" style="font-size: 1.5rem"></i>
+              </div>
+              <div class="p-4 text-right">
+                <p class="block antialiased font-sans text-sm leading-normal font-normal text-blue-gray-600">Circuit Active</p>
+                <h4 class="block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900">{{this.pdcStats.totalCircuit}}</h4>
+              </div>
+              <div class="border-t border-blue-gray-50 p-4">
+                <p class="block antialiased font-sans text-sm leading-relaxed font-normal text-blue-gray-500">
+                  <strong class="text-green-600">+3%</strong>&nbsp;que le mois dernier
+                </p>
+              </div>
+            </div>
+            <div class="relative flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 shadow-md">
+              <div class="bg-clip-border mx-4 rounded-xl overflow-hidden bg-gradient-to-tr from-sky-600 to-sky-400 text-white shadow-sky-500/40 shadow-lg absolute -mt-4 grid h-14 w-14 place-items-center">
+                <i class="pi pi-info" style="font-size: 1.5rem"></i>
+              </div>
+              <div class="p-4 text-right">
+                <p class="block antialiased font-sans text-sm leading-normal font-normal text-blue-gray-600">Type Points Capture Total</p>
+                <h4 class="block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900">{{this.pdcStats.totalTypePointCapture}}</h4>
+              </div>
+              <div class="border-t border-blue-gray-50 p-4">
+                <p class="block antialiased font-sans text-sm leading-relaxed font-normal text-blue-gray-500">
+                  <strong class="text-red-500">-2%</strong>&nbsp;que le mois dernier
+                </p>
+              </div>
+            </div>
+            <div class="relative flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 shadow-md">
+              <div class="bg-clip-border mx-4 rounded-xl overflow-hidden bg-gradient-to-tr from-blue-600 to-blue-400 text-white shadow-blue-500/40 shadow-lg absolute -mt-4 grid h-14 w-14 place-items-center">
+                <i class="pi pi-barcode" style="font-size: 1.5rem"></i>
+              </div>
+              <div class="p-4 text-right">
+                <p class="block antialiased font-sans text-sm leading-normal font-normal text-blue-gray-600">Lecteurs Scanneurs</p>
+                <h4 class="block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900">{{this.pdcStats.totalLecteur}}</h4>
+              </div>
+              <div class="border-t border-blue-gray-50 p-4">
+                <p class="block antialiased font-sans text-sm leading-relaxed font-normal text-blue-gray-500">
+                  <strong class="text-green-600">+5%</strong>&nbsp;que le mois dernier
+                </p>
+              </div>
+            </div>
+          </div>
+          
+          
+          <!---->
         <hr class="mt-4 mb-8" />
         <p class="py-2 text-md font-semibold">Point de capture</p>
         <p class="mt-1 mb-4 text-gray-600">

@@ -207,6 +207,4 @@ export class MembresComponent implements OnInit {
       }
     });
   }
-
-  
 }

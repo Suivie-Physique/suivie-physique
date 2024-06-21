@@ -2,14 +2,16 @@ version: '3.8'
 services:
   sp-api:
     container_name: sp-api
-    image: sp/sp-api:0.0.1
+    image: suiviephysique/sp-api:latest
+    env_file:
+      - app.env
     ports:
       - "3008:3008"
     networks:
         - sp-network
   sp-ui:
     container_name: sp-ui
-    image: sp/sp-ui:0.0.1
+    image: suiviephysique/sp-ui:latest
     depends_on:
       - sp-api
     ports:

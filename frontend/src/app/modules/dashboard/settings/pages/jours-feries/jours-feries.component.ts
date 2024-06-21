@@ -1,9 +1,9 @@
 import { Component, OnInit ,OnChanges, OnDestroy, TemplateRef, forwardRef } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { Subject } from 'rxjs';
-import { MonthViewDay, EventColor } from 'calendar-utils';
+import { EventColor } from 'calendar-utils';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { startOfDay, subDays, addDays, endOfMonth, isSameMonth, isSameDay, addHours, endOfDay } from 'date-fns';
+import { startOfDay,  isSameMonth, isSameDay, endOfDay } from 'date-fns';
 import {CalendarCommonModule, CalendarDayModule, CalendarMonthModule, CalendarWeekModule, CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent, CalendarView } from 'angular-calendar';
 import { CalendarUtils } from 'angular-calendar';
 import { ChangeDetectionStrategy } from '@angular/core';

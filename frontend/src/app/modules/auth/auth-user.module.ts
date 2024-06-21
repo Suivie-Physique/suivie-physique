@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import {AuthUserRouting} from "./auth-user-routing.module";
 import { HttpClientModule } from '@angular/common/http';
 import { AuthInterceptor } from '../../core/interceptors/auth.interceptor';
+import { RefreshInterceptor } from 'app/core/interceptors/refresh.interceptor';
 
 
 // @ts-ignore
@@ -13,7 +14,8 @@ import { AuthInterceptor } from '../../core/interceptors/auth.interceptor';
     AuthUserRouting
   ],
   providers: [
-    AuthInterceptor
+    AuthInterceptor,
+    RefreshInterceptor
   ]
 })
 export class AuthUserModule { }

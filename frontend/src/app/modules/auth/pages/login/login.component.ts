@@ -10,13 +10,14 @@ import {AuthenticationRequest} from "../../api/services/authentication-request";
 import {AuthenticationResponse} from "../../../../api/models/authentication-response";
 import {JwtTokenService} from "../../../../core/services/jwt-token.service";
 import { SharedModule } from '../../../../shared/shared.module';
+import { RefreshTokenService } from 'app/core/services/refresh-token.service';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   standalone: true,
   imports: [CommonModule,FormsModule, ReactiveFormsModule, HttpClientModule, RouterLink, SharedModule],
-  providers: [AuthenticationService, RouterLink, JwtTokenService]
+  providers: [AuthenticationService, RouterLink, JwtTokenService, RefreshTokenService]
 })
 export class LoginComponent implements OnInit {
   email = new FormControl('', [Validators.required, Validators.email]);
@@ -39,7 +40,7 @@ export class LoginComponent implements OnInit {
 
 
 
-  constructor(private authenticationService: AuthenticationService ,private tokenService: JwtTokenService ,private router: Router) {}
+  constructor(private authenticationService: AuthenticationService ,private tokenService: JwtTokenService, private refreshTokenService: RefreshTokenService ,private router: Router) {}
 
   ngOnInit(): void {}
 
@@ -77,7 +78,8 @@ export class LoginComponent implements OnInit {
     }).subscribe({
       next: (responseData: AuthenticationResponse) => {
         // Set Local Storage to Authorization Jwt Token
-        this.tokenService.token =  responseData.token as string;
+        this.tokenService.token =  responseData.access_token as string;
+        this.refreshTokenService.token = responseData.refresh_token as string;
         this.router.navigate(['dashboard']);
       },
       error: (error) => {

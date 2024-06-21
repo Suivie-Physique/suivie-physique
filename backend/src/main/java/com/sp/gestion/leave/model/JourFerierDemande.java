@@ -1,7 +1,6 @@
 package com.sp.gestion.leave.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreType;
-import com.sp.users.user.User;
+import com.sp.users.model.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

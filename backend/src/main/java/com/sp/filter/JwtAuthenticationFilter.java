@@ -1,7 +1,7 @@
 package com.sp.filter;
 
 import com.sp.auth.service.JwtService;
-import com.sp.auth.token.TokenRepository;
+import com.sp.token.TokenRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

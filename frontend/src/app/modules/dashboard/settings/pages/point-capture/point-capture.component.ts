@@ -20,7 +20,7 @@ import { PointCaptureControllerService } from '../../../../../api/services';
 import { TypePointCapture } from 'app/core/constants/type.point.capture';
 
 import "ag-grid-charts-enterprise";
-import { CircuitAllResponse, CircuitRequest, PointCaptureRequest, PointCaptureResponse, PointsCaptureAllResponse,  } from 'app/api/models';
+import { CircuitAllResponse, CircuitRequest, PointCaptureRequest, PointCaptureResponse, PointCaptureStatsResponse, PointsCaptureAllResponse,  } from 'app/api/models';
 
 
 ModuleRegistry.registerModules([ClientSideRowModelModule, GridChartsModule]);
@@ -49,6 +49,12 @@ export class PointCaptureComponent implements OnInit {
   showAddCircuitModal: boolean = false;
 
   types: string[] = TypePointCapture.types
+  pdcStats: PointCaptureStatsResponse = {
+    totalCircuit: 0, 
+    totalLecteur: 0,
+    totalPointsCapture: 0,
+    totalTypePointCapture: 0
+  }
 
   controlsAddPointCapture: {[klass: string]: FormControl} = {
     libelle: new FormControl("", [Validators.required]),
@@ -133,7 +139,7 @@ export class PointCaptureComponent implements OnInit {
       enableRowGroup: true,
     },
     {
-      headerName: "Lecteur Scanner", 
+      headerName: "Lecteur Scanner",
       field: "lecteur",
       cellClass: ['text-gray-600'],
       filter: true, 
@@ -153,7 +159,7 @@ export class PointCaptureComponent implements OnInit {
   ];
   rowData: PointCaptureResponse[] = [
     {
-      libelle: "Addouha", 
+      libelle: "Addouha",
       type: "Agence",
       clientBanque: "BP",
       secteur: "Sidi Maarouf",
@@ -161,7 +167,7 @@ export class PointCaptureComponent implements OnInit {
       circuit: "Circuit 1"
     },
     {
-      libelle: "Addouha", 
+      libelle: "Addouha",
       type: "Agence",
       clientBanque: "BP",
       secteur: "Sidi Maarouf",
@@ -207,6 +213,16 @@ export class PointCaptureComponent implements OnInit {
         this.circuits = data.circuits?.map(circuit => circuit.code) as string[];
       },
       error: (error) => {
+        console.log(error);
+      }
+    });
+
+    // population des statistiques
+    this.pointCaptureControllerService.getPointsCaptureStats().subscribe({
+      next: (data: PointCaptureStatsResponse) => {
+        this.pdcStats = data;
+      },
+      error: (error: any) => {
         console.log(error);
       }
     });
