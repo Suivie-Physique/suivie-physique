@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { SettingsModule } from './settings/settings.module';
 import { DashboardComponent } from './dashboard.component';
-// import { SettingsComponent } from './pages/settings/settings.component';
 
 
 const routes: Routes = [

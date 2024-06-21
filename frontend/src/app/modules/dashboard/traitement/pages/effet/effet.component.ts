@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import {Component} from '@angular/core';
 import {FormBuilder, Validators, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {BreakpointObserver} from '@angular/cdk/layout';
@@ -43,14 +42,4 @@ export class EffetComponent {
       .observe('(min-width: 800px)')
       .pipe(map(({matches}) => (matches ? 'horizontal' : 'vertical')));
   }
-=======
-import { Component } from '@angular/core';
-
-@Component({
-  selector: 'app-effet',
-  templateUrl: './effet.component.html'
-})
-export class EffetComponent {
-
->>>>>>> c14521bd719b24ef9bc1f001afce66bc65cbe1b4
 }
