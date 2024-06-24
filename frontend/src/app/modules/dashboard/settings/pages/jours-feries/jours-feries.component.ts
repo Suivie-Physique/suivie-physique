@@ -63,328 +63,333 @@ interface HashMapNumber {
 })
 export class JoursFeriesComponent implements OnInit{
 
-  showAddEventModal: boolean = false;
-  showAlertModal: boolean = false;
+  ngOnInit(): void {}
 
-  controls = {
-    title: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]),
-    startDate: new FormControl('', [Validators.required]),
-    endDate: new FormControl('', [Validators.required]),
-    type: new FormControl('', [Validators.required])
-  }
+  // showAddEventModal: boolean = false;
+  // showAlertModal: boolean = false;
 
-  addEventForm: FormGroup = new FormGroup({
-    title: this.controls.title,
-    startDate: this.controls.startDate,
-    endDate: this.controls.endDate,
-    type: this.controls.type
-  });
+  // controls = {
+  //   title: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]),
+  //   startDate: new FormControl('', [Validators.required]),
+  //   endDate: new FormControl('', [Validators.required]),
+  //   type: new FormControl('', [Validators.required])
+  // }
 
-  jourFerierDemandeRequest: JourFerierDemandeRequest = {endDate: '', jourFerierTypeId: 0, startDate: '', status: '', title: ''};
+  // addEventForm: FormGroup = new FormGroup({
+  //   title: this.controls.title,
+  //   startDate: this.controls.startDate,
+  //   endDate: this.controls.endDate,
+  //   type: this.controls.type
+  // });
 
-  syncing: boolean = false;
+  // jourFerierDemandeRequest: JourFerierDemandeRequest = {endDate: '', jourFerierTypeId: 0, startDate: '', status: '', title: ''};
 
-  view: CalendarView = CalendarView.Month;
+  // syncing: boolean = false;
 
-  CalendarView = CalendarView;
+  // view: CalendarView = CalendarView.Month;
 
-  viewDate: Date = new Date();
+  // CalendarView = CalendarView;
 
-  actions: CalendarEventAction[] = [
-    {
-      label: '<i class="fas fa-fw fa-pencil-alt"></i>',
-      a11yLabel: 'Edit',
-      onClick: ({ event }: { event: CalendarEvent }): void => {
-      },
-    },
-    {
-      label: '<i class="fas fa-fw fa-trash-alt"></i>',
-      a11yLabel: 'Delete',
-      onClick: ({ event }: { event: CalendarEvent }): void => {
-        this.events = this.events.filter((iEvent) => iEvent !== event);
-      },
-    },
-  ];
+  // viewDate: Date = new Date();
 
-  refresh = new Subject<void>();
-  events: CalendarEventPersistent[] = [];
-  displayEvents: CalendarEvent[] = [];
+  // actions: CalendarEventAction[] = [
+  //   {
+  //     label: '<i class="fas fa-fw fa-pencil-alt"></i>',
+  //     a11yLabel: 'Edit',
+  //     onClick: ({ event }: { event: CalendarEvent }): void => {
+  //     },
+  //   },
+  //   {
+  //     label: '<i class="fas fa-fw fa-trash-alt"></i>',
+  //     a11yLabel: 'Delete',
+  //     onClick: ({ event }: { event: CalendarEvent }): void => {
+  //       this.events = this.events.filter((iEvent) => iEvent !== event);
+  //     },
+  //   },
+  // ];
 
-  listTypesJoursFeries: string[] = JoursFeriesConstants.map((jourFerie) => jourFerie.nom);
+  // refresh = new Subject<void>();
+  // events: CalendarEventPersistent[] = [];
+  // displayEvents: CalendarEvent[] = [];
+
+  // listTypesJoursFeries: string[] = JoursFeriesConstants.map((jourFerie) => jourFerie.nom);
 
 
-  hashMapTypesJoursFeries: HashMapString = JoursFeriesConstants.reduce((acc: HashMapString, jourFerie) => {
-    acc[jourFerie.id] = jourFerie.nom;
-    return acc;
-  }, {});
-  hashMapTypesJoursFeriesId: HashMapNumber = JoursFeriesConstants.reduce((acc: HashMapNumber, jourFerie) => {
-    acc[jourFerie.nom] = jourFerie.id;
-    return acc;
-  }, {});
-  joursFeries: FormControl = new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]);
+  // hashMapTypesJoursFeries: HashMapString = JoursFeriesConstants.reduce((acc: HashMapString, jourFerie) => {
+  //   acc[jourFerie.id] = jourFerie.nom;
+  //   return acc;
+  // }, {});
+  // hashMapTypesJoursFeriesId: HashMapNumber = JoursFeriesConstants.reduce((acc: HashMapNumber, jourFerie) => {
+  //   acc[jourFerie.nom] = jourFerie.id;
+  //   return acc;
+  // }, {});
+  // joursFeries: FormControl = new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]);
   
 
-  activeDayIsOpen: boolean = true;
+  // activeDayIsOpen: boolean = true;
 
-  containerMesures: {[klass: string]: string | any} = {};
+  // containerMesures: {[klass: string]: string | any} = {};
 
   constructor(private exportService: ExportService,private jourFerierControllerService: JourFerierControllerService ,private dashboardService: DashboardService, private datePipe: DatePipe) {}
 
-  ngOnInit(): void {
-    this.containerMesures = this.dashboardService.getSettingsPageContainerMesures();
-    // if no events in local storage, grab data from the server
+  // ngOnInit(): void {
+  //   this.containerMesures = this.dashboardService.getSettingsPageContainerMesures();
+  //   // if no events in local storage, grab data from the server
 
-      if (localStorage.getItem('events') === null){
-      this.jourFerierControllerService
-      .getAllJourFerier()
-      .subscribe({
-        next: (response: Array<JourFerierData>) => {
-          // Display Event
-          if (response.length > 0){
-            let randomColor: number = Math.floor(Math.random() * Object.keys(colors).length);
-            let responseToCalendarEvents: CalendarEventPersistent[] = response.map((event: JourFerierDemandeRequest): CalendarEventPersistent => {
-              return {
-                id: undefined,
-                title: event.title!,
-                start: startOfDay(new Date(event.startDate!)),
-                end: endOfDay(new Date(event.endDate!)),
-                type: this.hashMapTypesJoursFeries[event.jourFerierTypeId!],
-                type_id: event?.jourFerierTypeId,
-                color: colors[Object.keys(colors)[randomColor]],
-                draggable: true,
-                resizable: {
-                  beforeStart: true,
-                  afterEnd: true,
-                }
-              }
-            });
-            this.displayEvents = [...this.events, ...responseToCalendarEvents];
+  //     if (localStorage.getItem('events') === null){
+  //     this.jourFerierControllerService
+  //     .getAllJourFerier()
+  //     .subscribe({
+  //       next: (response: Array<JourFerierData>) => {
+  //         // Display Event
+  //         if (response.length > 0){
+  //           let randomColor: number = Math.floor(Math.random() * Object.keys(colors).length);
+  //           let responseToCalendarEvents: CalendarEventPersistent[] = response.map((event: JourFerierDemandeRequest): CalendarEventPersistent => {
+  //             return {
+  //               id: undefined,
+  //               title: event.title!,
+  //               start: startOfDay(new Date(event.startDate!)),
+  //               end: endOfDay(new Date(event.endDate!)),
+  //               type: this.hashMapTypesJoursFeries[event.jourFerierTypeId!],
+  //               type_id: event?.jourFerierTypeId,
+  //               color: colors[Object.keys(colors)[randomColor]],
+  //               draggable: true,
+  //               resizable: {
+  //                 beforeStart: true,
+  //                 afterEnd: true,
+  //               }
+  //             }
+  //           });
+  //           this.displayEvents = [...this.events, ...responseToCalendarEvents];
 
 
-          }
-          // localStorage.setItem('events', JSON.stringify(this.events));
-        },
-        error: (error) => {
-          console.log('Error fetching events' + error.error.error);
-        }
-      });
-    }
+  //         }
+  //         // localStorage.setItem('events', JSON.stringify(this.events));
+  //       },
+  //       error: (error) => {
+  //         console.log('Error fetching events' + error.error.error);
+  //       }
+  //     });
+  //   }
     
 
-    // sync events from local storage
-    this.events = [...this.events, ...this.fixParsedEvents()];
+  //   // sync events from local storage
+  //   this.events = [...this.events, ...this.fixParsedEvents()];
     
-    // Parsing and fixing events
-    this.displayEvents = this.convertToCalendarEvents();
-  }
-  ngAfterViewInit(): void {
-    this.refreshView();
-  }
+  //   // Parsing and fixing events
+  //   this.displayEvents = this.convertToCalendarEvents();
+  // }
 
-  dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
-    if (isSameMonth(date, this.viewDate)) {
-      if (
-        (isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) ||
-        events.length === 0
-      ) {
-        this.activeDayIsOpen = false;
-      } else {
-        this.activeDayIsOpen = true;
-      }
-      this.viewDate = date;
-    }
-  }
+  // ngAfterViewInit(): void {
+  //   this.refreshView();
+  // }
 
-  eventTimesChanged({
-    event,
-    newStart,
-    newEnd,
-  }: CalendarEventTimesChangedEvent): void {
-    this.events = this.events.map((iEvent) => {
-      if (iEvent === event) {
-        return {
-          ...event,
-          start: newStart,
-          end: newEnd,
-        };
-      }
-      return iEvent;
-    });
+  // dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
+  //   if (isSameMonth(date, this.viewDate)) {
+  //     if (
+  //       (isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) ||
+  //       events.length === 0
+  //     ) {
+  //       this.activeDayIsOpen = false;
+  //     } else {
+  //       this.activeDayIsOpen = true;
+  //     }
+  //     this.viewDate = date;
+  //   }
+  // }
 
-    // persist to local storage first
-    localStorage.setItem('events', JSON.stringify(this.events));
+  // eventTimesChanged({
+  //   event,
+  //   newStart,
+  //   newEnd,
+  // }: CalendarEventTimesChangedEvent): void {
+  //   this.events = this.events.map((iEvent) => {
+  //     if (iEvent === event) {
+  //       return {
+  //         ...event,
+  //         start: newStart,
+  //         end: newEnd,
+  //       };
+  //     }
+  //     return iEvent;
+  //   });
+
+  //   // persist to local storage first
+  //   localStorage.setItem('events', JSON.stringify(this.events));
     
-  }
+  // }
 
-  onSelectView(event: any){
-      console.log(event.value);
-      let selectedValue: string = (event.value as string).toLowerCase();
+  // onSelectView(event: any){
+  //     console.log(event.value);
+  //     let selectedValue: string = (event.value as string).toLowerCase();
 
-      if (selectedValue === 'month'){
-        this.setView(CalendarView.Month);
-      }else if (selectedValue === 'week'){
-        this.setView(CalendarView.Week);
-      }else if (selectedValue === 'day'){
-        this.setView(CalendarView.Day);
-      }
-  }
+  //     if (selectedValue === 'month'){
+  //       this.setView(CalendarView.Month);
+  //     }else if (selectedValue === 'week'){
+  //       this.setView(CalendarView.Week);
+  //     }else if (selectedValue === 'day'){
+  //       this.setView(CalendarView.Day);
+  //     }
+  // }
 
-  convertToCalendarEvents(): CalendarEvent[] {
-    return this.events.map(({type, type_id ,...event}) => event);
-  }
+  // convertToCalendarEvents(): CalendarEvent[] {
+  //   return this.events.map(({type, type_id ,...event}) => event);
+  // }
 
-  fixParsedEvents(): CalendarEventPersistent[] {
-    let parsedEvents = JSON.parse(localStorage.getItem('events') || '[]');
-    if (parsedEvents.length === 0) {
-      return [];
-    }
+  // fixParsedEvents(): CalendarEventPersistent[] {
+  //   let parsedEvents = JSON.parse(localStorage.getItem('events') || '[]');
+  //   if (parsedEvents.length === 0) {
+  //     return [];
+  //   }
 
-    return parsedEvents.map((event: any) => {
-      event.start = new Date(event.start);
-      event.end = new Date(event.end);
-      return event;
-    });
-  }
+  //   return parsedEvents.map((event: any) => {
+  //     event.start = new Date(event.start);
+  //     event.end = new Date(event.end);
+  //     return event;
+  //   });
+  // }
 
-  toggleAddEventModal(): void {
-    this.showAddEventModal = !this.showAddEventModal;
-    this.addEventForm.reset();
-  }
+  // toggleAddEventModal(): void {
+  //   this.showAddEventModal = !this.showAddEventModal;
+  //   this.addEventForm.reset();
+  // }
 
-  addEvent(): void {
-    let randomType = Math.floor(Math.random() * this.listTypesJoursFeries.length); 
-    let randomColor = Math.floor(Math.random() * Object.keys(colors).length);
+  // addEvent(): void {
+  //   let randomType = Math.floor(Math.random() * this.listTypesJoursFeries.length); 
+  //   let randomColor = Math.floor(Math.random() * Object.keys(colors).length);
 
-    console.log(this.addEventForm.value);
-    let {title, startDate, endDate, type} = this.addEventForm.value;
-    // find the type_id
-    let type_id: number = this.hashMapTypesJoursFeriesId[type];
+  //   console.log(this.addEventForm.value);
+  //   let {title, startDate, endDate, type} = this.addEventForm.value;
+  //   // find the type_id
+  //   let type_id: number = this.hashMapTypesJoursFeriesId[type];
     
     
-    this.events = [
-      ...this.events,
-      {
-        title: title,
-        start: startOfDay(new Date(startDate)),
-        end: endOfDay(new Date(endDate)),
-        type: type,
-        type_id: type_id,
-        color: colors[Object.keys(colors)[randomColor]],
-        draggable: true,
-        resizable: {
-          beforeStart: true,
-          afterEnd: true,
-        },
-      },
-    ];
+  //   this.events = [
+  //     ...this.events,
+  //     {
+  //       title: title,
+  //       start: startOfDay(new Date(startDate)),
+  //       end: endOfDay(new Date(endDate)),
+  //       type: type,
+  //       type_id: type_id,
+  //       color: colors[Object.keys(colors)[randomColor]],
+  //       draggable: true,
+  //       resizable: {
+  //         beforeStart: true,
+  //         afterEnd: true,
+  //       },
+  //     },
+  //   ];
 
-    // Display Event
-    this.displayEvents = this.convertToCalendarEvents();
+  //   // Display Event
+  //   this.displayEvents = this.convertToCalendarEvents();
 
-    // persist to local storage first
-    localStorage.setItem('events', JSON.stringify(this.events));
+  //   // persist to local storage first
+  //   localStorage.setItem('events', JSON.stringify(this.events));
 
-    // close modal
-    this.toggleAddEventModal();
+  //   // close modal
+  //   this.toggleAddEventModal();
 
-    // refresh view
-    this.refreshView();
+  //   // refresh view
+  //   this.refreshView();
 
-    // Save to database
-    this.jourFerierDemandeRequest = {
-      title: title,
-      startDate: this.datePipe.transform(startDate, 'yyyy-MM-dd')!,
-      endDate: this.datePipe.transform(endDate, 'yyyy-MM-dd')!,
-      jourFerierTypeId: type_id,
-      status: startDate < new Date() ? 'Passé' : 'à venir'
-    };
+  //   // Save to database
+  //   this.jourFerierDemandeRequest = {
+  //     title: title,
+  //     startDate: this.datePipe.transform(startDate, 'yyyy-MM-dd')!,
+  //     endDate: this.datePipe.transform(endDate, 'yyyy-MM-dd')!,
+  //     jourFerierTypeId: type_id,
+  //     status: startDate < new Date() ? 'Passé' : 'à venir'
+  //   };
 
 
-    this.jourFerierControllerService
-    .addJourFerier({
-      body: this.jourFerierDemandeRequest
-    })
-    .subscribe({
-      next: (response) => {
-        console.log('Event saved successfully');
-      },
-      error: (error) => {
-        console.log('Error saving event' + error);
-      }
-    });
+  //   this.jourFerierControllerService
+  //   .addJourFerier({
+  //     body: this.jourFerierDemandeRequest
+  //   })
+  //   .subscribe({
+  //     next: (response) => {
+  //       console.log('Event saved successfully');
+  //     },
+  //     error: (error) => {
+  //       console.log('Error saving event' + error);
+  //     }
+  //   });
     
 
-  }
+  // }
 
-  deleteEvent(eventToDelete: CalendarEvent) {
-    this.events = this.events.filter((event) => event !== eventToDelete);
-  }
+  // deleteEvent(eventToDelete: CalendarEvent) {
+  //   this.events = this.events.filter((event) => event !== eventToDelete);
+  // }
 
-  setView(view: CalendarView) {
-    this.view = view;
-  }
+  // setView(view: CalendarView) {
+  //   this.view = view;
+  // }
 
-  refreshView(): void {
-    this.refresh.next();
-  }
+  // refreshView(): void {
+  //   this.refresh.next();
+  // }
 
-  closeOpenMonthViewDay() {
-    this.activeDayIsOpen = false;
-  }
+  // closeOpenMonthViewDay() {
+  //   this.activeDayIsOpen = false;
+  // }
 
 
-  syncEvents(){
-    console.log('Syncing Events');
-    this.syncing = true;
+  // syncEvents(){
+  //   console.log('Syncing Events');
+  //   this.syncing = true;
 
-    // Locale Data
-    this.events = this.fixParsedEvents();
+  //   // Locale Data
+  //   this.events = this.fixParsedEvents();
 
-    // Convert Data to JourFerierDemandeRequest
-    let data = this.events.map((event) => {
-      return {
-        title: event.title,
-        startDate: this.datePipe.transform(event.start, 'yyyy-MM-dd')!,
-        endDate: this.datePipe.transform(event.end, 'yyyy-MM-dd')!,
-        jourFerierTypeId: event.type_id,
-        status: event.end! < new Date() ? 'Passé' : 'à venir'
-      }
-    });
+  //   // Convert Data to JourFerierDemandeRequest
+  //   let data = this.events.map((event) => {
+  //     return {
+  //       title: event.title,
+  //       startDate: this.datePipe.transform(event.start, 'yyyy-MM-dd')!,
+  //       endDate: this.datePipe.transform(event.end, 'yyyy-MM-dd')!,
+  //       jourFerierTypeId: event.type_id,
+  //       status: event.end! < new Date() ? 'Passé' : 'à venir'
+  //     }
+  //   });
 
-    // Sync to database
-    this.jourFerierControllerService
-    .syncJourFerier({
-      body: data
-    })
-    .subscribe({
-      next: (response) => {
-        console.log('Events synced successfully');
-      },
-      error: (error) => {
-        console.log('Error syncing events' + error.error.error);
-      }
-    });
+  //   // Sync to database
+  //   this.jourFerierControllerService
+  //   .syncJourFerier({
+  //     body: data
+  //   })
+  //   .subscribe({
+  //     next: (response) => {
+  //       console.log('Events synced successfully');
+  //     },
+  //     error: (error) => {
+  //       console.log('Error syncing events' + error.error.error);
+  //     }
+  //   });
 
 
 
     
-    setTimeout(() => {
-      this.syncing = false;
-    }, 3000);
-  }
+  //   setTimeout(() => {
+  //     this.syncing = false;
+  //   }, 3000);
+  // }
 
-  export(){
-    // Exportable data
-    let exportedData = this.events.map((event) => {
-      return {
-        title: event.title,
-        start: this.datePipe.transform(event.start, 'yyyy-MM-dd'),
-        end: this.datePipe.transform(event.end, 'yyyy-MM-dd'),
-        type: event.type,
-        status: event.end! < new Date() ? 'Passé' : 'à venir'
-      }
-    });
+  // export(){
+  //   // Exportable data
+  //   let exportedData = this.events.map((event) => {
+  //     return {
+  //       title: event.title,
+  //       start: this.datePipe.transform(event.start, 'yyyy-MM-dd'),
+  //       end: this.datePipe.transform(event.end, 'yyyy-MM-dd'),
+  //       type: event.type,
+  //       status: event.end! < new Date() ? 'Passé' : 'à venir'
+  //     }
+  //   });
 
-    this.exportService.downloadCSV(exportedData, 'jours-feries.csv');
-  }
+  //   this.exportService.downloadCSV(exportedData, 'jours-feries.csv');
+  // }
+
+
 }
