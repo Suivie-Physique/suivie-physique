@@ -1,7 +1,6 @@
 import { Component, OnInit ,OnChanges, OnDestroy, TemplateRef, forwardRef } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { Subject } from 'rxjs';
-import { EventColor } from 'calendar-utils';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { startOfDay,  isSameMonth, isSameDay, endOfDay } from 'date-fns';
 import {CalendarCommonModule, CalendarDayModule, CalendarMonthModule, CalendarWeekModule, CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent, CalendarView } from 'angular-calendar';
@@ -19,6 +18,12 @@ import { JourFerierControllerService } from 'app/api/services';
 import { JourFerierData, JourFerierDemandeRequest } from 'app/api/models';
 import { DashboardService } from 'app/core/services/dashboard.service';
 
+
+interface EventColor {
+  primary?: string;
+  secondary?: string;
+  secondaryText?: string;
+}
 const colors: Record<string, EventColor> = {
   red: {
     primary: '#1ab1d9',
